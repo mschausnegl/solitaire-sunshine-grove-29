@@ -49,7 +49,6 @@ const Card: React.FC<CardProps> = ({ card, onClick, onDoubleClick, onDrop, class
         className={cn(
           "w-24 h-36 bg-white rounded-lg shadow-md border-2 border-gray-300 cursor-pointer",
           "bg-gradient-to-br from-blue-500 to-blue-600",
-          isDragging && "opacity-50",
           isOver && "border-yellow-400",
           className
         )}
@@ -67,7 +66,6 @@ const Card: React.FC<CardProps> = ({ card, onClick, onDoubleClick, onDrop, class
       className={cn(
         "w-24 h-36 bg-white rounded-lg shadow-md border-2 border-gray-300 p-2",
         "flex flex-col justify-between cursor-pointer hover:shadow-lg transition-shadow",
-        isDragging && "opacity-50",
         isOver && "border-yellow-400",
         className
       )}
