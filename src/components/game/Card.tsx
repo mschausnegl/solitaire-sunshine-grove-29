@@ -9,6 +9,7 @@ interface CardProps {
   onDoubleClick?: () => void;
   onDrop?: (draggedCard: CardType) => void;
   className?: string;
+  index?: number;
 }
 
 const suitSymbols: Record<Suit, string> = {
@@ -18,14 +19,14 @@ const suitSymbols: Record<Suit, string> = {
   spades: "♠",
 };
 
-const Card: React.FC<CardProps> = ({ card, onClick, onDoubleClick, onDrop, className }) => {
-  const { attributes, listeners, setNodeRef: setDragRef } = useDraggable({
+const Card: React.FC<CardProps> = ({ card, onClick, onDoubleClick, onDrop, className, index = 0 }) => {
+  const { attributes, listeners, setNodeRef: setDragRef, isDragging } = useDraggable({
     id: card.id,
     data: card,
     disabled: !card.faceUp,
   });
 
-  const { setNodeRef: setDropRef } = useDroppable({
+  const { setNodeRef: setDropRef, isOver } = useDroppable({
     id: `droppable-${card.id}`,
     data: card,
   });
@@ -41,9 +42,15 @@ const Card: React.FC<CardProps> = ({ card, onClick, onDoubleClick, onDrop, class
         ref={ref}
         {...attributes}
         {...listeners}
+        style={{
+          zIndex: index,
+          transform: isDragging ? 'scale(1.05)' : undefined,
+          transition: 'transform 0.2s ease'
+        }}
         className={cn(
           "w-24 h-36 bg-white rounded-lg shadow-md border-2 border-gray-300 cursor-pointer",
           "bg-gradient-to-br from-blue-500 to-blue-600",
+          isOver && "ring-2 ring-yellow-400",
           className
         )}
         onClick={onClick}
@@ -59,9 +66,16 @@ const Card: React.FC<CardProps> = ({ card, onClick, onDoubleClick, onDrop, class
       ref={ref}
       {...attributes}
       {...listeners}
+      style={{
+        zIndex: index,
+        transform: isDragging ? 'scale(1.05)' : undefined,
+        transition: 'transform 0.2s ease'
+      }}
       className={cn(
         "w-24 h-36 bg-white rounded-lg shadow-md border-2 border-gray-300 p-2",
         "flex flex-col justify-between cursor-pointer hover:shadow-lg transition-shadow",
+        isOver && "ring-2 ring-yellow-400",
+        isDragging && "shadow-xl",
         className
       )}
       onClick={onClick}

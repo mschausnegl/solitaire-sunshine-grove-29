@@ -1,5 +1,5 @@
 import React from "react";
-import { DndContext, DragEndEvent } from '@dnd-kit/core';
+import { DndContext, DragEndEvent, DragOverlay, useSensor, useSensors, PointerSensor } from '@dnd-kit/core';
 import { useSolitaire } from "../hooks/useSolitaire";
 import Card from "../components/game/Card";
 import GameControls from "../components/game/GameControls";
@@ -8,26 +8,44 @@ import { toast } from "sonner";
 
 const Index = () => {
   const { gameState, newGame, undo, draw, moveCard } = useSolitaire();
+  const [activeCard, setActiveCard] = React.useState<CardType | null>(null);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    })
+  );
+
+  const handleDragStart = (event: any) => {
+    const { active } = event;
+    setActiveCard(active.data.current);
+  };
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
+    setActiveCard(null);
+    
     if (!over) return;
 
     const draggedCard = active.data.current as CardType;
     const targetCard = over.data.current as CardType;
 
-    // Find the pile containing the target card
+    // Find source and target piles
+    const sourcePile = gameState.tableau.find(pile => 
+      pile.some(card => card.id === draggedCard.id)
+    );
     const targetPile = gameState.tableau.find(pile => 
       pile.some(card => card.id === targetCard.id)
     );
 
-    if (targetPile) {
-      moveCard(targetPile, targetPile, draggedCard);
+    if (sourcePile && targetPile) {
+      moveCard(sourcePile, targetPile, draggedCard);
     }
   };
 
   const handleCardDoubleClick = (card: CardType) => {
-    // Try to move to foundation automatically
     const foundationIndex = gameState.foundations.findIndex(foundation => {
       if (foundation.length === 0) {
         return card.rank === 'A';
@@ -47,7 +65,11 @@ const Index = () => {
   };
 
   return (
-    <DndContext onDragEnd={handleDragEnd}>
+    <DndContext 
+      sensors={sensors}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+    >
       <div className="min-h-screen bg-felt-green p-4">
         <div className="max-w-7xl mx-auto">
           <GameControls
@@ -111,6 +133,7 @@ const Index = () => {
                   >
                     <Card 
                       card={card}
+                      index={j}
                       onDoubleClick={() => handleCardDoubleClick(card)}
                       onDrop={(draggedCard) => moveCard(pile, pile, draggedCard)}
                     />
@@ -125,6 +148,11 @@ const Index = () => {
             <div className="text-lg font-bold">Score: {gameState.score}</div>
             <div className="text-sm text-gray-600">Moves: {gameState.moves}</div>
           </div>
+
+          {/* Drag Overlay */}
+          <DragOverlay>
+            {activeCard ? <Card card={activeCard} /> : null}
+          </DragOverlay>
         </div>
       </div>
     </DndContext>
