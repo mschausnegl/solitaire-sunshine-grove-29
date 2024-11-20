@@ -1,7 +1,7 @@
 import React from "react";
 import { Card as CardType, Suit } from "../../utils/cards";
 import { cn } from "@/lib/utils";
-import { useDrag, useDrop } from 'react-dnd';
+import { useDraggable, useDroppable } from "@dnd-kit/core";
 
 interface CardProps {
   card: CardType;
@@ -19,37 +19,31 @@ const suitSymbols: Record<Suit, string> = {
 };
 
 const Card: React.FC<CardProps> = ({ card, onClick, onDoubleClick, onDrop, className }) => {
-  const [{ isDragging }, drag] = useDrag(() => ({
-    type: 'CARD',
-    item: card,
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-    canDrag: () => card.faceUp,
-  }));
+  const { attributes, listeners, setNodeRef: setDragRef } = useDraggable({
+    id: card.id,
+    data: card,
+    disabled: !card.faceUp,
+  });
 
-  const [{ isOver }, drop] = useDrop(() => ({
-    accept: 'CARD',
-    drop: (draggedCard: CardType) => {
-      onDrop?.(draggedCard);
-    },
-    collect: (monitor) => ({
-      isOver: !!monitor.isOver(),
-    }),
-  }));
+  const { setNodeRef: setDropRef } = useDroppable({
+    id: `droppable-${card.id}`,
+    data: card,
+  });
 
   const ref = (node: HTMLDivElement | null) => {
-    drag(drop(node));
+    setDragRef(node);
+    setDropRef(node);
   };
 
   if (!card.faceUp) {
     return (
       <div
         ref={ref}
+        {...attributes}
+        {...listeners}
         className={cn(
           "w-24 h-36 bg-white rounded-lg shadow-md border-2 border-gray-300 cursor-pointer",
           "bg-gradient-to-br from-blue-500 to-blue-600",
-          isOver && "border-yellow-400",
           className
         )}
         onClick={onClick}
@@ -63,10 +57,11 @@ const Card: React.FC<CardProps> = ({ card, onClick, onDoubleClick, onDrop, class
   return (
     <div
       ref={ref}
+      {...attributes}
+      {...listeners}
       className={cn(
         "w-24 h-36 bg-white rounded-lg shadow-md border-2 border-gray-300 p-2",
         "flex flex-col justify-between cursor-pointer hover:shadow-lg transition-shadow",
-        isOver && "border-yellow-400",
         className
       )}
       onClick={onClick}

@@ -1,6 +1,5 @@
 import React from "react";
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndContext, DragEndEvent } from '@dnd-kit/core';
 import { useSolitaire } from "../hooks/useSolitaire";
 import Card from "../components/game/Card";
 import GameControls from "../components/game/GameControls";
@@ -9,6 +8,23 @@ import { toast } from "sonner";
 
 const Index = () => {
   const { gameState, newGame, undo, draw, moveCard } = useSolitaire();
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over) return;
+
+    const draggedCard = active.data.current as CardType;
+    const targetCard = over.data.current as CardType;
+
+    // Find the pile containing the target card
+    const targetPile = gameState.tableau.find(pile => 
+      pile.some(card => card.id === targetCard.id)
+    );
+
+    if (targetPile) {
+      moveCard(targetPile, targetPile, draggedCard);
+    }
+  };
 
   const handleCardDoubleClick = (card: CardType) => {
     // Try to move to foundation automatically
@@ -25,14 +41,13 @@ const Index = () => {
     });
 
     if (foundationIndex !== -1) {
-      // Move card to foundation
       moveCard(gameState.tableau[foundationIndex], gameState.foundations[foundationIndex], card);
       toast.success("Card moved to foundation!");
     }
   };
 
   return (
-    <DndProvider backend={HTML5Backend}>
+    <DndContext onDragEnd={handleDragEnd}>
       <div className="min-h-screen bg-felt-green p-4">
         <div className="max-w-7xl mx-auto">
           <GameControls
@@ -112,7 +127,7 @@ const Index = () => {
           </div>
         </div>
       </div>
-    </DndProvider>
+    </DndContext>
   );
 };
 
