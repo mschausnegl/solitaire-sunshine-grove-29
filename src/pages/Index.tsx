@@ -112,9 +112,9 @@ const Index = () => {
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
-      <div className="min-h-screen bg-felt-green p-1 md:p-4">
-        <div className="max-w-[1000px] mx-auto space-y-1 md:space-y-4">
-          <div className="flex-none">
+      <div className="min-h-screen flex flex-col">
+        <header className="bg-felt-green/80 backdrop-blur-sm border-b border-white/10 py-2">
+          <div className="max-w-7xl mx-auto px-4">
             <GameControls
               onNewGame={newGame}
               onUndo={undo}
@@ -122,9 +122,11 @@ const Index = () => {
               onAutoPlay={() => {}}
             />
           </div>
-          
-          <div className="flex items-start">
-            <div className="flex-none">
+        </header>
+
+        <main className="flex-1 p-4">
+          <div className="max-w-7xl mx-auto space-y-8">
+            <div className="flex items-start justify-between gap-8">
               <StockAndWaste
                 stock={gameState.stock}
                 waste={gameState.waste}
@@ -132,30 +134,36 @@ const Index = () => {
                 onCardDoubleClick={handleCardDoubleClick}
                 highlightedCards={highlightedCards}
               />
-            </div>
-            
-            <div className="flex-auto" />
-            
-            <div className="flex-none ml-auto">
+              
               <FoundationPiles
                 foundations={gameState.foundations}
                 highlightedCards={highlightedCards}
               />
             </div>
-          </div>
 
-          <div className="mt-0.5 md:mt-4">
-            <TableauSection
-              tableau={gameState.tableau}
-              onCardDoubleClick={handleCardDoubleClick}
-              highlightedCards={highlightedCards}
-            />
+            <div className="mt-8">
+              <TableauSection
+                tableau={gameState.tableau}
+                onCardDoubleClick={handleCardDoubleClick}
+                highlightedCards={highlightedCards}
+              />
+            </div>
           </div>
+        </main>
 
-          <div className="fixed bottom-2 left-2 bg-white/90 rounded px-2 py-1 text-xs">
-            Wins: {gameState.wins} Time: {gameState.time} Moves: {gameState.moves}
+        <footer className="bg-felt-green/80 backdrop-blur-sm border-t border-white/10 py-2">
+          <div className="max-w-7xl mx-auto px-4 flex justify-between items-center text-white/80 text-sm">
+            <div>
+              Wins: {gameState.wins}
+            </div>
+            <div>
+              Time: {gameState.time}
+            </div>
+            <div>
+              Moves: {gameState.moves}
+            </div>
           </div>
-        </div>
+        </footer>
 
         <DragOverlay>
           {activeCard ? <Card card={activeCard} /> : null}

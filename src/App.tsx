@@ -11,8 +11,10 @@ function App() {
 
   return (
     <ErrorBoundary>
-      <div className="min-h-screen bg-felt-green">
-        <Index />
+      <div className="min-h-screen bg-felt-green overflow-hidden">
+        <div className="max-w-[1920px] mx-auto">
+          <Index />
+        </div>
         <Toaster />
       </div>
     </ErrorBoundary>
