@@ -44,10 +44,10 @@ const TableauSection: React.FC<TableauSectionProps> = ({
             return shouldShow ? (
               <div
                 key={card.id}
-                className="absolute transition-all animate-deal"
+                className={`absolute transition-all ${isNewGame ? 'animate-deal' : ''}`}
                 style={{ 
                   top: `${j * (window.innerWidth >= 768 ? 16 : 6)}px`,
-                  animationDelay,
+                  animationDelay: isNewGame ? animationDelay : undefined,
                   animationFillMode: 'both',
                   zIndex: j + 1
                 }}
