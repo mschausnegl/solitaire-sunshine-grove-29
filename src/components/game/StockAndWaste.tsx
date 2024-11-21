@@ -29,8 +29,8 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
   }, []);
 
   // Calculate the offset based on the number of cards
-  const stockOffset = isMobile ? 1 : 0.5; // pixels per card
-  const maxOffset = isMobile ? 10 : 5; // maximum total offset in pixels
+  const stockOffset = isMobile ? 0.5 : 0.25; // pixels per card
+  const maxOffset = isMobile ? 5 : 3; // maximum total offset in pixels
   const totalOffset = Math.min(stock.length * stockOffset, maxOffset);
 
   return (
