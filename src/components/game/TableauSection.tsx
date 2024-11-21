@@ -6,22 +6,26 @@ interface TableauSectionProps {
   tableau: CardType[][];
   onCardDoubleClick: (card: CardType) => void;
   highlightedCards: string[];
+  isNewGame?: boolean;
 }
 
 const TableauSection: React.FC<TableauSectionProps> = ({ 
   tableau, 
   onCardDoubleClick, 
-  highlightedCards 
+  highlightedCards,
+  isNewGame = false
 }) => {
-  const [isDealing, setIsDealing] = useState(true);
+  const [isDealing, setIsDealing] = useState(false);
 
   useEffect(() => {
-    setIsDealing(true);
-    const timer = setTimeout(() => {
-      setIsDealing(false);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, [tableau]);
+    if (isNewGame) {
+      setIsDealing(true);
+      const timer = setTimeout(() => {
+        setIsDealing(false);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [isNewGame]);
 
   return (
     <div className="flex gap-0.5 md:gap-2 w-full">

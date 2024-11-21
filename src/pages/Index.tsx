@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { DndContext, DragEndEvent, DragOverlay, useSensor, useSensors, PointerSensor, TouchSensor } from '@dnd-kit/core';
 import { useSolitaire } from "../hooks/useSolitaire";
 import Card from "../components/game/Card";
@@ -11,6 +11,25 @@ import TableauSection from "../components/game/TableauSection";
 const Index = () => {
   const { gameState, newGame, undo, draw, moveCard, findHint, highlightedCards, restartGame } = useSolitaire();
   const [activeCard, setActiveCard] = React.useState<CardType | null>(null);
+  const [isNewGame, setIsNewGame] = useState(true);
+
+  React.useEffect(() => {
+    // Reset isNewGame after initial render
+    const timer = setTimeout(() => {
+      setIsNewGame(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleNewGame = () => {
+    setIsNewGame(true);
+    newGame();
+  };
+
+  const handleRestartGame = () => {
+    setIsNewGame(true);
+    restartGame();
+  };
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -122,11 +141,11 @@ const Index = () => {
         <header className="bg-felt-green/80 backdrop-blur-sm border-b border-white/10 py-2 sticky top-0 z-50">
           <div className="container mx-auto px-4">
             <GameControls
-              onNewGame={newGame}
+              onNewGame={handleNewGame}
               onUndo={undo}
               onHint={findHint}
               onAutoPlay={() => {}}
-              onRestartGame={restartGame}
+              onRestartGame={handleRestartGame}
             />
           </div>
         </header>
@@ -151,6 +170,7 @@ const Index = () => {
                 tableau={gameState.tableau}
                 onCardDoubleClick={handleCardDoubleClick}
                 highlightedCards={highlightedCards}
+                isNewGame={isNewGame}
               />
             </div>
           </div>
