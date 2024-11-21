@@ -52,16 +52,12 @@ const TableauSection: React.FC<TableauSectionProps> = ({
   }, [tableau]);
 
   return (
-    <div className="w-full mx-auto px-[theme(spacing.stack-space)] transition-all duration-150">
-      <div className="grid gap-[theme(spacing.stack-space)]" 
-           style={{
-             gridTemplateColumns: 'repeat(auto-fit, minmax(min(calc(theme(spacing.card-w) + theme(spacing.stack-space)), 100%), 1fr))',
-             maxWidth: '100%'
-           }}>
+    <div className="w-full mx-auto transition-all duration-150">
+      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-[theme(spacing.stack-space)]">
         {tableau.map((pile, i) => (
           <div 
             key={i} 
-            className="relative aspect-[5/7] rounded-sm border-2 border-white/30 bg-felt-green/50 min-h-[120px]"
+            className="relative aspect-[5/7] rounded-sm border-2 border-white/30 bg-felt-green/50 min-h-[80px]"
             style={{
               boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)',
             }}
@@ -71,7 +67,7 @@ const TableauSection: React.FC<TableauSectionProps> = ({
                 key={card.id}
                 className={`absolute left-0 right-0 transition-all duration-150 ease-[cubic-bezier(0.4,0,0.2,1)] ${isNewGame ? 'animate-deal' : ''}`}
                 style={{ 
-                  top: `${j * Math.min(25, (100 - 25) / Math.max(pile.length - 1, 1))}%`,
+                  top: `${j * Math.min(20, (100 - 20) / Math.max(pile.length - 1, 1))}%`,
                   animationDelay: isNewGame ? `${0.1 + (i * 3 + j) * 0.05}s` : undefined,
                   animationFillMode: 'both',
                   zIndex: j + 1

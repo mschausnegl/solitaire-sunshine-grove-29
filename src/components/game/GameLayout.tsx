@@ -37,9 +37,9 @@ const GameLayout = ({
         onRestartGame={onRestartGame}
       />
 
-      <main className="flex-1 p-[theme(spacing.stack-space)] transition-all duration-150">
-        <div className="container mx-auto px-4">
-          <div className="grid gap-[theme(spacing.stack-space)] max-w-full">
+      <main className="flex-1 p-2 sm:p-4 transition-all duration-150">
+        <div className="max-w-7xl mx-auto">
+          <div className="space-y-[theme(spacing.stack-space)]">
             {children}
           </div>
         </div>
