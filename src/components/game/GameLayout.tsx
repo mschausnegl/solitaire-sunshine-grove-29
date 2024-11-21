@@ -29,7 +29,7 @@ const GameLayout = ({
   onRestartGame
 }: GameLayoutProps) => {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="h-full flex flex-col">
       <GameHeader
         onNewGame={onNewGame}
         onUndo={onUndo}
@@ -37,9 +37,11 @@ const GameLayout = ({
         onRestartGame={onRestartGame}
       />
 
-      <main className="flex-1 p-4 overflow-auto">
-        <div className="h-full max-w-[1400px] mx-auto flex flex-col">
-          {children}
+      <main className="flex-1 p-2 sm:p-3 md:p-4 lg:p-6 relative overflow-hidden">
+        <div className="absolute inset-0 p-2 sm:p-3 md:p-4 lg:p-6">
+          <div className="h-full max-w-[1400px] mx-auto flex flex-col">
+            {children}
+          </div>
         </div>
       </main>
 
