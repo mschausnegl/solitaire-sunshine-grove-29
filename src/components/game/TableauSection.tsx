@@ -39,10 +39,13 @@ const TableauSection: React.FC<TableauSectionProps> = ({
       const previousLastCard = previousPile[previousPile.length - 1];
       
       // Only add to revealed cards if:
-      // 1. The card is face up
-      // 2. The previous last card was either face down or different
+      // 1. The current last card is face up
+      // 2. The previous last card was face down
+      // 3. They are different cards (to prevent animation on drop)
       if (lastCard?.faceUp && 
-          (!previousLastCard?.faceUp || previousLastCard.id !== lastCard.id)) {
+          previousLastCard && 
+          !previousLastCard.faceUp && 
+          previousLastCard.id !== lastCard.id) {
         newRevealedCards.add(lastCard.id);
       }
     });
