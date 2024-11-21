@@ -13,6 +13,7 @@ interface CardProps {
   index?: number;
   isHighlighted?: boolean;
   isShuffling?: boolean;
+  style?: React.CSSProperties;
 }
 
 const suitSymbols: Record<Suit, string> = {
@@ -30,7 +31,8 @@ const Card = React.memo(({
   className, 
   index = 0,
   isHighlighted = false,
-  isShuffling = false
+  isShuffling = false,
+  style
 }: CardProps) => {
   const { attributes, listeners, setNodeRef: setDragRef, isDragging } = useDraggable({
     id: card.id,
@@ -65,7 +67,8 @@ const Card = React.memo(({
           transition: 'transform 0.2s ease',
           backgroundImage: 'url(/lovable-uploads/5b92a5bc-abd7-42ae-a1d3-98e1c51b1ed3.png)',
           backgroundSize: 'cover',
-          backgroundPosition: 'center'
+          backgroundPosition: 'center',
+          ...style
         }}
         className={cn(
           baseCardClasses,
@@ -92,7 +95,8 @@ const Card = React.memo(({
       style={{
         zIndex: index,
         transform: isDragging ? 'scale(1.05)' : undefined,
-        transition: 'transform 0.2s ease'
+        transition: 'transform 0.2s ease',
+        ...style
       }}
       className={cn(
         baseCardClasses,
