@@ -82,11 +82,11 @@ const config = {
           "75%": { transform: "translateX(-5px) rotate(-5deg)" },
         },
         "deal": {
-          "0%": { 
-            transform: "translate(calc(-50vw + 50%), calc(-50vh + 50%))",
+          "from": { 
+            transform: "translate(-50vw, -50vh)",
             opacity: "0"
           },
-          "100%": { 
+          "to": { 
             transform: "translate(0, 0)",
             opacity: "1"
           }
@@ -98,11 +98,11 @@ const config = {
         "card-flip": "card-flip 0.3s ease-out",
         "card-slide": "card-slide 0.3s ease-out",
         "shuffle": "shuffle 0.5s ease-in-out",
-        "deal": "deal 0.5s ease-out forwards"
+        "deal": "deal 0.5s cubic-bezier(0.2, 0.8, 0.2, 1)"
       },
     },
   },
   plugins: [require("tailwindcss-animate")],
-} satisfies Config
+}
 
 export default config
