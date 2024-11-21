@@ -65,10 +65,16 @@ export default {
           "0%": { transform: "translateY(-20px)", opacity: "0" },
           "100%": { transform: "translateY(0)", opacity: "1" },
         },
+        "shuffle": {
+          "0%, 100%": { transform: "translateX(0) rotate(0deg)" },
+          "25%": { transform: "translateX(5px) rotate(5deg)" },
+          "75%": { transform: "translateX(-5px) rotate(-5deg)" },
+        }
       },
       animation: {
         "card-flip": "card-flip 0.3s ease-out",
         "card-slide": "card-slide 0.3s ease-out",
+        "shuffle": "shuffle 0.5s ease-in-out",
       },
       borderRadius: {
         lg: "var(--radius)",

@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Undo2, RotateCcw, Lightbulb, Play } from "lucide-react";
+import { toast } from "sonner";
 
 interface GameControlsProps {
   onNewGame: () => void;
@@ -15,9 +16,15 @@ const GameControls: React.FC<GameControlsProps> = ({
   onHint,
   onAutoPlay,
 }) => {
+  const handleNewGame = () => {
+    toast.info("Shuffling cards...");
+    // Add a small delay to allow the animation to play
+    setTimeout(onNewGame, 500);
+  };
+
   return (
     <div className="flex flex-wrap gap-2 mb-4">
-      <Button onClick={onNewGame} variant="secondary" className="text-xs sm:text-sm">
+      <Button onClick={handleNewGame} variant="secondary" className="text-xs sm:text-sm">
         <RotateCcw className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
         New Game
       </Button>

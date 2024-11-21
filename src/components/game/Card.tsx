@@ -12,6 +12,7 @@ interface CardProps {
   className?: string;
   index?: number;
   isHighlighted?: boolean;
+  isShuffling?: boolean;
 }
 
 const suitSymbols: Record<Suit, string> = {
@@ -28,7 +29,8 @@ const Card = React.memo(({
   onDrop, 
   className, 
   index = 0,
-  isHighlighted = false
+  isHighlighted = false,
+  isShuffling = false
 }: CardProps) => {
   const { attributes, listeners, setNodeRef: setDragRef, isDragging } = useDraggable({
     id: card.id,
@@ -69,6 +71,7 @@ const Card = React.memo(({
           baseCardClasses,
           isOver && "ring-2 ring-yellow-400",
           isHighlighted && "ring-2 ring-yellow-300 animate-pulse",
+          isShuffling && "animate-shuffle",
           className
         )}
         onClick={onClick}
@@ -97,6 +100,7 @@ const Card = React.memo(({
         "flex flex-col justify-between cursor-pointer hover:shadow-sm transition-shadow",
         isOver && "ring-2 ring-yellow-400",
         isHighlighted && "ring-2 ring-yellow-300 animate-pulse",
+        isShuffling && "animate-shuffle",
         isDragging && "shadow-md",
         className
       )}
