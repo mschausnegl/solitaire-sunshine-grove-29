@@ -50,7 +50,7 @@ const Card = React.memo(({
     setDropRef(node);
   };
 
-  const baseCardClasses = "w-[3.2rem] h-[4.5rem] md:w-[8rem] md:h-[11.2rem] rounded-sm border border-gray-300";
+  const baseCardClasses = "w-[2.8rem] h-[3.9rem] md:w-[11rem] md:h-[15.4rem] rounded-sm border border-gray-300";
 
   const startTime = performance.now();
   

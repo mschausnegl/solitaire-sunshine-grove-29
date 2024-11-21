@@ -18,7 +18,7 @@ const FoundationPiles: React.FC<FoundationPilesProps> = ({
       {foundations.map((foundation, i) => (
         <div
           key={i}
-          className="w-[3.2rem] h-[4.5rem] md:w-[8rem] md:h-[11.2rem] rounded-sm border-2 border-white/30 bg-felt-green/50"
+          className="w-[2.8rem] h-[3.9rem] md:w-[7rem] md:h-[9.8rem] rounded-sm border-2 border-white/30 bg-felt-green/50"
           style={{
             boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)'
           }}
@@ -32,7 +32,7 @@ const FoundationPiles: React.FC<FoundationPilesProps> = ({
             <Card 
               card={foundation[foundation.length - 1]}
               isHighlighted={highlightedCards.includes(foundation[foundation.length - 1].id)}
-              className="w-[3.2rem] h-[4.5rem] md:w-[8rem] md:h-[11.2rem]"
+              className="w-[2.8rem] h-[3.9rem] md:w-[7rem] md:h-[9.8rem]"
             />
           )}
         </div>
