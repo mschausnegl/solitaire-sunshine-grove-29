@@ -16,21 +16,21 @@ const GameControls: React.FC<GameControlsProps> = ({
   onAutoPlay,
 }) => {
   return (
-    <div className="flex gap-2 mb-4">
-      <Button onClick={onNewGame} variant="secondary">
-        <RotateCcw className="w-4 h-4 mr-2" />
+    <div className="flex flex-wrap gap-2 mb-4">
+      <Button onClick={onNewGame} variant="secondary" className="text-xs sm:text-sm">
+        <RotateCcw className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
         New Game
       </Button>
-      <Button onClick={onUndo} variant="outline">
-        <Undo2 className="w-4 h-4 mr-2" />
+      <Button onClick={onUndo} variant="outline" className="text-xs sm:text-sm">
+        <Undo2 className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
         Undo
       </Button>
-      <Button onClick={onHint} variant="outline">
-        <Lightbulb className="w-4 h-4 mr-2" />
+      <Button onClick={onHint} variant="outline" className="text-xs sm:text-sm">
+        <Lightbulb className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
         Hint
       </Button>
-      <Button onClick={onAutoPlay} variant="outline">
-        <Play className="w-4 h-4 mr-2" />
+      <Button onClick={onAutoPlay} variant="outline" className="text-xs sm:text-sm">
+        <Play className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
         Auto Play
       </Button>
     </div>

@@ -109,20 +109,22 @@ const Index = () => {
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
-      <div className="min-h-screen bg-felt-green p-4">
+      <div className="min-h-screen bg-felt-green p-2 sm:p-4">
         <div className="max-w-7xl mx-auto">
-          <GameControls
-            onNewGame={newGame}
-            onUndo={undo}
-            onHint={findHint}
-            onAutoPlay={() => {}}
-          />
+          <div className="mb-4 overflow-x-auto">
+            <GameControls
+              onNewGame={newGame}
+              onUndo={undo}
+              onHint={findHint}
+              onAutoPlay={() => {}}
+            />
+          </div>
           
-          <div className="flex justify-between mb-8">
+          <div className="flex flex-col sm:flex-row justify-between mb-4 sm:mb-8 gap-4">
             {/* Stock and Waste */}
-            <div className="flex gap-4">
+            <div className="flex gap-2 sm:gap-4">
               <div
-                className="w-24 h-36 rounded-lg border-2 border-white/20 cursor-pointer"
+                className="w-16 h-24 sm:w-24 sm:h-36 rounded-lg border-2 border-white/20 cursor-pointer"
                 onClick={draw}
               >
                 {gameState.stock.length > 0 && (
@@ -133,7 +135,7 @@ const Index = () => {
                   />
                 )}
               </div>
-              <div className="w-24 h-36 rounded-lg border-2 border-white/20">
+              <div className="w-16 h-24 sm:w-24 sm:h-36 rounded-lg border-2 border-white/20">
                 {gameState.waste.length > 0 && (
                   <Card 
                     card={gameState.waste[gameState.waste.length - 1]}
@@ -145,11 +147,11 @@ const Index = () => {
             </div>
 
             {/* Foundations */}
-            <div className="flex gap-4">
+            <div className="flex gap-2 sm:gap-4 overflow-x-auto">
               {gameState.foundations.map((foundation, i) => (
                 <div
                   key={i}
-                  className="w-24 h-36 rounded-lg border-2 border-white/20"
+                  className="w-16 h-24 sm:w-24 sm:h-36 rounded-lg border-2 border-white/20 flex-shrink-0"
                 >
                   {foundation.length > 0 && (
                     <Card 
@@ -163,14 +165,14 @@ const Index = () => {
           </div>
 
           {/* Tableau */}
-          <div className="flex gap-4">
+          <div className="flex gap-2 sm:gap-4 overflow-x-auto pb-20">
             {gameState.tableau.map((pile, i) => (
-              <div key={i} className="relative w-24">
+              <div key={i} className="relative w-16 sm:w-24 flex-shrink-0">
                 {pile.map((card, j) => (
                   <div
                     key={card.id}
                     className="absolute"
-                    style={{ top: `${j * 30}px` }}
+                    style={{ top: `${j * 20}px` }}
                   >
                     <Card 
                       card={card}
@@ -185,9 +187,9 @@ const Index = () => {
           </div>
 
           {/* Score */}
-          <div className="fixed bottom-4 right-4 bg-white/90 rounded-lg p-4 shadow-lg">
-            <div className="text-lg font-bold">Score: {gameState.score}</div>
-            <div className="text-sm text-gray-600">Moves: {gameState.moves}</div>
+          <div className="fixed bottom-4 right-4 bg-white/90 rounded-lg p-2 sm:p-4 shadow-lg">
+            <div className="text-base sm:text-lg font-bold">Score: {gameState.score}</div>
+            <div className="text-xs sm:text-sm text-gray-600">Moves: {gameState.moves}</div>
           </div>
 
           {/* Drag Overlay */}
