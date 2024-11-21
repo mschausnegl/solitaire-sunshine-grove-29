@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Card from './Card';
 import { Card as CardType } from '../../utils/cards';
 
@@ -13,6 +13,16 @@ const TableauSection: React.FC<TableauSectionProps> = ({
   onCardDoubleClick, 
   highlightedCards 
 }) => {
+  const [isDealing, setIsDealing] = useState(true);
+
+  useEffect(() => {
+    setIsDealing(true);
+    const timer = setTimeout(() => {
+      setIsDealing(false);
+    }, 2000); // Match total animation duration
+    return () => clearTimeout(timer);
+  }, [tableau]); // Reset dealing state when tableau changes
+
   return (
     <div className="flex gap-0.5 md:gap-2">
       {tableau.map((pile, i) => (
@@ -24,14 +34,16 @@ const TableauSection: React.FC<TableauSectionProps> = ({
           }}
         >
           {pile.map((card, j) => {
-            const isLastCard = j === pile.length - 1;
-            return (
+            const animationDelay = `${0.5 + (i * 7 + j) * 0.1}s`;
+            const shouldShow = !isDealing || (Date.now() > new Date().getTime() + parseFloat(animationDelay) * 1000);
+            
+            return shouldShow ? (
               <div
                 key={card.id}
                 className="absolute transition-all animate-deal"
                 style={{ 
                   top: `${j * (window.innerWidth >= 768 ? 32 : 12)}px`,
-                  animationDelay: `${0.5 + (i * 7 + j) * 0.1}s`,
+                  animationDelay,
                   animationFillMode: 'both'
                 }}
               >
@@ -43,7 +55,7 @@ const TableauSection: React.FC<TableauSectionProps> = ({
                   className="w-[2.8rem] md:w-[7rem] h-[3.9rem] md:h-[9.8rem]"
                 />
               </div>
-            );
+            ) : null;
           })}
         </div>
       ))}
