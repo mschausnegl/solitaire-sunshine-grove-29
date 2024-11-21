@@ -26,23 +26,66 @@ export const useSolitaire = () => {
 
   const moveCard = useCallback((from: Card[], to: Card[], card: Card) => {
     const fromIndex = from.findIndex(c => c.id === card.id);
-    const cards = from.slice(fromIndex);
+    if (fromIndex === -1) return;
     
-    if (to.length === 0 || canStack(cards[0], to[to.length - 1])) {
+    const cards = from.slice(fromIndex);
+    let isValidMove = false;
+
+    // Check if moving to foundation
+    const isFoundationMove = gameState.foundations.some(f => f === to);
+    if (isFoundationMove) {
+      isValidMove = canMoveToFoundation(card, to);
+    } else {
+      // Regular tableau move
+      isValidMove = to.length === 0 || canStack(cards[0], to[to.length - 1]);
+    }
+    
+    if (isValidMove) {
       setHistory([...history, gameState]);
-      const newFrom = from.slice(0, fromIndex);
-      if (newFrom.length > 0) {
-        newFrom[newFrom.length - 1].faceUp = true;
-      }
-      setGameState(prev => ({
-        ...prev,
-        score: prev.score + 10,
-        moves: prev.moves + 1,
-      }));
-      
-      if (isGameWon(gameState)) {
-        toast.success("Congratulations! You've won the game!");
-      }
+      setGameState(prev => {
+        // Create new state
+        const newState = { ...prev };
+        
+        // Find and update source pile
+        let sourcePileIndex = -1;
+        if (prev.waste.includes(card)) {
+          newState.waste = prev.waste.filter(c => c.id !== card.id);
+        } else {
+          sourcePileIndex = prev.tableau.findIndex(pile => pile.includes(card));
+          if (sourcePileIndex !== -1) {
+            const newPile = prev.tableau[sourcePileIndex].slice(0, fromIndex);
+            if (newPile.length > 0) {
+              newPile[newPile.length - 1].faceUp = true;
+            }
+            newState.tableau[sourcePileIndex] = newPile;
+          }
+        }
+
+        // Find and update target pile
+        let targetPileIndex = -1;
+        if (isFoundationMove) {
+          targetPileIndex = prev.foundations.findIndex(f => f === to);
+          if (targetPileIndex !== -1) {
+            newState.foundations[targetPileIndex] = [...prev.foundations[targetPileIndex], card];
+          }
+        } else {
+          targetPileIndex = prev.tableau.findIndex(pile => pile === to);
+          if (targetPileIndex !== -1) {
+            newState.tableau[targetPileIndex] = [...prev.tableau[targetPileIndex], ...cards];
+          }
+        }
+
+        // Update score
+        newState.score += isFoundationMove ? 15 : 5;
+        newState.moves += 1;
+
+        // Check for win condition
+        if (isGameWon(newState)) {
+          toast.success("Congratulations! You've won the game!");
+        }
+
+        return newState;
+      });
     }
   }, [gameState, history]);
 
