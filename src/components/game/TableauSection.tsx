@@ -25,7 +25,6 @@ const TableauSection: React.FC<TableauSectionProps> = ({
         >
           {pile.map((card, j) => {
             const isLastCard = j === pile.length - 1;
-            const shouldBeFaceUp = isLastCard && j === i;
             return (
               <div
                 key={card.id}
@@ -37,7 +36,7 @@ const TableauSection: React.FC<TableauSectionProps> = ({
                 }}
               >
                 <Card 
-                  card={{...card, faceUp: shouldBeFaceUp}}
+                  card={card}
                   index={j}
                   onDoubleClick={() => onCardDoubleClick(card)}
                   isHighlighted={highlightedCards.includes(card.id)}
