@@ -3,7 +3,7 @@ import { DndContext, DragEndEvent, DragOverlay, useSensor, useSensors, PointerSe
 import { useSolitaire } from "../hooks/useSolitaire";
 import Card from "../components/game/Card";
 import GameControls from "../components/game/GameControls";
-import { Card as CardType, canMoveToFoundation } from "../utils/cards";
+import { Card as CardType, canMoveToFoundation, canStack } from "../utils/cards";
 
 const Index = () => {
   const { gameState, newGame, undo, draw, moveCard, findHint, highlightedCards } = useSolitaire();
@@ -69,12 +69,35 @@ const Index = () => {
     const sourcePile = gameState.tableau.find(pile => pile.includes(card)) || gameState.waste;
     if (!sourcePile) return;
 
-    // Try each foundation pile
+    // First try foundation piles
     for (const foundation of gameState.foundations) {
       const topCard = foundation.length > 0 ? foundation[foundation.length - 1] : undefined;
       if (canMoveToFoundation(card, topCard)) {
         if (moveCard(sourcePile, foundation, card)) {
           return;
+        }
+      }
+    }
+
+    // If foundation move wasn't possible, try tableau piles
+    for (const targetPile of gameState.tableau) {
+      // Skip if it's the same pile
+      if (targetPile === sourcePile) continue;
+
+      // Check if we can move to this tableau pile
+      if (targetPile.length === 0) {
+        // Can only move kings to empty piles
+        if (card.rank === 'K') {
+          if (moveCard(sourcePile, targetPile, card)) {
+            return;
+          }
+        }
+      } else {
+        const targetCard = targetPile[targetPile.length - 1];
+        if (targetCard.faceUp && canStack(card, targetCard)) {
+          if (moveCard(sourcePile, targetPile, card)) {
+            return;
+          }
         }
       }
     }
