@@ -1,19 +1,18 @@
-import React, { useState } from "react";
-import { DndContext, DragEndEvent, DragOverlay, useSensor, useSensors, PointerSensor, TouchSensor } from '@dnd-kit/core';
+import React, { useState, useEffect } from "react";
+import { DndContext, DragEndEvent, useSensor, useSensors, PointerSensor, TouchSensor } from '@dnd-kit/core';
 import { useSolitaire } from "../hooks/useSolitaire";
-import Card from "../components/game/Card";
-import GameControls from "../components/game/GameControls";
-import { Card as CardType, canMoveToFoundation, canStack } from "../utils/cards";
 import StockAndWaste from "../components/game/StockAndWaste";
 import FoundationPiles from "../components/game/FoundationPiles";
 import TableauSection from "../components/game/TableauSection";
+import GameLayout from "../components/game/GameLayout";
+import { Card as CardType } from "../utils/cards";
 
 const Index = () => {
   const { gameState, newGame, undo, draw, moveCard, findHint, highlightedCards, restartGame } = useSolitaire();
   const [activeCard, setActiveCard] = React.useState<CardType | null>(null);
   const [isNewGame, setIsNewGame] = useState(true);
 
-  React.useEffect(() => {
+  useEffect(() => {
     // Reset isNewGame after initial render
     const timer = setTimeout(() => {
       setIsNewGame(false);
@@ -79,7 +78,6 @@ const Index = () => {
     }
 
     if (!targetPile) {
-      // If no cards in target pile, find empty tableau pile
       targetPile = gameState.tableau.find(pile => 
         pile.length === 0
       );
@@ -90,110 +88,73 @@ const Index = () => {
     }
   };
 
-  const handleCardDoubleClick = (card: CardType) => {
-    if (!card.faceUp) return;
-
-    // Find the source pile (either from tableau or waste)
-    const sourcePile = gameState.tableau.find(pile => pile.includes(card)) || gameState.waste;
-    if (!sourcePile) return;
-
-    // First try foundation piles
-    for (const foundation of gameState.foundations) {
-      const topCard = foundation.length > 0 ? foundation[foundation.length - 1] : undefined;
-      if (canMoveToFoundation(card, topCard)) {
-        if (moveCard(sourcePile, foundation, card)) {
-          return;
-        }
-      }
-    }
-
-    // If foundation move wasn't possible, try tableau piles
-    for (const targetPile of gameState.tableau) {
-      // Skip if it's the same pile
-      if (targetPile === sourcePile) continue;
-
-      // Check if we can move to this tableau pile
-      if (targetPile.length === 0) {
-        // Can only move kings to empty piles
-        if (card.rank === 'K') {
-          if (moveCard(sourcePile, targetPile, card)) {
-            return;
-          }
-        }
-      } else {
-        const targetCard = targetPile[targetPile.length - 1];
-        if (targetCard.faceUp && canStack(card, targetCard)) {
-          if (moveCard(sourcePile, targetPile, card)) {
-            return;
-          }
-        }
-      }
-    }
-  };
-
   return (
     <DndContext 
       sensors={sensors}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
-      <div className="min-h-screen flex flex-col">
-        <header className="bg-felt-green/80 backdrop-blur-sm border-b border-white/10 py-2 sticky top-0 z-50">
-          <div className="container mx-auto px-4">
-            <GameControls
-              onNewGame={handleNewGame}
-              onUndo={undo}
-              onHint={findHint}
-              onAutoPlay={() => {}}
-              onRestartGame={handleRestartGame}
-            />
-          </div>
-        </header>
+      <GameLayout
+        activeCard={activeCard}
+        gameState={gameState}
+        onNewGame={handleNewGame}
+        onUndo={undo}
+        onHint={findHint}
+        onRestartGame={handleRestartGame}
+      >
+        <div className="w-full flex justify-between mb-2 md:mb-4">
+          <StockAndWaste
+            stock={gameState.stock}
+            waste={gameState.waste}
+            onDraw={draw}
+            onCardDoubleClick={card => {
+              // Find target pile
+              for (const foundation of gameState.foundations) {
+                const topCard = foundation.length > 0 ? foundation[foundation.length - 1] : undefined;
+                if (moveCard(gameState.waste, foundation, card)) {
+                  return;
+                }
+              }
 
-        <main className="flex-1 p-1 sm:p-2 md:p-4">
-          <div className="container mx-auto px-1 sm:px-2">
-            <div className="w-full max-w-[calc(7*7rem+6*0.5rem)] mx-auto md:mx-0">
-              <div className="w-full flex justify-between mb-2 md:mb-4">
-                <StockAndWaste
-                  stock={gameState.stock}
-                  waste={gameState.waste}
-                  onDraw={draw}
-                  onCardDoubleClick={handleCardDoubleClick}
-                  highlightedCards={highlightedCards}
-                />
-                <FoundationPiles
-                  foundations={gameState.foundations}
-                  highlightedCards={highlightedCards}
-                />
-              </div>
-              <TableauSection
-                tableau={gameState.tableau}
-                onCardDoubleClick={handleCardDoubleClick}
-                highlightedCards={highlightedCards}
-                isNewGame={isNewGame}
-              />
-            </div>
-          </div>
-        </main>
+              // Try tableau piles
+              for (const targetPile of gameState.tableau) {
+                if (moveCard(gameState.waste, targetPile, card)) {
+                  return;
+                }
+              }
+            }}
+            highlightedCards={highlightedCards}
+          />
+          <FoundationPiles
+            foundations={gameState.foundations}
+            highlightedCards={highlightedCards}
+          />
+        </div>
+        <TableauSection
+          tableau={gameState.tableau}
+          onCardDoubleClick={card => {
+            // Find source pile
+            const sourcePile = gameState.tableau.find(pile => pile.includes(card));
+            if (!sourcePile) return;
 
-        <footer className="bg-felt-green/80 backdrop-blur-sm border-t border-white/10 py-2 sticky bottom-0 z-50">
-          <div className="container mx-auto px-4 flex justify-between items-center text-white/80 text-sm">
-            <div>
-              Wins: {gameState.wins}
-            </div>
-            <div>
-              Time: {gameState.time}
-            </div>
-            <div>
-              Moves: {gameState.moves}
-            </div>
-          </div>
-        </footer>
+            // Try foundation piles first
+            for (const foundation of gameState.foundations) {
+              if (moveCard(sourcePile, foundation, card)) {
+                return;
+              }
+            }
 
-        <DragOverlay>
-          {activeCard ? <Card card={activeCard} /> : null}
-        </DragOverlay>
-      </div>
+            // Try other tableau piles
+            for (const targetPile of gameState.tableau) {
+              if (targetPile !== sourcePile && moveCard(sourcePile, targetPile, card)) {
+                return;
+              }
+            }
+          }}
+          highlightedCards={highlightedCards}
+          isNewGame={isNewGame}
+        />
+      </GameLayout>
     </DndContext>
   );
 };
