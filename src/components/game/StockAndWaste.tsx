@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Card from './Card';
 import { Card as CardType } from '../../utils/cards';
 
@@ -17,10 +17,26 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
   onCardDoubleClick,
   highlightedCards
 }) => {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Calculate the offset based on the number of cards
+  const stockOffset = isMobile ? 0.125 : 0.25; // pixels per card
+  const maxOffset = isMobile ? 1.5 : 3; // maximum total offset in pixels
+  const totalOffset = Math.min(stock.length * stockOffset, maxOffset);
+
   return (
-    <div className="flex gap-3">
+    <div className="flex gap-1 sm:gap-1.5 md:gap-2 relative z-50">
       <div
-        className="relative w-[4rem] h-[5.6rem] rounded-lg border-2 border-white/10 bg-felt-green/30 cursor-pointer"
+        className="w-[2.8rem] h-[3.9rem] sm:w-[4rem] sm:h-[5.6rem] md:w-[7rem] md:h-[9.8rem] rounded-sm border-2 border-white/30 bg-felt-green/50 cursor-pointer relative"
         style={{
           boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)'
         }}
@@ -31,42 +47,36 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
             key={card.id}
             className="absolute"
             style={{
-              bottom: `${index * 0.25}px`,
-              right: `${index * 0.25}px`,
+              bottom: `${index * stockOffset}px`,
+              right: `${index * stockOffset}px`,
               transform: `translate3d(0, 0, ${index}px)`,
               transition: 'all 0.3s ease-out',
+              boxShadow: '1px 1px 2px rgba(0,0,0,0.2)'
             }}
           >
             <Card 
               card={card}
               onDoubleClick={() => onCardDoubleClick(card)}
               isHighlighted={highlightedCards.includes(card.id)}
+              className="w-[2.8rem] h-[3.9rem] sm:w-[4rem] sm:h-[5.6rem] md:w-[7rem] md:h-[9.8rem]"
             />
           </div>
         ))}
       </div>
       <div 
-        className="relative w-[4rem] h-[5.6rem] rounded-lg border-2 border-white/10 bg-felt-green/30"
+        className="w-[2.8rem] h-[3.9rem] sm:w-[4rem] sm:h-[5.6rem] md:w-[7rem] md:h-[9.8rem] rounded-sm border-2 border-white/30 bg-felt-green/50"
         style={{
           boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)'
         }}
       >
-        {waste.map((card, index) => (
-          <div
-            key={card.id}
-            className="absolute inset-0"
-            style={{
-              transform: `translateX(${index * 2}px)`,
-              zIndex: index
-            }}
-          >
-            <Card 
-              card={card}
-              onDoubleClick={() => onCardDoubleClick(card)}
-              isHighlighted={highlightedCards.includes(card.id)}
-            />
-          </div>
-        ))}
+        {waste.length > 0 && (
+          <Card 
+            card={waste[waste.length - 1]}
+            onDoubleClick={() => onCardDoubleClick(waste[waste.length - 1])}
+            isHighlighted={highlightedCards.includes(waste[waste.length - 1].id)}
+            className="w-[2.8rem] h-[3.9rem] sm:w-[4rem] sm:h-[5.6rem] md:w-[7rem] md:h-[9.8rem]"
+          />
+        )}
       </div>
     </div>
   );

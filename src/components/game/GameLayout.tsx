@@ -29,7 +29,7 @@ const GameLayout = ({
   onRestartGame
 }: GameLayoutProps) => {
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <GameHeader
         onNewGame={onNewGame}
         onUndo={onUndo}
@@ -37,9 +37,11 @@ const GameLayout = ({
         onRestartGame={onRestartGame}
       />
 
-      <main className="flex-1 min-h-0 p-4 relative">
-        <div className="h-full flex flex-col gap-6 max-w-7xl mx-auto">
-          {children}
+      <main className="flex-1 p-2 sm:p-3 md:p-4 lg:p-6">
+        <div className="container mx-auto px-1 sm:px-2 md:px-4">
+          <div className="w-full max-w-[calc(7*7rem+6*0.5rem)] mx-auto">
+            {children}
+          </div>
         </div>
       </main>
 
@@ -51,10 +53,13 @@ const GameLayout = ({
 
       <DragOverlay dropAnimation={null}>
         {activeCard ? (
-          <Card card={activeCard} />
+          <Card 
+            card={activeCard} 
+            className="w-[2.8rem] h-[3.9rem] sm:w-[4rem] sm:h-[5.6rem] md:w-[7rem] md:h-[9.8rem]"
+          />
         ) : null}
       </DragOverlay>
-    </>
+    </div>
   );
 };
 
