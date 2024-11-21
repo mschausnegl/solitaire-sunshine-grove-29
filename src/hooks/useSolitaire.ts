@@ -26,7 +26,7 @@ export const useSolitaire = () => {
 
   const moveCard = useCallback((from: Card[], to: Card[], card: Card) => {
     const fromIndex = from.findIndex(c => c.id === card.id);
-    if (fromIndex === -1) return;
+    if (fromIndex === -1) return false;
     
     const cards = from.slice(fromIndex);
     let isValidMove = false;
@@ -48,11 +48,10 @@ export const useSolitaire = () => {
         const newState = { ...prev };
         
         // Find and update source pile
-        let sourcePileIndex = -1;
         if (prev.waste.includes(card)) {
           newState.waste = prev.waste.filter(c => c.id !== card.id);
         } else {
-          sourcePileIndex = prev.tableau.findIndex(pile => pile.includes(card));
+          const sourcePileIndex = prev.tableau.findIndex(pile => pile.includes(card));
           if (sourcePileIndex !== -1) {
             const newPile = prev.tableau[sourcePileIndex].slice(0, fromIndex);
             if (newPile.length > 0) {
@@ -63,14 +62,13 @@ export const useSolitaire = () => {
         }
 
         // Find and update target pile
-        let targetPileIndex = -1;
         if (isFoundationMove) {
-          targetPileIndex = prev.foundations.findIndex(f => f === to);
+          const targetPileIndex = prev.foundations.findIndex(f => f === to);
           if (targetPileIndex !== -1) {
             newState.foundations[targetPileIndex] = [...prev.foundations[targetPileIndex], card];
           }
         } else {
-          targetPileIndex = prev.tableau.findIndex(pile => pile === to);
+          const targetPileIndex = prev.tableau.findIndex(pile => pile === to);
           if (targetPileIndex !== -1) {
             newState.tableau[targetPileIndex] = [...prev.tableau[targetPileIndex], ...cards];
           }
@@ -87,7 +85,9 @@ export const useSolitaire = () => {
 
         return newState;
       });
+      return true;
     }
+    return false;
   }, [gameState, history]);
 
   return {

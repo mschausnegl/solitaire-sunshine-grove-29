@@ -32,13 +32,31 @@ const Index = () => {
     const draggedCard = active.data.current as CardType;
     const targetCard = over.data.current as CardType;
 
-    // Find source and target piles
-    const sourcePile = gameState.tableau.find(pile => 
-      pile.some(card => card.id === draggedCard.id)
+    // Find source pile
+    let sourcePile = gameState.waste;
+    if (!sourcePile.includes(draggedCard)) {
+      sourcePile = gameState.tableau.find(pile => 
+        pile.some(card => card.id === draggedCard.id)
+      ) || [];
+    }
+
+    // Find target pile
+    let targetPile = gameState.foundations.find(foundation => 
+      foundation.some(card => card.id === targetCard.id)
     );
-    const targetPile = gameState.tableau.find(pile => 
-      pile.some(card => card.id === targetCard.id)
-    );
+    
+    if (!targetPile) {
+      targetPile = gameState.tableau.find(pile => 
+        pile.some(card => card.id === targetCard.id)
+      );
+    }
+
+    if (!targetPile) {
+      // If no cards in target pile, find empty tableau pile
+      targetPile = gameState.tableau.find(pile => 
+        pile.length === 0
+      );
+    }
 
     if (sourcePile && targetPile) {
       moveCard(sourcePile, targetPile, draggedCard);
@@ -46,21 +64,15 @@ const Index = () => {
   };
 
   const handleCardDoubleClick = (card: CardType) => {
-    const foundationIndex = gameState.foundations.findIndex(foundation => {
-      if (foundation.length === 0) {
-        return card.rank === 'A';
+    // Try to move to foundation
+    for (const foundation of gameState.foundations) {
+      if (moveCard(
+        gameState.tableau.find(pile => pile.includes(card)) || gameState.waste,
+        foundation,
+        card
+      )) {
+        return;
       }
-      const topCard = foundation[foundation.length - 1];
-      return card.suit === topCard.suit && 
-             ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
-               .indexOf(card.rank) === 
-             ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
-               .indexOf(topCard.rank) + 1;
-    });
-
-    if (foundationIndex !== -1) {
-      moveCard(gameState.tableau[foundationIndex], gameState.foundations[foundationIndex], card);
-      toast.success("Card moved to foundation!");
     }
   };
 
@@ -113,7 +125,6 @@ const Index = () => {
                   {foundation.length > 0 && (
                     <Card 
                       card={foundation[foundation.length - 1]}
-                      onDrop={(draggedCard) => moveCard(foundation, foundation, draggedCard)}
                     />
                   )}
                 </div>
@@ -135,7 +146,6 @@ const Index = () => {
                       card={card}
                       index={j}
                       onDoubleClick={() => handleCardDoubleClick(card)}
-                      onDrop={(draggedCard) => moveCard(pile, pile, draggedCard)}
                     />
                   </div>
                 ))}
