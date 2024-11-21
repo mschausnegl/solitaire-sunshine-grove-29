@@ -28,7 +28,7 @@ const TableauSection: React.FC<TableauSectionProps> = ({
       {tableau.map((pile, i) => (
         <div 
           key={i} 
-          className="relative flex-1 w-[2.8rem] h-[3.9rem] md:w-[7rem] md:h-[9.8rem] rounded-sm border-2 border-white/30 bg-felt-green/50"
+          className="relative flex-1 md:flex-initial w-[2.8rem] md:w-[7rem] h-[3.9rem] md:h-[9.8rem] rounded-sm border-2 border-white/30 bg-felt-green/50"
           style={{
             boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)',
           }}
