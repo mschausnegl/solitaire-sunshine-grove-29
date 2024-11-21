@@ -12,10 +12,10 @@ const FoundationPiles: React.FC<FoundationPilesProps> = ({
   highlightedCards
 }) => {
   const suitSymbols = ['♥', '♠', '♦', '♣'];
-  const baseCardClasses = "w-[40px] h-[56px] sm:w-[50px] sm:h-[70px] md:w-[60px] md:h-[84px] lg:w-[80px] lg:h-[112px] xl:w-[100px] xl:h-[140px]";
+  const baseCardClasses = "w-[45px] h-[63px] sm:w-[50px] sm:h-[70px] md:w-[60px] md:h-[84px] lg:w-[70px] lg:h-[98px] xl:w-[80px] xl:h-[112px]";
   
   return (
-    <div className="grid grid-cols-4 gap-1 sm:gap-1.5 md:gap-2 lg:gap-3 xl:gap-4">
+    <div className="grid grid-cols-4 gap-1 sm:gap-1.5 md:gap-2 lg:gap-2.5 xl:gap-3">
       {foundations.map((foundation, i) => (
         <div
           key={i}

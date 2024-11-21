@@ -50,7 +50,7 @@ const Card = React.memo(({
     setDropRef(node);
   };
 
-  const baseCardClasses = "w-[40px] h-[56px] sm:w-[50px] sm:h-[70px] md:w-[60px] md:h-[84px] lg:w-[80px] lg:h-[112px] xl:w-[100px] xl:h-[140px] rounded-sm border border-gray-300";
+  const baseCardClasses = "w-[45px] h-[63px] sm:w-[50px] sm:h-[70px] md:w-[60px] md:h-[84px] lg:w-[70px] lg:h-[98px] xl:w-[80px] xl:h-[112px] rounded-sm border border-gray-300";
 
   const startTime = performance.now();
   
@@ -111,14 +111,14 @@ const Card = React.memo(({
       onClick={onClick}
       onDoubleClick={onDoubleClick}
     >
-      <div className={cn("text-[8px] sm:text-xs md:text-sm lg:text-base xl:text-lg font-bold leading-none", isRed ? "text-red-500" : "text-black")}>
+      <div className={cn("text-[8px] sm:text-[10px] md:text-xs lg:text-sm xl:text-base font-bold leading-none", isRed ? "text-red-500" : "text-black")}>
         {card.rank}
         <span className="ml-px">{suitSymbols[card.suit]}</span>
       </div>
-      <div className={cn("text-xs sm:text-sm md:text-base lg:text-xl xl:text-2xl leading-none self-center", isRed ? "text-red-500" : "text-black")}>
+      <div className={cn("text-[10px] sm:text-xs md:text-sm lg:text-base xl:text-lg leading-none self-center", isRed ? "text-red-500" : "text-black")}>
         {suitSymbols[card.suit]}
       </div>
-      <div className={cn("text-[8px] sm:text-xs md:text-sm lg:text-base xl:text-lg font-bold leading-none rotate-180", isRed ? "text-red-500" : "text-black")}>
+      <div className={cn("text-[8px] sm:text-[10px] md:text-xs lg:text-sm xl:text-base font-bold leading-none rotate-180", isRed ? "text-red-500" : "text-black")}>
         {card.rank}
         <span className="ml-px">{suitSymbols[card.suit]}</span>
       </div>

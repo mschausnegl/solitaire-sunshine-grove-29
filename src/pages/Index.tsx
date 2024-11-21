@@ -131,9 +131,9 @@ const Index = () => {
           </div>
         </header>
 
-        <main className="flex-1 p-2 sm:p-3 md:p-4">
-          <div className="w-full max-w-[calc(100vw-1rem)] sm:max-w-[calc(100vw-2rem)] md:max-w-[calc(100vw-3rem)] lg:max-w-[calc(100vw-4rem)] mx-auto">
-            <div className="w-full flex justify-between gap-2 sm:gap-3 md:gap-4 mb-2 sm:mb-3 md:mb-4">
+        <main className="flex-1 p-1 sm:p-2 md:p-3 lg:p-4">
+          <div className="w-full max-w-[calc(100vw-0.5rem)] sm:max-w-[calc(100vw-1rem)] md:max-w-[calc(100vw-1.5rem)] lg:max-w-[calc(100vw-2rem)] mx-auto">
+            <div className="w-full flex justify-between gap-1 sm:gap-1.5 md:gap-2 lg:gap-2.5 xl:gap-3 mb-2 sm:mb-3 md:mb-4">
               <StockAndWaste
                 stock={gameState.stock}
                 waste={gameState.waste}
