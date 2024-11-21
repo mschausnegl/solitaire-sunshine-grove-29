@@ -123,10 +123,9 @@ const Index = () => {
             />
           </div>
           
-          {/* Top section with stock/waste and foundations */}
-          <div className="grid grid-cols-7 gap-2 md:gap-4">
-            {/* Stock and waste section - spans first two columns */}
-            <div className="col-span-2">
+          <div className="flex justify-between gap-2 md:gap-4">
+            {/* Stock and waste section */}
+            <div className="flex-none">
               <StockAndWaste
                 stock={gameState.stock}
                 waste={gameState.waste}
@@ -136,12 +135,11 @@ const Index = () => {
               />
             </div>
             
-            {/* Empty space for columns 3-4 */}
-            <div className="col-span-1" />
-            <div className="col-span-1" />
+            {/* Empty space in the middle */}
+            <div className="flex-grow" />
             
-            {/* Foundations section - spans last three columns */}
-            <div className="col-span-3">
+            {/* Foundations section - aligned with last 4 tableau piles */}
+            <div className="flex-none">
               <FoundationPiles
                 foundations={gameState.foundations}
                 highlightedCards={highlightedCards}
