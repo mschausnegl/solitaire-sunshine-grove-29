@@ -34,7 +34,6 @@ const TableauSection: React.FC<TableauSectionProps> = ({
     
     tableau.forEach((pile, pileIndex) => {
       const previousPile = previousTableau[pileIndex] || [];
-      
       const lastCard = pile[pile.length - 1];
       const previousLastCard = previousPile[previousPile.length - 1];
       
@@ -53,48 +52,38 @@ const TableauSection: React.FC<TableauSectionProps> = ({
     return () => clearTimeout(timer);
   }, [tableau]);
 
-  // Calculate vertical offsets based on screen size
-  const getFaceDownOffset = () => {
-    if (window.innerWidth >= 1024) return 24; // lg
-    if (window.innerWidth >= 768) return 20;  // md
-    if (window.innerWidth >= 640) return 16;  // sm
-    return 12; // xs
-  };
-
-  const getFaceUpOffset = () => {
-    if (window.innerWidth >= 1024) return 32; // lg
-    if (window.innerWidth >= 768) return 28;  // md
-    if (window.innerWidth >= 640) return 24;  // sm
-    return 16; // xs
+  // Calculate offsets based on container width rather than viewport
+  const getCardOffset = (isFaceUp: boolean) => {
+    // Base the offset on the card's own height (maintained by aspect ratio)
+    return isFaceUp ? '20%' : '15%';
   };
 
   return (
     <div className="w-full max-w-[1200px] mx-auto px-2">
-      <div className="grid grid-cols-7 gap-x-2 md:gap-x-3 lg:gap-x-4">
+      <div className="grid grid-cols-7 gap-[1%]">
         {tableau.map((pile, i) => (
           <div 
             key={i} 
-            className="relative aspect-[5/7] rounded-sm border-2 border-white/30 bg-felt-green/50"
+            className="relative w-full pb-[140%] rounded-sm border-2 border-white/30 bg-felt-green/50"
             style={{
               boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)',
             }}
           >
             {pile.map((card, j) => {
-              let offset = 0;
+              let offsetPercentage = 0;
               for (let k = 0; k < j; k++) {
-                offset += pile[k].faceUp ? getFaceUpOffset() : getFaceDownOffset();
+                offsetPercentage += parseFloat(getCardOffset(pile[k].faceUp));
               }
 
               return (
                 <div
                   key={card.id}
-                  className={`absolute left-1/2 -translate-x-1/2 transition-all ${isNewGame ? 'animate-deal' : ''}`}
+                  className={`absolute left-0 right-0 w-full transition-all ${isNewGame ? 'animate-deal' : ''}`}
                   style={{ 
-                    top: `${offset}px`,
+                    top: `${offsetPercentage}%`,
                     animationDelay: isNewGame ? `${0.1 + (i * 3 + j) * 0.05}s` : undefined,
                     animationFillMode: 'both',
-                    zIndex: j + 1,
-                    width: '100%'
+                    zIndex: j + 1
                   }}
                 >
                   <Card 
