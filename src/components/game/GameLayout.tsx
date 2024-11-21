@@ -51,8 +51,13 @@ const GameLayout = ({
         moves={gameState.moves}
       />
 
-      <DragOverlay>
-        {activeCard ? <Card card={activeCard} /> : null}
+      <DragOverlay dropAnimation={null}>
+        {activeCard ? (
+          <Card 
+            card={activeCard} 
+            className="w-[2.8rem] h-[3.9rem] md:w-[7rem] md:h-[9.8rem]"
+          />
+        ) : null}
       </DragOverlay>
     </div>
   );

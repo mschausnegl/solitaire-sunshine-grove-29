@@ -50,7 +50,7 @@ const Card = React.memo(({
     setDropRef(node);
   };
 
-  const baseCardClasses = "w-[2.8rem] h-[3.9rem] md:w-[11rem] md:h-[15.4rem] rounded-sm border border-gray-300";
+  const baseCardClasses = "w-[2.8rem] h-[3.9rem] md:w-[7rem] md:h-[9.8rem] rounded-sm border border-gray-300";
 
   const startTime = performance.now();
   
@@ -63,8 +63,8 @@ const Card = React.memo(({
         {...listeners}
         style={{
           zIndex: index,
-          transform: isDragging ? 'scale(1.05)' : undefined,
-          transition: 'transform 0.2s ease',
+          opacity: isDragging ? '0' : '1',
+          transition: 'opacity 0.2s ease',
           backgroundImage: 'url(/lovable-uploads/5b92a5bc-abd7-42ae-a1d3-98e1c51b1ed3.png)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
@@ -94,8 +94,8 @@ const Card = React.memo(({
       {...listeners}
       style={{
         zIndex: index,
-        transform: isDragging ? 'scale(1.05)' : undefined,
-        transition: 'transform 0.2s ease',
+        opacity: isDragging ? '0' : '1',
+        transition: 'opacity 0.2s ease',
         ...style
       }}
       className={cn(
@@ -105,7 +105,6 @@ const Card = React.memo(({
         isOver && "ring-2 ring-yellow-400",
         isHighlighted && "ring-2 ring-yellow-300 animate-pulse",
         isShuffling && "animate-shuffle",
-        isDragging && "shadow-md",
         className
       )}
       onClick={onClick}
