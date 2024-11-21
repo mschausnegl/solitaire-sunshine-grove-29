@@ -123,22 +123,18 @@ const Index = () => {
             />
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-7 gap-0.5 md:gap-2">
-            <div className="col-span-1 md:col-span-3">
-              <StockAndWaste
-                stock={gameState.stock}
-                waste={gameState.waste}
-                onDraw={draw}
-                onCardDoubleClick={handleCardDoubleClick}
-                highlightedCards={highlightedCards}
-              />
-            </div>
-            <div className="col-span-1 md:col-span-4">
-              <FoundationPiles
-                foundations={gameState.foundations}
-                highlightedCards={highlightedCards}
-              />
-            </div>
+          <div className="flex justify-between gap-0.5 md:gap-2">
+            <StockAndWaste
+              stock={gameState.stock}
+              waste={gameState.waste}
+              onDraw={draw}
+              onCardDoubleClick={handleCardDoubleClick}
+              highlightedCards={highlightedCards}
+            />
+            <FoundationPiles
+              foundations={gameState.foundations}
+              highlightedCards={highlightedCards}
+            />
           </div>
 
           <div className="mt-0.5 md:mt-4">
