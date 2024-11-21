@@ -17,6 +17,7 @@ const TableauSection: React.FC<TableauSectionProps> = ({
 }) => {
   const [isDealing, setIsDealing] = useState(false);
   const [revealedCards, setRevealedCards] = useState<Set<string>>(new Set());
+  const [previousTableau, setPreviousTableau] = useState<CardType[][]>([]);
 
   useEffect(() => {
     if (isNewGame) {
@@ -32,13 +33,21 @@ const TableauSection: React.FC<TableauSectionProps> = ({
   useEffect(() => {
     const newRevealedCards = new Set<string>();
     
-    tableau.forEach(pile => {
+    tableau.forEach((pile, pileIndex) => {
       const lastCard = pile[pile.length - 1];
-      if (lastCard?.faceUp) {
+      const previousPile = previousTableau[pileIndex] || [];
+      const previousLastCard = previousPile[previousPile.length - 1];
+      
+      // Only add to revealed cards if:
+      // 1. The card is face up
+      // 2. The previous last card was either face down or different
+      if (lastCard?.faceUp && 
+          (!previousLastCard?.faceUp || previousLastCard.id !== lastCard.id)) {
         newRevealedCards.add(lastCard.id);
       }
     });
 
+    setPreviousTableau(tableau);
     setRevealedCards(newRevealedCards);
 
     // Clear the revealed status after animation
