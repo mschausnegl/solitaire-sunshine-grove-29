@@ -53,22 +53,28 @@ const TableauSection: React.FC<TableauSectionProps> = ({
     return () => clearTimeout(timer);
   }, [tableau]);
 
-  // Calculate the vertical offset for face-up and face-down cards
-  const getFaceDownOffset = () => Math.min(window.innerWidth * 0.012, 24);
-  const getFaceUpOffset = () => Math.min(window.innerWidth * 0.016, 32);
+  // Calculate the vertical offset for face-up and face-down cards based on viewport width
+  const getFaceDownOffset = () => {
+    const baseOffset = Math.min(window.innerWidth * 0.012, 24);
+    return Math.max(baseOffset, 8); // Ensure minimum spacing
+  };
+
+  const getFaceUpOffset = () => {
+    const baseOffset = Math.min(window.innerWidth * 0.016, 32);
+    return Math.max(baseOffset, 12); // Ensure minimum spacing
+  };
 
   return (
-    <div className="grid grid-cols-7 gap-1 w-full max-w-full mx-auto">
+    <div className="grid grid-cols-7 gap-x-[2%] sm:gap-x-[1%] w-full max-w-[1200px] mx-auto px-1">
       {tableau.map((pile, i) => (
         <div 
           key={i} 
-          className="relative aspect-[5/7] rounded-sm border-2 border-white/30 bg-felt-green/50 min-w-0"
+          className="relative aspect-[5/7] rounded-sm border-2 border-white/30 bg-felt-green/50 min-w-0 max-w-full"
           style={{
             boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)',
           }}
         >
           {pile.map((card, j) => {
-            // Calculate offset based on whether previous cards are face up or down
             let offset = 0;
             for (let k = 0; k < j; k++) {
               offset += pile[k].faceUp ? getFaceUpOffset() : getFaceDownOffset();
