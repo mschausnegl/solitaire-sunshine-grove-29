@@ -52,38 +52,40 @@ const TableauSection: React.FC<TableauSectionProps> = ({
   }, [tableau]);
 
   return (
-    <div className="w-full max-w-[1400px] mx-auto px-2 transition-all duration-150">
-      <div className="grid grid-cols-7 gap-[theme(spacing.stack-space)]">
-        {tableau.map((pile, i) => (
-          <div 
-            key={i} 
-            className="relative aspect-[5/7] rounded-sm border-2 border-white/30 bg-felt-green/50"
-            style={{
-              boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)',
-            }}
-          >
-            {pile.map((card, j) => (
-              <div
-                key={card.id}
-                className={`absolute left-0 right-0 transition-all duration-150 ease-[cubic-bezier(0.4,0,0.2,1)] ${isNewGame ? 'animate-deal' : ''}`}
-                style={{ 
-                  top: `${j * Math.min(25, (100 - 25) / Math.max(pile.length - 1, 1))}%`,
-                  animationDelay: isNewGame ? `${0.1 + (i * 3 + j) * 0.05}s` : undefined,
-                  animationFillMode: 'both',
-                  zIndex: j + 1
-                }}
-              >
-                <Card 
-                  card={card}
-                  onDoubleClick={() => onCardDoubleClick(card)}
-                  isHighlighted={highlightedCards.includes(card.id)}
-                  isRevealed={revealedCards.has(card.id)}
-                  pile={pile}
-                />
-              </div>
-            ))}
-          </div>
-        ))}
+    <div className="w-full mx-auto px-[theme(spacing.stack-space)] transition-all duration-150">
+      <div className="@container">
+        <div className="grid grid-cols-2 @[600px]:grid-cols-4 @[900px]:grid-cols-7 gap-[theme(spacing.stack-space)]">
+          {tableau.map((pile, i) => (
+            <div 
+              key={i} 
+              className="relative aspect-[5/7] rounded-sm border-2 border-white/30 bg-felt-green/50 min-h-[120px]"
+              style={{
+                boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)',
+              }}
+            >
+              {pile.map((card, j) => (
+                <div
+                  key={card.id}
+                  className={`absolute left-0 right-0 transition-all duration-150 ease-[cubic-bezier(0.4,0,0.2,1)] ${isNewGame ? 'animate-deal' : ''}`}
+                  style={{ 
+                    top: `${j * Math.min(25, (100 - 25) / Math.max(pile.length - 1, 1))}%`,
+                    animationDelay: isNewGame ? `${0.1 + (i * 3 + j) * 0.05}s` : undefined,
+                    animationFillMode: 'both',
+                    zIndex: j + 1
+                  }}
+                >
+                  <Card 
+                    card={card}
+                    onDoubleClick={() => onCardDoubleClick(card)}
+                    isHighlighted={highlightedCards.includes(card.id)}
+                    isRevealed={revealedCards.has(card.id)}
+                    pile={pile}
+                  />
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -37,9 +37,9 @@ const GameLayout = ({
         onRestartGame={onRestartGame}
       />
 
-      <main className="flex-1 p-2 transition-all duration-150">
-        <div className="container mx-auto px-1">
-          <div className="w-full max-w-[calc(7*theme(spacing.card-w)+6*theme(spacing.stack-space))] mx-auto">
+      <main className="flex-1 p-[theme(spacing.stack-space)] transition-all duration-150">
+        <div className="@container mx-auto">
+          <div className="w-full">
             {children}
           </div>
         </div>

@@ -12,9 +12,10 @@ const config = {
   theme: {
     container: {
       center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
+      padding: {
+        DEFAULT: '0.5rem',
+        sm: '1rem',
+        lg: '2rem',
       },
     },
     extend: {
@@ -106,10 +107,10 @@ const config = {
         "deal": "deal 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)"
       },
       spacing: {
-        'card-w': 'min(calc(100vw / 7.5), 100px)',
-        'card-h': 'calc(min(calc(100vw / 7.5), 100px) * 1.4)',
-        'stack-space': 'max(0.75rem, 1vw)',
-        'card-overlap': 'calc((100vh - 12rem) / 7)',
+        'card-w': 'clamp(48px, calc(100vw / 7.5), 100px)',
+        'card-h': 'calc(clamp(48px, calc(100vw / 7.5), 100px) * 1.4)',
+        'stack-space': 'clamp(3px, 1vw, 8px)',
+        'card-overlap': 'clamp(25px, calc((100vh - 12rem) / 7), 40px)',
       },
     },
   },
