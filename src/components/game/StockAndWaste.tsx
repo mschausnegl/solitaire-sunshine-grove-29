@@ -29,8 +29,9 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
   }, []);
 
   // Calculate the offset based on the number of cards
-  const stockHeight = Math.min(stock.length * (isMobile ? 0.03 : 0.025), isMobile ? 0.9 : 0.5);
-  const stockWidth = Math.min(stock.length * (isMobile ? 0.05 : 0.15), isMobile ? 2 : 6);
+  const stockOffset = isMobile ? 3 : 1; // pixels per card
+  const maxOffset = isMobile ? 30 : 15; // maximum total offset in pixels
+  const totalOffset = Math.min(stock.length * stockOffset, maxOffset);
 
   return (
     <div className="flex gap-2 relative z-50">
@@ -46,9 +47,9 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
             key={card.id}
             className="absolute"
             style={{
-              bottom: `${index * (isMobile ? 0.05 : 0.15)}px`,
-              right: `${index * (isMobile ? 0.05 : 0.15)}px`,
-              transform: `translate3d(${stockWidth - (index * (isMobile ? 0.05 : 0.15))}px, ${stockHeight - (index * (isMobile ? 0.05 : 0.15))}px, ${index}px)`,
+              bottom: `${index * stockOffset}px`,
+              right: `${index * stockOffset}px`,
+              transform: `translate3d(0, 0, ${index}px)`,
               transition: 'all 0.3s ease-out',
               boxShadow: '1px 1px 2px rgba(0,0,0,0.2)'
             }}
