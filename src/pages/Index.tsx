@@ -65,11 +65,8 @@ const Index = () => {
   const handleCardDoubleClick = (card: CardType) => {
     // Try to move to foundation
     for (const foundation of gameState.foundations) {
-      if (moveCard(
-        gameState.tableau.find(pile => pile.includes(card)) || gameState.waste,
-        foundation,
-        card
-      )) {
+      const sourcePile = gameState.tableau.find(pile => pile.includes(card)) || gameState.waste;
+      if (moveCard(sourcePile, foundation, card)) {
         return;
       }
     }

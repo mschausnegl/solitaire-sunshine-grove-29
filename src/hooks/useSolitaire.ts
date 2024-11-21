@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { GameState, initializeGame, drawCard, isGameWon } from "../utils/solitaire";
 import { Card, canStack, canMoveToFoundation } from "../utils/cards";
 import { toast } from "sonner";
@@ -7,6 +7,17 @@ export const useSolitaire = () => {
   const [gameState, setGameState] = useState<GameState>(initializeGame());
   const [history, setHistory] = useState<GameState[]>([]);
   const [highlightedCards, setHighlightedCards] = useState<string[]>([]);
+
+  // Clear highlights after delay
+  useEffect(() => {
+    if (highlightedCards.length > 0) {
+      const timer = setTimeout(() => {
+        setHighlightedCards([]);
+      }, 2000); // Clear after 2 seconds
+
+      return () => clearTimeout(timer);
+    }
+  }, [highlightedCards]);
 
   const newGame = useCallback(() => {
     setGameState(initializeGame());
@@ -92,6 +103,7 @@ export const useSolitaire = () => {
   const draw = useCallback(() => {
     setHistory([...history, gameState]);
     setGameState(drawCard(gameState));
+    setHighlightedCards([]);
   }, [gameState, history]);
 
   const moveCard = useCallback((from: Card[], to: Card[], card: Card) => {
@@ -155,6 +167,7 @@ export const useSolitaire = () => {
 
         return newState;
       });
+      setHighlightedCards([]); // Clear highlights after move
       return true;
     }
     return false;
