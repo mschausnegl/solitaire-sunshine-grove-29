@@ -7,13 +7,21 @@ import { useHighlight } from "./useHighlight";
 
 export const useSolitaire = () => {
   const [gameState, setGameState] = useState<GameState>(initializeGame());
+  const [initialGameState, setInitialGameState] = useState<GameState>(gameState);
   const { history, pushHistory, popHistory } = useGameHistory();
   const { highlightedCards, setHighlightedCards } = useHighlight();
 
   const newGame = useCallback(() => {
-    setGameState(initializeGame());
+    const newGameState = initializeGame();
+    setGameState(newGameState);
+    setInitialGameState(structuredClone(newGameState));
     setHighlightedCards([]);
   }, []);
+
+  const restartGame = useCallback(() => {
+    setGameState(structuredClone(initialGameState));
+    setHighlightedCards([]);
+  }, [initialGameState]);
 
   const undo = useCallback(() => {
     const previousState = popHistory();
@@ -162,6 +170,7 @@ export const useSolitaire = () => {
   return {
     gameState,
     newGame,
+    restartGame,
     undo,
     draw,
     moveCard,

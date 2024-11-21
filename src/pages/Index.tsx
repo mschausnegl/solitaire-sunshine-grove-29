@@ -9,7 +9,7 @@ import FoundationPiles from "../components/game/FoundationPiles";
 import TableauSection from "../components/game/TableauSection";
 
 const Index = () => {
-  const { gameState, newGame, undo, draw, moveCard, findHint, highlightedCards } = useSolitaire();
+  const { gameState, newGame, undo, draw, moveCard, findHint, highlightedCards, restartGame } = useSolitaire();
   const [activeCard, setActiveCard] = React.useState<CardType | null>(null);
 
   const sensors = useSensors(
@@ -120,6 +120,7 @@ const Index = () => {
               onUndo={undo}
               onHint={findHint}
               onAutoPlay={() => {}}
+              onRestartGame={restartGame}
             />
           </div>
         </header>

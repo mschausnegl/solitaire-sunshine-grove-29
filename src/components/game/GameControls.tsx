@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Undo2, RotateCcw, Lightbulb, Play } from "lucide-react";
+import { Undo2, RotateCcw, Lightbulb, Play, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 
 interface GameControlsProps {
@@ -8,6 +8,7 @@ interface GameControlsProps {
   onUndo: () => void;
   onHint?: () => void;
   onAutoPlay?: () => void;
+  onRestartGame: () => void;
 }
 
 const GameControls: React.FC<GameControlsProps> = ({
@@ -15,6 +16,7 @@ const GameControls: React.FC<GameControlsProps> = ({
   onUndo,
   onHint,
   onAutoPlay,
+  onRestartGame,
 }) => {
   const handleNewGame = () => {
     toast.info("Shuffling cards...");
@@ -22,11 +24,20 @@ const GameControls: React.FC<GameControlsProps> = ({
     setTimeout(onNewGame, 500);
   };
 
+  const handleRestartGame = () => {
+    toast.info("Restarting current game...");
+    setTimeout(onRestartGame, 500);
+  };
+
   return (
     <div className="flex flex-wrap gap-2 mb-4">
       <Button onClick={handleNewGame} variant="secondary" className="text-xs sm:text-sm">
         <RotateCcw className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
         New Game
+      </Button>
+      <Button onClick={handleRestartGame} variant="secondary" className="text-xs sm:text-sm">
+        <RefreshCw className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+        Restart Game
       </Button>
       <Button onClick={onUndo} variant="outline" className="text-xs sm:text-sm">
         <Undo2 className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
