@@ -13,11 +13,73 @@ export const useSolitaire = () => {
   }, []);
 
   const undo = useCallback(() => {
-    if (history.length === 0) return;
+    if (history.length === 0) {
+      toast.error("No moves to undo!");
+      return;
+    }
     const previousState = history[history.length - 1];
     setGameState(previousState);
     setHistory(history.slice(0, -1));
   }, [history]);
+
+  const findHint = useCallback(() => {
+    // Check for moves to foundation first
+    for (const foundation of gameState.foundations) {
+      // Check waste pile
+      if (gameState.waste.length > 0) {
+        const wasteCard = gameState.waste[gameState.waste.length - 1];
+        const topFoundationCard = foundation.length > 0 ? foundation[foundation.length - 1] : undefined;
+        if (canMoveToFoundation(wasteCard, topFoundationCard)) {
+          toast.info("Try moving " + wasteCard.rank + " of " + wasteCard.suit + " to the foundation");
+          return;
+        }
+      }
+
+      // Check tableau piles
+      for (const pile of gameState.tableau) {
+        if (pile.length === 0) continue;
+        const tableauCard = pile[pile.length - 1];
+        if (!tableauCard.faceUp) continue;
+        
+        const topFoundationCard = foundation.length > 0 ? foundation[foundation.length - 1] : undefined;
+        if (canMoveToFoundation(tableauCard, topFoundationCard)) {
+          toast.info("Try moving " + tableauCard.rank + " of " + tableauCard.suit + " to the foundation");
+          return;
+        }
+      }
+    }
+
+    // Check for tableau to tableau moves
+    for (const sourcePile of gameState.tableau) {
+      if (sourcePile.length === 0) continue;
+      
+      // Find the first face-up card in the source pile
+      const faceUpIndex = sourcePile.findIndex(card => card.faceUp);
+      if (faceUpIndex === -1) continue;
+      
+      const movableCard = sourcePile[faceUpIndex];
+      
+      for (const targetPile of gameState.tableau) {
+        if (sourcePile === targetPile) continue;
+        
+        if (targetPile.length === 0) {
+          if (movableCard.rank === 'K') {
+            toast.info("Try moving " + movableCard.rank + " of " + movableCard.suit + " to an empty column");
+            return;
+          }
+        } else {
+          const targetCard = targetPile[targetPile.length - 1];
+          if (canStack(movableCard, targetCard)) {
+            toast.info("Try moving " + movableCard.rank + " of " + movableCard.suit + " onto " + targetCard.rank + " of " + targetCard.suit);
+            return;
+          }
+        }
+      }
+    }
+
+    // If no moves found
+    toast.warning("No obvious moves found. Try drawing a card!");
+  }, [gameState]);
 
   const draw = useCallback(() => {
     setHistory([...history, gameState]);
@@ -96,5 +158,6 @@ export const useSolitaire = () => {
     undo,
     draw,
     moveCard,
+    findHint: findHint,
   };
 };

@@ -4,10 +4,9 @@ import { useSolitaire } from "../hooks/useSolitaire";
 import Card from "../components/game/Card";
 import GameControls from "../components/game/GameControls";
 import { Card as CardType } from "../utils/cards";
-import { toast } from "sonner";
 
 const Index = () => {
-  const { gameState, newGame, undo, draw, moveCard } = useSolitaire();
+  const { gameState, newGame, undo, draw, moveCard, findHint } = useSolitaire();
   const [activeCard, setActiveCard] = React.useState<CardType | null>(null);
 
   const sensors = useSensors(
@@ -87,7 +86,7 @@ const Index = () => {
           <GameControls
             onNewGame={newGame}
             onUndo={undo}
-            onHint={() => {}}
+            onHint={findHint}
             onAutoPlay={() => {}}
           />
           
