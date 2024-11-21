@@ -123,8 +123,9 @@ const Index = () => {
             />
           </div>
           
-          <div className="flex justify-between items-start">
-            <div className="w-[7.5rem] md:w-[11.5rem]">
+          <div className="flex">
+            {/* Left section with stock and waste */}
+            <div className="w-[8rem] md:w-[12rem]">
               <StockAndWaste
                 stock={gameState.stock}
                 waste={gameState.waste}
@@ -133,7 +134,9 @@ const Index = () => {
                 highlightedCards={highlightedCards}
               />
             </div>
-            <div className="w-[23rem] md:w-[35rem]">
+            
+            {/* Right section with foundations, aligned with last 4 tableau piles */}
+            <div className="w-[23rem] md:w-[35rem] ml-auto">
               <FoundationPiles
                 foundations={gameState.foundations}
                 highlightedCards={highlightedCards}

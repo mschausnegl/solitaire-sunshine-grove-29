@@ -12,7 +12,7 @@ const FoundationPiles: React.FC<FoundationPilesProps> = ({
   highlightedCards
 }) => {
   return (
-    <div className="grid grid-cols-4 gap-2 md:gap-4 justify-end">
+    <div className="grid grid-cols-4 gap-2 md:gap-4">
       {foundations.map((foundation, i) => (
         <div
           key={i}
