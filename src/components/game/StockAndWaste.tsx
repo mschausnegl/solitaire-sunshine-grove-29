@@ -18,7 +18,7 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
   highlightedCards
 }) => {
   // Calculate the offset based on the number of cards
-  const stockHeight = Math.min(stock.length * 0.025, 0.5); // Reduced from 0.035 to 0.025
+  const stockHeight = Math.min(stock.length * (window.innerWidth < 768 ? 0.015 : 0.025), 0.5);
   const stockWidth = Math.min(stock.length * 0.15, 6);
 
   return (
