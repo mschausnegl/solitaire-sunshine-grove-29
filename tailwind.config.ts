@@ -93,7 +93,7 @@ const config = {
         },
         "deal": {
           "0%": { 
-            transform: "translate(0, 0) scale(0.5)",
+            transform: "translate(-50vw, -30vh) scale(0.5)",
             opacity: "0"
           },
           "100%": { 
