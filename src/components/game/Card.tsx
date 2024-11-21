@@ -81,6 +81,8 @@ const Card = React.memo(({
           backgroundSize: '100% 100%',
           backgroundRepeat: 'no-repeat',
           backgroundColor: '#fff',
+          perspective: '1000px',
+          transformStyle: 'preserve-3d',
           ...style
         }}
         className={cn(

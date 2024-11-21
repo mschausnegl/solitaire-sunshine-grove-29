@@ -69,8 +69,14 @@ const config = {
           to: { height: "0" },
         },
         "card-flip": {
-          "0%": { transform: "rotateY(180deg)", opacity: "0" },
-          "100%": { transform: "rotateY(0)", opacity: "1" },
+          "0%": { 
+            transform: "rotateY(0deg) perspective(1000px)",
+            transformStyle: "preserve-3d",
+          },
+          "100%": { 
+            transform: "rotateY(180deg) perspective(1000px)",
+            transformStyle: "preserve-3d",
+          }
         },
         "card-slide": {
           "0%": { transform: "translateY(-20px)", opacity: "0" },
@@ -99,7 +105,7 @@ const config = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "card-flip": "card-flip 0.3s ease-out",
+        "card-flip": "card-flip 0.6s cubic-bezier(.23,1,.32,1)",
         "card-slide": "card-slide 0.3s ease-out",
         "shuffle": "shuffle 0.5s ease-in-out",
         "reveal": "reveal 0.3s ease-out",
