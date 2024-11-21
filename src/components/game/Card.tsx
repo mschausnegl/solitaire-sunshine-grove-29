@@ -15,6 +15,7 @@ interface CardProps {
   isShuffling?: boolean;
   isRevealed?: boolean;
   style?: React.CSSProperties;
+  pile?: CardType[]; // Add pile prop to know about cards above
 }
 
 const suitSymbols: Record<Suit, string> = {
@@ -34,12 +35,20 @@ const Card = React.memo(({
   isHighlighted = false,
   isShuffling = false,
   isRevealed = false,
-  style
+  style,
+  pile = []
 }: CardProps) => {
+  // Find all cards that should move with this one (cards above in the pile)
+  const cardIndex = pile.findIndex(c => c.id === card.id);
+  const cardsToMove = cardIndex !== -1 ? pile.slice(cardIndex) : [card];
+
   const { attributes, listeners, setNodeRef: setDragRef, isDragging } = useDraggable({
     id: card.id,
-    data: card,
-    disabled: !card.faceUp,
+    data: {
+      card,
+      cardsToMove // Pass all cards that should move together
+    },
+    disabled: !card.faceUp || (pile.length > 0 && cardIndex !== -1 && !pile[cardIndex].faceUp),
   });
 
   const { setNodeRef: setDropRef, isOver } = useDroppable({

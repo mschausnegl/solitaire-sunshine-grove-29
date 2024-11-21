@@ -29,20 +29,15 @@ const TableauSection: React.FC<TableauSectionProps> = ({
     }
   }, [isNewGame]);
 
-  // Track which cards are newly revealed
   useEffect(() => {
     const newRevealedCards = new Set<string>();
     
     tableau.forEach((pile, pileIndex) => {
       const previousPile = previousTableau[pileIndex] || [];
       
-      // Check the last card of each pile
       const lastCard = pile[pile.length - 1];
       const previousLastCard = previousPile[previousPile.length - 1];
       
-      // Add to revealed cards if:
-      // 1. There is a last card and it's face up
-      // 2. There was a previous last card and it was face down
       if (lastCard?.faceUp && previousLastCard && !previousLastCard.faceUp) {
         newRevealedCards.add(lastCard.id);
       }
@@ -51,7 +46,6 @@ const TableauSection: React.FC<TableauSectionProps> = ({
     setPreviousTableau(tableau);
     setRevealedCards(newRevealedCards);
 
-    // Clear the revealed status after animation
     const timer = setTimeout(() => {
       setRevealedCards(new Set());
     }, 300);
@@ -87,6 +81,7 @@ const TableauSection: React.FC<TableauSectionProps> = ({
                 isHighlighted={highlightedCards.includes(card.id)}
                 isRevealed={revealedCards.has(card.id)}
                 className="w-[2.8rem] md:w-[7rem] h-[3.9rem] md:h-[9.8rem]"
+                pile={pile}
               />
             </div>
           ))}

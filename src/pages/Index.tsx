@@ -13,14 +13,13 @@ const Index = () => {
   const [isNewGame, setIsNewGame] = useState(false);
 
   useEffect(() => {
-    // Initialize the game when component mounts
     newGame();
     setIsNewGame(true);
     const timer = setTimeout(() => {
       setIsNewGame(false);
     }, 1000);
     return () => clearTimeout(timer);
-  }, []); // Empty dependency array means this runs once on mount
+  }, []);
 
   const handleNewGame = () => {
     newGame();
@@ -54,7 +53,7 @@ const Index = () => {
 
   const handleDragStart = (event: any) => {
     const { active } = event;
-    setActiveCard(active.data.current);
+    setActiveCard(active.data.current.card);
   };
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -63,7 +62,7 @@ const Index = () => {
     
     if (!over) return;
 
-    const draggedCard = active.data.current as CardType;
+    const { card: draggedCard, cardsToMove } = active.data.current;
     const targetCard = over.data.current as CardType;
 
     // Find source pile
@@ -92,7 +91,11 @@ const Index = () => {
     }
 
     if (sourcePile && targetPile) {
-      moveCard(sourcePile, targetPile, draggedCard);
+      // Move all cards together
+      const cards = cardsToMove || [draggedCard];
+      for (const card of cards) {
+        moveCard(sourcePile, targetPile, card);
+      }
     }
   };
 
@@ -116,7 +119,6 @@ const Index = () => {
             waste={gameState.waste}
             onDraw={draw}
             onCardDoubleClick={card => {
-              // Find target pile
               for (const foundation of gameState.foundations) {
                 const topCard = foundation.length > 0 ? foundation[foundation.length - 1] : undefined;
                 if (moveCard(gameState.waste, foundation, card)) {
@@ -124,7 +126,6 @@ const Index = () => {
                 }
               }
 
-              // Try tableau piles
               for (const targetPile of gameState.tableau) {
                 if (moveCard(gameState.waste, targetPile, card)) {
                   return;
@@ -141,18 +142,15 @@ const Index = () => {
         <TableauSection
           tableau={gameState.tableau}
           onCardDoubleClick={card => {
-            // Find source pile
             const sourcePile = gameState.tableau.find(pile => pile.includes(card));
             if (!sourcePile) return;
 
-            // Try foundation piles first
             for (const foundation of gameState.foundations) {
               if (moveCard(sourcePile, foundation, card)) {
                 return;
               }
             }
 
-            // Try other tableau piles
             for (const targetPile of gameState.tableau) {
               if (targetPile !== sourcePile && moveCard(sourcePile, targetPile, card)) {
                 return;
