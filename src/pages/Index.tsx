@@ -123,8 +123,7 @@ const Index = () => {
             />
           </div>
           
-          <div className="flex items-start">
-            {/* Stock and waste section */}
+          <div className="flex items-start justify-between">
             <div className="flex-none">
               <StockAndWaste
                 stock={gameState.stock}
@@ -135,11 +134,7 @@ const Index = () => {
               />
             </div>
             
-            {/* Empty space in the middle */}
-            <div className="flex-grow" />
-            
-            {/* Foundations section - positioned to align with last 4 tableau piles */}
-            <div className="flex-none ml-auto" style={{ width: 'calc((100% - 1rem) * 4/7)' }}>
+            <div className="flex-none" style={{ width: 'calc((3.5rem * 4 + 0.5rem * 3) * var(--tw-scale-x, 1))' }}>
               <FoundationPiles
                 foundations={gameState.foundations}
                 highlightedCards={highlightedCards}
