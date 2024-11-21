@@ -17,8 +17,9 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
   onCardDoubleClick,
   highlightedCards
 }) => {
-  // Calculate the height offset based on the number of cards
-  const stockHeight = Math.min(stock.length * 0.5, 15); // Max 15px offset
+  // Calculate the offset based on the number of cards
+  const stockHeight = Math.min(stock.length * 0.3, 10); // Max 10px vertical offset
+  const stockWidth = Math.min(stock.length * 0.2, 8); // Max 8px horizontal offset
 
   return (
     <div className="flex gap-2 relative z-50">
@@ -34,10 +35,11 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
             key={card.id}
             className="absolute"
             style={{
-              top: `${-stockHeight + (index * 0.5)}px`,
-              left: '0',
-              right: '0',
-              transition: 'top 0.3s ease-out'
+              top: `${index * 0.3}px`,
+              left: `${index * 0.2}px`,
+              transform: `translate3d(0, ${-stockHeight + (index * 0.3)}px, ${index}px)`,
+              transition: 'all 0.3s ease-out',
+              boxShadow: '1px 1px 2px rgba(0,0,0,0.2)'
             }}
           >
             <Card 
