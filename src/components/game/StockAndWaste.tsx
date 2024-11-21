@@ -32,10 +32,12 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
   const maxOffset = isMobile ? 1.5 : 3;
   const totalOffset = Math.min(stock.length * stockOffset, maxOffset);
 
+  const baseCardClasses = "w-[40px] h-[56px] sm:w-[50px] sm:h-[70px] md:w-[60px] md:h-[84px] lg:w-[80px] lg:h-[112px] xl:w-[100px] xl:h-[140px]";
+
   return (
-    <div className="flex gap-1 sm:gap-2 relative z-50">
+    <div className="flex gap-1 sm:gap-1.5 md:gap-2 lg:gap-3 xl:gap-4 relative z-50">
       <div
-        className="w-[2.8rem] h-[3.9rem] md:w-[5.5rem] md:h-[7.7rem] lg:w-[7rem] lg:h-[9.8rem] rounded-sm border-2 border-white/30 bg-felt-green/50 cursor-pointer relative"
+        className={`${baseCardClasses} rounded-sm border-2 border-white/30 bg-felt-green/50 cursor-pointer relative`}
         style={{
           boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)'
         }}
@@ -57,13 +59,13 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
               card={card}
               onDoubleClick={() => onCardDoubleClick(card)}
               isHighlighted={highlightedCards.includes(card.id)}
-              className="w-[2.8rem] h-[3.9rem] md:w-[5.5rem] md:h-[7.7rem] lg:w-[7rem] lg:h-[9.8rem] animate-stock-appear"
+              className={`${baseCardClasses} animate-stock-appear`}
             />
           </div>
         ))}
       </div>
       <div 
-        className="w-[2.8rem] h-[3.9rem] md:w-[5.5rem] md:h-[7.7rem] lg:w-[7rem] lg:h-[9.8rem] rounded-sm border-2 border-white/30 bg-felt-green/50"
+        className={`${baseCardClasses} rounded-sm border-2 border-white/30 bg-felt-green/50`}
         style={{
           boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)'
         }}
@@ -73,7 +75,7 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
             card={waste[waste.length - 1]}
             onDoubleClick={() => onCardDoubleClick(waste[waste.length - 1])}
             isHighlighted={highlightedCards.includes(waste[waste.length - 1].id)}
-            className="w-[2.8rem] h-[3.9rem] md:w-[5.5rem] md:h-[7.7rem] lg:w-[7rem] lg:h-[9.8rem]"
+            className={baseCardClasses}
           />
         )}
       </div>

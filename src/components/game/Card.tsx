@@ -50,7 +50,7 @@ const Card = React.memo(({
     setDropRef(node);
   };
 
-  const baseCardClasses = "w-[2.8rem] h-[3.9rem] md:w-[5.5rem] md:h-[7.7rem] lg:w-[7rem] lg:h-[9.8rem] rounded-sm border border-gray-300";
+  const baseCardClasses = "w-[40px] h-[56px] sm:w-[50px] sm:h-[70px] md:w-[60px] md:h-[84px] lg:w-[80px] lg:h-[112px] xl:w-[100px] xl:h-[140px] rounded-sm border border-gray-300";
 
   const startTime = performance.now();
   
@@ -100,7 +100,7 @@ const Card = React.memo(({
       }}
       className={cn(
         baseCardClasses,
-        "bg-white p-1 md:p-2 lg:p-4",
+        "bg-white p-1",
         "flex flex-col justify-between cursor-pointer hover:shadow-sm transition-shadow",
         isOver && "ring-2 ring-yellow-400",
         isHighlighted && "ring-2 ring-yellow-300 animate-pulse",
@@ -111,14 +111,14 @@ const Card = React.memo(({
       onClick={onClick}
       onDoubleClick={onDoubleClick}
     >
-      <div className={cn("text-xs md:text-sm lg:text-3xl font-bold leading-none", isRed ? "text-red-500" : "text-black")}>
+      <div className={cn("text-[8px] sm:text-xs md:text-sm lg:text-base xl:text-lg font-bold leading-none", isRed ? "text-red-500" : "text-black")}>
         {card.rank}
         <span className="ml-px">{suitSymbols[card.suit]}</span>
       </div>
-      <div className={cn("text-sm md:text-xl lg:text-6xl leading-none self-center", isRed ? "text-red-500" : "text-black")}>
+      <div className={cn("text-xs sm:text-sm md:text-base lg:text-xl xl:text-2xl leading-none self-center", isRed ? "text-red-500" : "text-black")}>
         {suitSymbols[card.suit]}
       </div>
-      <div className={cn("text-xs md:text-sm lg:text-3xl font-bold leading-none rotate-180", isRed ? "text-red-500" : "text-black")}>
+      <div className={cn("text-[8px] sm:text-xs md:text-sm lg:text-base xl:text-lg font-bold leading-none rotate-180", isRed ? "text-red-500" : "text-black")}>
         {card.rank}
         <span className="ml-px">{suitSymbols[card.suit]}</span>
       </div>
