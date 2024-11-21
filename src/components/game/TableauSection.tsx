@@ -19,9 +19,9 @@ const TableauSection: React.FC<TableauSectionProps> = ({
     setIsDealing(true);
     const timer = setTimeout(() => {
       setIsDealing(false);
-    }, 2000); // Match total animation duration
+    }, 1000); // Reduced from 2000ms to 1000ms
     return () => clearTimeout(timer);
-  }, [tableau]); // Reset dealing state when tableau changes
+  }, [tableau]);
 
   return (
     <div className="flex gap-0.5 md:gap-2">
@@ -34,7 +34,7 @@ const TableauSection: React.FC<TableauSectionProps> = ({
           }}
         >
           {pile.map((card, j) => {
-            const animationDelay = `${0.5 + (i * 7 + j) * 0.1}s`;
+            const animationDelay = `${0.1 + (i * 3 + j) * 0.05}s`; // Reduced initial delay and interval between cards
             const shouldShow = !isDealing || (Date.now() > new Date().getTime() + parseFloat(animationDelay) * 1000);
             
             return shouldShow ? (
