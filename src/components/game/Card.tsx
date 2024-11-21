@@ -16,6 +16,7 @@ interface CardProps {
   isRevealed?: boolean;
   style?: React.CSSProperties;
   pile?: CardType[];
+  isFlipping?: boolean;
 }
 
 const suitSymbols: Record<Suit, string> = {
@@ -36,7 +37,8 @@ const Card = React.memo(({
   isShuffling = false,
   isRevealed = false,
   style,
-  pile = []
+  pile = [],
+  isFlipping = false
 }: CardProps) => {
   const cardIndex = pile.findIndex(c => c.id === card.id);
   const cardsToMove = cardIndex !== -1 ? pile.slice(cardIndex) : [card];
@@ -86,6 +88,7 @@ const Card = React.memo(({
           isOver && "ring-2 ring-yellow-400",
           isHighlighted && "ring-2 ring-yellow-300 animate-pulse",
           isShuffling && "animate-shuffle",
+          isFlipping && "animate-card-flip",
           className
         )}
         onClick={onClick}
@@ -117,6 +120,7 @@ const Card = React.memo(({
         isHighlighted && "ring-2 ring-yellow-300 animate-pulse",
         isShuffling && "animate-shuffle",
         isRevealed && "animate-reveal",
+        isFlipping && "animate-card-flip",
         className
       )}
       onClick={onClick}
