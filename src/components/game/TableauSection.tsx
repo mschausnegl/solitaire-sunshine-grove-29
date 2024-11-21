@@ -24,20 +24,20 @@ const TableauSection: React.FC<TableauSectionProps> = ({
           }}
         >
           {pile.map((card, j) => {
-            const nextCard = pile[j + 1];
-            const isLastFaceDown = !card.faceUp && (!nextCard || nextCard.faceUp);
+            const isLastCard = j === pile.length - 1;
+            const shouldBeFaceUp = isLastCard && j === i;
             return (
               <div
                 key={card.id}
                 className="absolute transition-all animate-deal"
                 style={{ 
-                  top: `${j * (window.innerWidth >= 768 ? 32 : 12) * (card.faceUp || isLastFaceDown ? 1 : 0.5)}px`,
+                  top: `${j * (window.innerWidth >= 768 ? 32 : 12)}px`,
                   animationDelay: `${0.5 + (i * 7 + j) * 0.1}s`,
                   animationFillMode: 'both'
                 }}
               >
                 <Card 
-                  card={card}
+                  card={{...card, faceUp: shouldBeFaceUp}}
                   index={j}
                   onDoubleClick={() => onCardDoubleClick(card)}
                   isHighlighted={highlightedCards.includes(card.id)}
