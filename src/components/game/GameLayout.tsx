@@ -37,9 +37,9 @@ const GameLayout = ({
         onRestartGame={onRestartGame}
       />
 
-      <main className="flex-1 p-2 sm:p-3 md:p-4 lg:p-6">
-        <div className="container mx-auto px-1 sm:px-2 md:px-4">
-          <div className="w-full max-w-[calc(7*7rem+6*0.5rem)] mx-auto">
+      <main className="flex-1 p-2 sm:p-3 md:p-4 lg:p-6 overflow-x-hidden">
+        <div className="w-full max-w-[1400px] mx-auto aspect-[16/9] min-h-[500px]">
+          <div className="w-full h-full p-4">
             {children}
           </div>
         </div>

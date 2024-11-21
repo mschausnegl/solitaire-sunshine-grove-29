@@ -113,53 +113,53 @@ const Index = () => {
         onHint={findHint}
         onRestartGame={handleRestartGame}
       >
-        <div className="w-full flex justify-between mb-2 md:mb-4">
-          <StockAndWaste
-            stock={gameState.stock}
-            waste={gameState.waste}
-            onDraw={draw}
+        <div className="h-full flex flex-col gap-8">
+          <div className="flex justify-between items-start">
+            <StockAndWaste
+              stock={gameState.stock}
+              waste={gameState.waste}
+              onDraw={draw}
+              onCardDoubleClick={card => {
+                for (const foundation of gameState.foundations) {
+                  if (moveCard(gameState.waste, foundation, card)) {
+                    return;
+                  }
+                }
+                for (const targetPile of gameState.tableau) {
+                  if (moveCard(gameState.waste, targetPile, card)) {
+                    return;
+                  }
+                }
+              }}
+              highlightedCards={highlightedCards}
+            />
+            <FoundationPiles
+              foundations={gameState.foundations}
+              highlightedCards={highlightedCards}
+            />
+          </div>
+          <TableauSection
+            tableau={gameState.tableau}
             onCardDoubleClick={card => {
+              const sourcePile = gameState.tableau.find(pile => pile.includes(card));
+              if (!sourcePile) return;
+
               for (const foundation of gameState.foundations) {
-                const topCard = foundation.length > 0 ? foundation[foundation.length - 1] : undefined;
-                if (moveCard(gameState.waste, foundation, card)) {
+                if (moveCard(sourcePile, foundation, card)) {
                   return;
                 }
               }
 
               for (const targetPile of gameState.tableau) {
-                if (moveCard(gameState.waste, targetPile, card)) {
+                if (targetPile !== sourcePile && moveCard(sourcePile, targetPile, card)) {
                   return;
                 }
               }
             }}
             highlightedCards={highlightedCards}
-          />
-          <FoundationPiles
-            foundations={gameState.foundations}
-            highlightedCards={highlightedCards}
+            isNewGame={isNewGame}
           />
         </div>
-        <TableauSection
-          tableau={gameState.tableau}
-          onCardDoubleClick={card => {
-            const sourcePile = gameState.tableau.find(pile => pile.includes(card));
-            if (!sourcePile) return;
-
-            for (const foundation of gameState.foundations) {
-              if (moveCard(sourcePile, foundation, card)) {
-                return;
-              }
-            }
-
-            for (const targetPile of gameState.tableau) {
-              if (targetPile !== sourcePile && moveCard(sourcePile, targetPile, card)) {
-                return;
-              }
-            }
-          }}
-          highlightedCards={highlightedCards}
-          isNewGame={isNewGame}
-        />
       </GameLayout>
     </DndContext>
   );
