@@ -105,6 +105,12 @@ const config = {
         "reveal": "reveal 0.3s ease-out",
         "deal": "deal 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)"
       },
+      spacing: {
+        'card-w': 'min(calc(100vw / 7.5), 100px)',
+        'card-h': 'calc(min(calc(100vw / 7.5), 100px) * 1.4)',
+        'stack-space': 'max(0.75rem, 1vw)',
+        'card-overlap': 'calc((100vh - 12rem) / 7)',
+      },
     },
   },
   plugins: [

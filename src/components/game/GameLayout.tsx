@@ -37,9 +37,9 @@ const GameLayout = ({
         onRestartGame={onRestartGame}
       />
 
-      <main className="flex-1 p-2 sm:p-3 md:p-4 lg:p-6">
-        <div className="container mx-auto px-1 sm:px-2 md:px-4">
-          <div className="w-full max-w-[calc(7*7rem+6*0.5rem)] mx-auto">
+      <main className="flex-1 p-2 transition-all duration-150">
+        <div className="container mx-auto px-1">
+          <div className="w-full max-w-[calc(7*theme(spacing.card-w)+6*theme(spacing.stack-space))] mx-auto">
             {children}
           </div>
         </div>
@@ -51,12 +51,12 @@ const GameLayout = ({
         moves={gameState.moves}
       />
 
-      <DragOverlay dropAnimation={null}>
+      <DragOverlay dropAnimation={{
+        duration: 150,
+        easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+      }}>
         {activeCard ? (
-          <Card 
-            card={activeCard} 
-            className="w-[2.8rem] h-[3.9rem] sm:w-[4rem] sm:h-[5.6rem] md:w-[7rem] md:h-[9.8rem]"
-          />
+          <Card card={activeCard} />
         ) : null}
       </DragOverlay>
     </div>
