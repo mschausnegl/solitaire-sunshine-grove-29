@@ -140,7 +140,7 @@ const Index = () => {
             <div className="col-span-1" />
             <div className="col-span-1" />
             
-            {/* Foundations section - spans last four columns */}
+            {/* Foundations section - spans last three columns */}
             <div className="col-span-3">
               <FoundationPiles
                 foundations={gameState.foundations}
