@@ -1,5 +1,5 @@
 import React from "react";
-import { DndContext, DragEndEvent, DragOverlay, useSensor, useSensors, PointerSensor } from '@dnd-kit/core';
+import { DndContext, DragEndEvent, DragOverlay, useSensor, useSensors, PointerSensor, TouchSensor } from '@dnd-kit/core';
 import { useSolitaire } from "../hooks/useSolitaire";
 import Card from "../components/game/Card";
 import GameControls from "../components/game/GameControls";
@@ -16,6 +16,12 @@ const Index = () => {
     useSensor(PointerSensor, {
       activationConstraint: {
         distance: 8,
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 250,
+        tolerance: 5,
       },
     })
   );
@@ -113,7 +119,7 @@ const Index = () => {
       onDragEnd={handleDragEnd}
     >
       <div className="min-h-screen flex flex-col">
-        <header className="bg-felt-green/80 backdrop-blur-sm border-b border-white/10 py-2">
+        <header className="bg-felt-green/80 backdrop-blur-sm border-b border-white/10 py-2 sticky top-0 z-50">
           <div className="container mx-auto px-4">
             <GameControls
               onNewGame={newGame}
@@ -125,9 +131,9 @@ const Index = () => {
           </div>
         </header>
 
-        <main className="flex-1 p-1 md:p-4">
-          <div className="container mx-0 px-4 flex flex-col items-start">
-            <div className="w-full max-w-[calc(7*7rem+6*0.5rem)] flex justify-between mb-2 md:mb-4">
+        <main className="flex-1 p-1 sm:p-2 md:p-4">
+          <div className="container mx-0 px-2 sm:px-4 flex flex-col items-start">
+            <div className="w-full max-w-[min(calc(7*7rem+6*0.5rem),100vw-2rem)] flex justify-between mb-2 md:mb-4">
               <StockAndWaste
                 stock={gameState.stock}
                 waste={gameState.waste}
@@ -148,7 +154,7 @@ const Index = () => {
           </div>
         </main>
 
-        <footer className="bg-felt-green/80 backdrop-blur-sm border-t border-white/10 py-2">
+        <footer className="bg-felt-green/80 backdrop-blur-sm border-t border-white/10 py-2 sticky bottom-0 z-50">
           <div className="container mx-auto px-4 flex justify-between items-center text-white/80 text-sm">
             <div>
               Wins: {gameState.wins}
