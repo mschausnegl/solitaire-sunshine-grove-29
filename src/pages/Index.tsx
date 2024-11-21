@@ -10,12 +10,11 @@ import { Card as CardType } from "../utils/cards";
 const Index = () => {
   const { gameState, newGame, undo, draw, moveCard, findHint, highlightedCards, restartGame } = useSolitaire();
   const [activeCard, setActiveCard] = React.useState<CardType | null>(null);
-  const [isNewGame, setIsNewGame] = useState(true);
+  const [isNewGame, setIsNewGame] = useState(false);
 
   useEffect(() => {
-    // Set initial animation
+    // Trigger animation on mount
     setIsNewGame(true);
-    // Reset isNewGame after animation
     const timer = setTimeout(() => {
       setIsNewGame(false);
     }, 1000);
