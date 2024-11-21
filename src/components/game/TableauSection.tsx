@@ -42,7 +42,7 @@ const TableauSection: React.FC<TableauSectionProps> = ({
                 key={card.id}
                 className="absolute transition-all animate-deal"
                 style={{ 
-                  top: `${j * (window.innerWidth >= 768 ? 12 : 4)}px`, // Reduced from 24/8 to 12/4
+                  top: `${j * (window.innerWidth >= 768 ? 16 : 6)}px`, // Middle ground between previous values
                   animationDelay,
                   animationFillMode: 'both'
                 }}
