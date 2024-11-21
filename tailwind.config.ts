@@ -81,24 +81,24 @@ const config = {
           "25%": { transform: "translateX(5px) rotate(5deg)" },
           "75%": { transform: "translateX(-5px) rotate(-5deg)" },
         },
-        "deal": {
-          "from": { 
-            transform: "translate(calc(-50vw + 2.8rem), 0) rotate(-10deg)",
-            opacity: "0"
-          },
-          "to": { 
-            transform: "translate(0, 0) rotate(0deg)",
-            opacity: "1"
-          }
-        },
         "stock-appear": {
-          "from": { 
+          "0%": { 
             opacity: "0",
-            transform: "scale(0.9)"
+            transform: "scale(0.8)"
           },
-          "to": { 
+          "100%": { 
             opacity: "1",
             transform: "scale(1)"
+          }
+        },
+        "deal": {
+          "0%": { 
+            transform: "translate(calc(-100% - 0.5rem), calc(-100vh + 3.9rem))",
+            opacity: "0"
+          },
+          "100%": { 
+            transform: "translate(0, 0)",
+            opacity: "1"
           }
         }
       },
@@ -108,8 +108,8 @@ const config = {
         "card-flip": "card-flip 0.3s ease-out",
         "card-slide": "card-slide 0.3s ease-out",
         "shuffle": "shuffle 0.5s ease-in-out",
-        "deal": "deal 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
-        "stock-appear": "stock-appear 0.3s ease-out"
+        "stock-appear": "stock-appear 0.5s ease-out",
+        "deal": "deal 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)"
       },
     },
   },

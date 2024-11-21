@@ -18,7 +18,7 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
   highlightedCards
 }) => {
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2 relative z-50">
       <div
         className="w-[2.8rem] h-[3.9rem] md:w-[7rem] md:h-[9.8rem] rounded-sm border-2 border-white/30 bg-felt-green/50 cursor-pointer"
         style={{
@@ -32,9 +32,6 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
             onDoubleClick={() => onCardDoubleClick(stock[stock.length - 1])}
             isHighlighted={highlightedCards.includes(stock[stock.length - 1].id)}
             className="w-[2.8rem] h-[3.9rem] md:w-[7rem] md:h-[9.8rem] animate-stock-appear"
-            style={{
-              animationDelay: '0s'
-            }}
           />
         )}
       </div>
