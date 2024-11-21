@@ -54,8 +54,8 @@ const TableauSection: React.FC<TableauSectionProps> = ({
   }, [tableau]);
 
   // Calculate the vertical offset for face-up and face-down cards
-  const getFaceDownOffset = () => window.innerWidth >= 768 ? 8 : 3; // 8px for desktop, 3px for mobile
-  const getFaceUpOffset = () => window.innerWidth >= 768 ? 24 : 8; // 24px for desktop, 8px for mobile
+  const getFaceDownOffset = () => window.innerWidth >= 768 ? 32 : 12; // Increased from 8/3 to 32/12
+  const getFaceUpOffset = () => window.innerWidth >= 768 ? 48 : 16; // Increased from 24/8 to 48/16
 
   return (
     <div className="flex gap-0.5 md:gap-2 w-full">
