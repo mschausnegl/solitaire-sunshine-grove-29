@@ -76,8 +76,9 @@ const Card = React.memo(({
           opacity: isDragging ? '0' : '1',
           transition: 'opacity 0.2s ease',
           backgroundImage: 'url(/lovable-uploads/5b92a5bc-abd7-42ae-a1d3-98e1c51b1ed3.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          backgroundSize: '100% 100%',
+          backgroundRepeat: 'no-repeat',
+          backgroundColor: '#fff',
           ...style
         }}
         className={cn(
