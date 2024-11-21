@@ -98,7 +98,7 @@ const config = {
         "card-flip": "card-flip 0.3s ease-out",
         "card-slide": "card-slide 0.3s ease-out",
         "shuffle": "shuffle 0.5s ease-in-out",
-        "deal": "deal 0.15s cubic-bezier(0.2, 0.8, 0.2, 1)"
+        "deal": "deal 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)"
       },
     },
   },

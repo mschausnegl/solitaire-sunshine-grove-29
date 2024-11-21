@@ -29,7 +29,7 @@ const TableauSection: React.FC<TableauSectionProps> = ({
               className="absolute transition-all animate-deal"
               style={{ 
                 top: `${j * (window.innerWidth >= 768 ? 32 : 12)}px`,
-                animationDelay: `${(i + j) * 0.01}s`,
+                animationDelay: `${(i + j) * 0.015}s`,
                 animationFillMode: 'both'
               }}
             >
