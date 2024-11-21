@@ -123,8 +123,7 @@ const Index = () => {
             />
           </div>
           
-          <div className="flex">
-            {/* Left section with stock and waste */}
+          <div className="flex gap-2 md:gap-4">
             <div className="w-[8rem] md:w-[12rem]">
               <StockAndWaste
                 stock={gameState.stock}
@@ -135,7 +134,6 @@ const Index = () => {
               />
             </div>
             
-            {/* Right section with foundations, aligned with last 4 tableau piles */}
             <div className="w-[23rem] md:w-[35rem] ml-auto">
               <FoundationPiles
                 foundations={gameState.foundations}
