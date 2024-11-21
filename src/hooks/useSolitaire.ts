@@ -34,7 +34,8 @@ export const useSolitaire = () => {
     // Check if moving to foundation
     const isFoundationMove = gameState.foundations.some(f => f === to);
     if (isFoundationMove) {
-      isValidMove = canMoveToFoundation(card, to);
+      const topFoundationCard = to.length > 0 ? to[to.length - 1] : undefined;
+      isValidMove = canMoveToFoundation(card, topFoundationCard);
     } else {
       // Regular tableau move
       isValidMove = to.length === 0 || canStack(cards[0], to[to.length - 1]);
