@@ -30,7 +30,8 @@ const TableauSection: React.FC<TableauSectionProps> = ({
           key={i} 
           className="relative min-h-[12rem] md:min-h-[24rem] w-[2.8rem] md:w-[7rem] rounded-sm border-2 border-white/30 bg-felt-green/50"
           style={{
-            boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)'
+            boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)',
+            zIndex: 0
           }}
         >
           {pile.map((card, j) => {
@@ -44,7 +45,8 @@ const TableauSection: React.FC<TableauSectionProps> = ({
                 style={{ 
                   top: `${j * (window.innerWidth >= 768 ? 16 : 6)}px`,
                   animationDelay,
-                  animationFillMode: 'both'
+                  animationFillMode: 'both',
+                  zIndex: j + 1
                 }}
               >
                 <Card 
