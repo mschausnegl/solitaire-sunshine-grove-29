@@ -54,22 +54,24 @@ const TableauSection: React.FC<TableauSectionProps> = ({
   }, [tableau]);
 
   return (
-    <div className="h-full grid grid-cols-7 gap-2">
+    <div className="flex-1 min-h-0 grid grid-cols-7 gap-3">
       {tableau.map((pile, i) => (
         <div 
           key={i} 
-          className="relative h-full rounded-sm border-2 border-white/30 bg-felt-green/50"
+          className="relative h-full rounded-lg border-2 border-white/10 bg-felt-green/30"
           style={{
             boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)',
           }}
         >
           {pile.map((card, j) => {
-            const offset = j * (card.faceUp ? 30 : 15);
+            const offset = j * (card.faceUp ? 32 : 8);
             
             return (
               <div
                 key={card.id}
-                className={`absolute left-0 transition-all ${isNewGame ? 'animate-deal' : ''}`}
+                className={`absolute left-1/2 -translate-x-1/2 transition-all duration-300 ${
+                  isNewGame ? 'animate-deal' : ''
+                }`}
                 style={{ 
                   top: `${offset}px`,
                   animationDelay: isNewGame ? `${0.1 + (i * 3 + j) * 0.05}s` : undefined,

@@ -18,9 +18,9 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
   highlightedCards
 }) => {
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-3">
       <div
-        className="relative aspect-[2.5/3.5] rounded-sm border-2 border-white/30 bg-felt-green/50 cursor-pointer"
+        className="relative w-[4rem] h-[5.6rem] rounded-lg border-2 border-white/10 bg-felt-green/30 cursor-pointer"
         style={{
           boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)'
         }}
@@ -31,11 +31,10 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
             key={card.id}
             className="absolute"
             style={{
-              bottom: `${index * 0.5}px`,
-              right: `${index * 0.5}px`,
+              bottom: `${index * 0.25}px`,
+              right: `${index * 0.25}px`,
               transform: `translate3d(0, 0, ${index}px)`,
               transition: 'all 0.3s ease-out',
-              boxShadow: '1px 1px 2px rgba(0,0,0,0.2)'
             }}
           >
             <Card 
@@ -47,18 +46,27 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
         ))}
       </div>
       <div 
-        className="relative aspect-[2.5/3.5] rounded-sm border-2 border-white/30 bg-felt-green/50"
+        className="relative w-[4rem] h-[5.6rem] rounded-lg border-2 border-white/10 bg-felt-green/30"
         style={{
           boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)'
         }}
       >
-        {waste.length > 0 && (
-          <Card 
-            card={waste[waste.length - 1]}
-            onDoubleClick={() => onCardDoubleClick(waste[waste.length - 1])}
-            isHighlighted={highlightedCards.includes(waste[waste.length - 1].id)}
-          />
-        )}
+        {waste.map((card, index) => (
+          <div
+            key={card.id}
+            className="absolute inset-0"
+            style={{
+              transform: `translateX(${index * 2}px)`,
+              zIndex: index
+            }}
+          >
+            <Card 
+              card={card}
+              onDoubleClick={() => onCardDoubleClick(card)}
+              isHighlighted={highlightedCards.includes(card.id)}
+            />
+          </div>
+        ))}
       </div>
     </div>
   );

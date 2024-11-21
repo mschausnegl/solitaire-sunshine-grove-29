@@ -60,7 +60,7 @@ const Card = React.memo(({
     setDropRef(node);
   };
 
-  const baseCardClasses = "w-[4rem] h-[5.6rem] rounded-sm border border-gray-300 shrink-0";
+  const baseCardClasses = "w-[4rem] h-[5.6rem] rounded-lg select-none";
 
   const startTime = performance.now();
   
@@ -72,13 +72,14 @@ const Card = React.memo(({
         {...attributes}
         {...listeners}
         style={{
-          zIndex: index,
-          opacity: isDragging ? '0' : '1',
-          transition: 'opacity 0.2s ease',
+          opacity: isDragging ? '0.5' : '1',
+          transition: 'opacity 0.2s ease, transform 0.2s ease',
+          transform: isOver ? 'scale(1.02)' : undefined,
           backgroundImage: 'url(/lovable-uploads/5b92a5bc-abd7-42ae-a1d3-98e1c51b1ed3.png)',
-          backgroundSize: '100% 100%',
-          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
           backgroundColor: '#fff',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)',
           ...style
         }}
         className={cn(
@@ -104,15 +105,16 @@ const Card = React.memo(({
       {...attributes}
       {...listeners}
       style={{
-        zIndex: index,
-        opacity: isDragging ? '0' : '1',
-        transition: 'opacity 0.2s ease',
+        opacity: isDragging ? '0.5' : '1',
+        transition: 'opacity 0.2s ease, transform 0.2s ease',
+        transform: isOver ? 'scale(1.02)' : undefined,
+        boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)',
         ...style
       }}
       className={cn(
         baseCardClasses,
-        "bg-white px-1 py-0.5",
-        "flex flex-col justify-between cursor-pointer hover:shadow-sm transition-shadow",
+        "bg-white px-1.5 py-1",
+        "flex flex-col justify-between cursor-pointer hover:shadow-lg",
         isOver && "ring-2 ring-yellow-400",
         isHighlighted && "ring-2 ring-yellow-300 animate-pulse",
         isShuffling && "animate-shuffle",
@@ -124,14 +126,14 @@ const Card = React.memo(({
     >
       <div className={cn("text-sm font-bold leading-none", isRed ? "text-red-500" : "text-black")}>
         {card.rank}
-        <span className="ml-px">{suitSymbols[card.suit]}</span>
+        <span className="ml-0.5">{suitSymbols[card.suit]}</span>
       </div>
-      <div className={cn("text-xl leading-none self-center", isRed ? "text-red-500" : "text-black")}>
+      <div className={cn("text-2xl leading-none self-center", isRed ? "text-red-500" : "text-black")}>
         {suitSymbols[card.suit]}
       </div>
       <div className={cn("text-sm font-bold leading-none rotate-180", isRed ? "text-red-500" : "text-black")}>
         {card.rank}
-        <span className="ml-px">{suitSymbols[card.suit]}</span>
+        <span className="ml-0.5">{suitSymbols[card.suit]}</span>
       </div>
     </div>
   );

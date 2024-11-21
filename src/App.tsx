@@ -11,8 +11,8 @@ function App() {
 
   return (
     <ErrorBoundary>
-      <div className="fixed inset-0 bg-felt-green">
-        <div className="h-full relative">
+      <div className="fixed inset-0 bg-felt-green overflow-hidden">
+        <div className="h-full flex flex-col">
           <Index />
         </div>
         <Toaster />
