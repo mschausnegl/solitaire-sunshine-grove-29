@@ -34,18 +34,16 @@ const TableauSection: React.FC<TableauSectionProps> = ({
     const newRevealedCards = new Set<string>();
     
     tableau.forEach((pile, pileIndex) => {
-      const lastCard = pile[pile.length - 1];
       const previousPile = previousTableau[pileIndex] || [];
+      
+      // Check the last card of each pile
+      const lastCard = pile[pile.length - 1];
       const previousLastCard = previousPile[previousPile.length - 1];
       
-      // Only add to revealed cards if:
-      // 1. The current last card is face up
-      // 2. The previous last card was face down
-      // 3. They are different cards (to prevent animation on drop)
-      if (lastCard?.faceUp && 
-          previousLastCard && 
-          !previousLastCard.faceUp && 
-          previousLastCard.id !== lastCard.id) {
+      // Add to revealed cards if:
+      // 1. There is a last card and it's face up
+      // 2. There was a previous last card and it was face down
+      if (lastCard?.faceUp && previousLastCard && !previousLastCard.faceUp) {
         newRevealedCards.add(lastCard.id);
       }
     });
