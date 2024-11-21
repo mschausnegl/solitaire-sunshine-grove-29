@@ -34,9 +34,9 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
   const totalOffset = Math.min(stock.length * stockOffset, maxOffset);
 
   return (
-    <div className="flex gap-2 relative z-50">
+    <div className="flex gap-1 sm:gap-1.5 md:gap-2 relative z-50">
       <div
-        className="w-[2.8rem] h-[3.9rem] md:w-[7rem] md:h-[9.8rem] rounded-sm border-2 border-white/30 bg-felt-green/50 cursor-pointer relative"
+        className="w-[2.8rem] h-[3.9rem] sm:w-[4rem] sm:h-[5.6rem] md:w-[7rem] md:h-[9.8rem] rounded-sm border-2 border-white/30 bg-felt-green/50 cursor-pointer relative"
         style={{
           boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)'
         }}
@@ -58,13 +58,13 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
               card={card}
               onDoubleClick={() => onCardDoubleClick(card)}
               isHighlighted={highlightedCards.includes(card.id)}
-              className="w-[2.8rem] h-[3.9rem] md:w-[7rem] md:h-[9.8rem] animate-stock-appear"
+              className="w-[2.8rem] h-[3.9rem] sm:w-[4rem] sm:h-[5.6rem] md:w-[7rem] md:h-[9.8rem]"
             />
           </div>
         ))}
       </div>
       <div 
-        className="w-[2.8rem] h-[3.9rem] md:w-[7rem] md:h-[9.8rem] rounded-sm border-2 border-white/30 bg-felt-green/50"
+        className="w-[2.8rem] h-[3.9rem] sm:w-[4rem] sm:h-[5.6rem] md:w-[7rem] md:h-[9.8rem] rounded-sm border-2 border-white/30 bg-felt-green/50"
         style={{
           boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)'
         }}
@@ -74,7 +74,7 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
             card={waste[waste.length - 1]}
             onDoubleClick={() => onCardDoubleClick(waste[waste.length - 1])}
             isHighlighted={highlightedCards.includes(waste[waste.length - 1].id)}
-            className="w-[2.8rem] h-[3.9rem] md:w-[7rem] md:h-[9.8rem]"
+            className="w-[2.8rem] h-[3.9rem] sm:w-[4rem] sm:h-[5.6rem] md:w-[7rem] md:h-[9.8rem]"
           />
         )}
       </div>
