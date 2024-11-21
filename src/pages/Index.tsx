@@ -124,10 +124,10 @@ const Index = () => {
           </div>
         </header>
 
-        <main className="flex-1 p-2 md:p-4">
+        <main className="flex-1 p-1 md:p-4">
           <div className="max-w-7xl mx-auto">
             <div className="flex flex-col items-center">
-              <div className="w-full max-w-[calc(7*3.5rem+6*0.25rem)] md:max-w-[calc(7*5.5rem+6*0.5rem)] flex justify-between mb-4 md:mb-8">
+              <div className="w-full max-w-[calc(7*2.8rem+6*0.125rem)] md:max-w-[calc(7*5.5rem+6*0.5rem)] flex justify-between mb-2 md:mb-8">
                 <StockAndWaste
                   stock={gameState.stock}
                   waste={gameState.waste}
