@@ -53,6 +53,10 @@ const TableauSection: React.FC<TableauSectionProps> = ({
     return () => clearTimeout(timer);
   }, [tableau]);
 
+  // Calculate the vertical offset for face-up and face-down cards
+  const getFaceDownOffset = () => window.innerWidth >= 768 ? 8 : 3; // 8px for desktop, 3px for mobile
+  const getFaceUpOffset = () => window.innerWidth >= 768 ? 32 : 12; // 32px for desktop, 12px for mobile
+
   return (
     <div className="flex gap-0.5 md:gap-2 w-full">
       {tableau.map((pile, i) => (
@@ -63,28 +67,36 @@ const TableauSection: React.FC<TableauSectionProps> = ({
             boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)',
           }}
         >
-          {pile.map((card, j) => (
-            <div
-              key={card.id}
-              className={`absolute transition-all ${isNewGame ? 'animate-deal' : ''}`}
-              style={{ 
-                top: `${j * (window.innerWidth >= 768 ? 16 : 6)}px`,
-                animationDelay: isNewGame ? `${0.1 + (i * 3 + j) * 0.05}s` : undefined,
-                animationFillMode: 'both',
-                zIndex: j + 1
-              }}
-            >
-              <Card 
-                card={card}
-                index={j}
-                onDoubleClick={() => onCardDoubleClick(card)}
-                isHighlighted={highlightedCards.includes(card.id)}
-                isRevealed={revealedCards.has(card.id)}
-                className="w-[2.8rem] md:w-[7rem] h-[3.9rem] md:h-[9.8rem]"
-                pile={pile}
-              />
-            </div>
-          ))}
+          {pile.map((card, j) => {
+            // Calculate offset based on whether previous cards are face up or down
+            let offset = 0;
+            for (let k = 0; k < j; k++) {
+              offset += pile[k].faceUp ? getFaceUpOffset() : getFaceDownOffset();
+            }
+
+            return (
+              <div
+                key={card.id}
+                className={`absolute transition-all ${isNewGame ? 'animate-deal' : ''}`}
+                style={{ 
+                  top: `${offset}px`,
+                  animationDelay: isNewGame ? `${0.1 + (i * 3 + j) * 0.05}s` : undefined,
+                  animationFillMode: 'both',
+                  zIndex: j + 1
+                }}
+              >
+                <Card 
+                  card={card}
+                  index={j}
+                  onDoubleClick={() => onCardDoubleClick(card)}
+                  isHighlighted={highlightedCards.includes(card.id)}
+                  isRevealed={revealedCards.has(card.id)}
+                  className="w-[2.8rem] md:w-[7rem] h-[3.9rem] md:h-[9.8rem]"
+                  pile={pile}
+                />
+              </div>
+            );
+          })}
         </div>
       ))}
     </div>
