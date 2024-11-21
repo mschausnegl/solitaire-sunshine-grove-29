@@ -3,7 +3,7 @@ import { DndContext, DragEndEvent, DragOverlay, useSensor, useSensors, PointerSe
 import { useSolitaire } from "../hooks/useSolitaire";
 import Card from "../components/game/Card";
 import GameControls from "../components/game/GameControls";
-import { Card as CardType } from "../utils/cards";
+import { Card as CardType, canMoveToFoundation } from "../utils/cards";
 
 const Index = () => {
   const { gameState, newGame, undo, draw, moveCard, findHint, highlightedCards } = useSolitaire();
@@ -63,14 +63,17 @@ const Index = () => {
   };
 
   const handleCardDoubleClick = (card: CardType) => {
-    // Try to move to foundation
+    if (!card.faceUp) return;
+
+    // Find the source pile (either from tableau or waste)
+    const sourcePile = gameState.tableau.find(pile => pile.includes(card)) || gameState.waste;
+    if (!sourcePile) return;
+
+    // Try each foundation pile
     for (const foundation of gameState.foundations) {
-      // Find the source pile (either from tableau or waste)
-      const sourcePile = gameState.tableau.find(pile => pile.includes(card)) || gameState.waste;
-      
-      // Try each foundation pile
-      for (const targetFoundation of gameState.foundations) {
-        if (moveCard(sourcePile, targetFoundation, card)) {
+      const topCard = foundation.length > 0 ? foundation[foundation.length - 1] : undefined;
+      if (canMoveToFoundation(card, topCard)) {
+        if (moveCard(sourcePile, foundation, card)) {
           return;
         }
       }
