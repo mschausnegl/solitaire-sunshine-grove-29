@@ -16,7 +16,13 @@ const TableauSection: React.FC<TableauSectionProps> = ({
   return (
     <div className="flex gap-0.5 md:gap-2">
       {tableau.map((pile, i) => (
-        <div key={i} className="relative min-h-[8rem] w-[2.8rem] md:w-[7rem]">
+        <div 
+          key={i} 
+          className="relative min-h-[8rem] w-[2.8rem] md:w-[7rem] rounded-sm border-2 border-white/30 bg-felt-green/50"
+          style={{
+            boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)'
+          }}
+        >
           {pile.map((card, j) => (
             <div
               key={card.id}

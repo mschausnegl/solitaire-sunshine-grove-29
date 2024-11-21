@@ -20,7 +20,10 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
   return (
     <div className="flex gap-2">
       <div
-        className="w-[2.8rem] h-[3.9rem] md:w-[7rem] md:h-[9.8rem] rounded-sm border border-white/20 cursor-pointer"
+        className="w-[2.8rem] h-[3.9rem] md:w-[7rem] md:h-[9.8rem] rounded-sm border-2 border-white/30 bg-felt-green/50 cursor-pointer"
+        style={{
+          boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)'
+        }}
         onClick={onDraw}
       >
         {stock.length > 0 && (
@@ -32,7 +35,12 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
           />
         )}
       </div>
-      <div className="w-[2.8rem] h-[3.9rem] md:w-[7rem] md:h-[9.8rem] rounded-sm border border-white/20">
+      <div 
+        className="w-[2.8rem] h-[3.9rem] md:w-[7rem] md:h-[9.8rem] rounded-sm border-2 border-white/30 bg-felt-green/50"
+        style={{
+          boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)'
+        }}
+      >
         {waste.length > 0 && (
           <Card 
             card={waste[waste.length - 1]}

@@ -11,13 +11,23 @@ const FoundationPiles: React.FC<FoundationPilesProps> = ({
   foundations,
   highlightedCards
 }) => {
+  const suitSymbols = ['♥', '♠', '♦', '♣'];
+  
   return (
     <div className="grid grid-cols-4 gap-2">
       {foundations.map((foundation, i) => (
         <div
           key={i}
-          className="w-[2.8rem] h-[3.9rem] md:w-[7rem] md:h-[9.8rem] rounded-sm border border-white/20"
+          className="w-[2.8rem] h-[3.9rem] md:w-[7rem] md:h-[9.8rem] rounded-sm border-2 border-white/30 bg-felt-green/50"
+          style={{
+            boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)'
+          }}
         >
+          {foundation.length === 0 && (
+            <div className="w-full h-full flex items-center justify-center text-2xl md:text-4xl text-white/40">
+              {suitSymbols[i]}
+            </div>
+          )}
           {foundation.length > 0 && (
             <Card 
               card={foundation[foundation.length - 1]}
