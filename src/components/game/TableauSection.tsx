@@ -14,14 +14,14 @@ const TableauSection: React.FC<TableauSectionProps> = ({
   highlightedCards 
 }) => {
   return (
-    <div className="grid grid-cols-7 gap-4">
+    <div className="grid grid-cols-7 gap-2">
       {tableau.map((pile, i) => (
         <div key={i} className="relative min-h-[4rem]">
           {pile.map((card, j) => (
             <div
               key={card.id}
               className="absolute"
-              style={{ top: `${j * 25}px` }}
+              style={{ top: `${j * 22}px` }}
             >
               <Card 
                 card={card}
