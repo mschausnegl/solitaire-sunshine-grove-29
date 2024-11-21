@@ -112,9 +112,9 @@ const Index = () => {
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
-      <div className="min-h-screen bg-felt-green p-2 sm:p-4">
-        <div className="max-w-7xl mx-auto flex flex-col gap-4">
-          <div className="mb-4">
+      <div className="min-h-screen bg-felt-green p-2 sm:p-4 flex flex-col">
+        <div className="w-full max-w-7xl mx-auto flex-1 flex flex-col gap-4">
+          <div className="flex-none">
             <GameControls
               onNewGame={newGame}
               onUndo={undo}
@@ -123,7 +123,7 @@ const Index = () => {
             />
           </div>
           
-          <div className="flex flex-col sm:flex-row justify-between gap-4">
+          <div className="flex-none flex flex-col sm:flex-row justify-between items-start gap-4">
             <StockAndWaste
               stock={gameState.stock}
               waste={gameState.waste}
@@ -137,7 +137,7 @@ const Index = () => {
             />
           </div>
 
-          <div className="flex-grow">
+          <div className="flex-1 min-h-0">
             <TableauSection
               tableau={gameState.tableau}
               onCardDoubleClick={handleCardDoubleClick}
@@ -145,9 +145,9 @@ const Index = () => {
             />
           </div>
 
-          <div className="fixed bottom-4 right-4 bg-white/90 rounded-lg p-2 sm:p-4 shadow-lg">
-            <div className="text-base sm:text-lg font-bold">Score: {gameState.score}</div>
-            <div className="text-xs sm:text-sm text-gray-600">Moves: {gameState.moves}</div>
+          <div className="fixed bottom-4 right-4 bg-white/90 rounded-lg p-2 shadow-lg">
+            <div className="text-base font-bold">Score: {gameState.score}</div>
+            <div className="text-xs text-gray-600">Moves: {gameState.moves}</div>
           </div>
 
           <DragOverlay>

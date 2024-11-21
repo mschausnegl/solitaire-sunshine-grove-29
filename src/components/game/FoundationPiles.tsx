@@ -12,11 +12,11 @@ const FoundationPiles: React.FC<FoundationPilesProps> = ({
   highlightedCards
 }) => {
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
+    <div className="grid grid-cols-4 gap-2">
       {foundations.map((foundation, i) => (
         <div
           key={i}
-          className="w-16 h-24 sm:w-24 sm:h-36 rounded-lg border-2 border-white/20"
+          className="w-[3.5rem] h-[5rem] sm:w-16 sm:h-24 rounded-lg border-2 border-white/20"
         >
           {foundation.length > 0 && (
             <Card 
