@@ -28,7 +28,7 @@ const TableauSection: React.FC<TableauSectionProps> = ({
       {tableau.map((pile, i) => (
         <div 
           key={i} 
-          className="relative min-h-[8rem] w-[2.8rem] md:w-[7rem] rounded-sm border-2 border-white/30 bg-felt-green/50"
+          className="relative min-h-[12rem] md:min-h-[24rem] w-[2.8rem] md:w-[7rem] rounded-sm border-2 border-white/30 bg-felt-green/50"
           style={{
             boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)'
           }}
@@ -42,7 +42,7 @@ const TableauSection: React.FC<TableauSectionProps> = ({
                 key={card.id}
                 className="absolute transition-all animate-deal"
                 style={{ 
-                  top: `${j * (window.innerWidth >= 768 ? 16 : 6)}px`, // Middle ground between previous values
+                  top: `${j * (window.innerWidth >= 768 ? 16 : 6)}px`,
                   animationDelay,
                   animationFillMode: 'both'
                 }}
