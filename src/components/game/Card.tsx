@@ -2,6 +2,7 @@ import React from "react";
 import { Card as CardType, Suit } from "../../utils/cards";
 import { cn } from "@/lib/utils";
 import { useDraggable, useDroppable } from "@dnd-kit/core";
+import { measureCardOperation } from "@/utils/performance";
 
 interface CardProps {
   card: CardType;
@@ -20,7 +21,7 @@ const suitSymbols: Record<Suit, string> = {
   spades: "♠",
 };
 
-const Card: React.FC<CardProps> = ({ 
+const Card = React.memo(({ 
   card, 
   onClick, 
   onDoubleClick, 
@@ -28,7 +29,7 @@ const Card: React.FC<CardProps> = ({
   className, 
   index = 0,
   isHighlighted = false
-}) => {
+}: CardProps) => {
   const { attributes, listeners, setNodeRef: setDragRef, isDragging } = useDraggable({
     id: card.id,
     data: card,
@@ -47,7 +48,10 @@ const Card: React.FC<CardProps> = ({
 
   const baseCardClasses = "w-[5.5rem] h-[7.7rem] rounded-sm border border-gray-300";
 
+  const startTime = performance.now();
+  
   if (!card.faceUp) {
+    measureCardOperation('Render Face Down Card', startTime);
     return (
       <div
         ref={ref}
@@ -72,7 +76,9 @@ const Card: React.FC<CardProps> = ({
   }
 
   const isRed = card.suit === "hearts" || card.suit === "diamonds";
-
+  
+  measureCardOperation('Render Face Up Card', startTime);
+  
   return (
     <div
       ref={ref}
@@ -108,6 +114,15 @@ const Card: React.FC<CardProps> = ({
       </div>
     </div>
   );
-};
+}, (prevProps, nextProps) => {
+  return (
+    prevProps.card.id === nextProps.card.id &&
+    prevProps.card.faceUp === nextProps.card.faceUp &&
+    prevProps.isHighlighted === nextProps.isHighlighted &&
+    prevProps.index === nextProps.index
+  );
+});
+
+Card.displayName = 'Card';
 
 export default Card;
