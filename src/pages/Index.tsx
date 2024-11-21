@@ -123,7 +123,7 @@ const Index = () => {
             />
           </div>
           
-          <div className="flex justify-between">
+          <div className="flex">
             <div className="flex gap-2 md:gap-4">
               <StockAndWaste
                 stock={gameState.stock}
@@ -133,7 +133,7 @@ const Index = () => {
                 highlightedCards={highlightedCards}
               />
             </div>
-            <div className="flex-grow flex justify-end mr-[3.5rem] md:mr-[5.5rem]">
+            <div className="ml-auto">
               <FoundationPiles
                 foundations={gameState.foundations}
                 highlightedCards={highlightedCards}
