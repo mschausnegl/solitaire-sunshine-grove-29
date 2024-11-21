@@ -60,10 +60,12 @@ const Card = React.memo(({
     setDropRef(node);
   };
 
-  const baseCardClasses = "w-[theme(spacing.card-w)] h-[theme(spacing.card-h)] min-h-[48px] min-w-[48px] touch-manipulation rounded-sm border border-gray-300 transition-transform duration-150 ease-[cubic-bezier(0.4,0,0.2,1)]";
+  const baseCardClasses = "w-[2.8rem] h-[3.9rem] sm:w-[4rem] sm:h-[5.6rem] md:w-[7rem] md:h-[9.8rem] rounded-sm border border-gray-300";
 
+  const startTime = performance.now();
+  
   if (!card.faceUp) {
-    measureCardOperation('Render Face Down Card', performance.now());
+    measureCardOperation('Render Face Down Card', startTime);
     return (
       <div
         ref={ref}
@@ -72,7 +74,7 @@ const Card = React.memo(({
         style={{
           zIndex: index,
           opacity: isDragging ? '0' : '1',
-          transition: 'all 150ms cubic-bezier(0.4, 0, 0.2, 1)',
+          transition: 'opacity 0.2s ease',
           backgroundImage: 'url(/lovable-uploads/5b92a5bc-abd7-42ae-a1d3-98e1c51b1ed3.png)',
           backgroundSize: '100% 100%',
           backgroundRepeat: 'no-repeat',
@@ -94,7 +96,7 @@ const Card = React.memo(({
 
   const isRed = card.suit === "hearts" || card.suit === "diamonds";
   
-  measureCardOperation('Render Face Up Card', performance.now());
+  measureCardOperation('Render Face Up Card', startTime);
   
   return (
     <div
@@ -104,13 +106,13 @@ const Card = React.memo(({
       style={{
         zIndex: index,
         opacity: isDragging ? '0' : '1',
-        transition: 'all 150ms cubic-bezier(0.4, 0, 0.2, 1)',
+        transition: 'opacity 0.2s ease',
         ...style
       }}
       className={cn(
         baseCardClasses,
-        "bg-white px-1 py-0.5",
-        "flex flex-col justify-between cursor-pointer hover:shadow-sm",
+        "bg-white px-0.5 sm:px-1 md:px-2 py-0 sm:py-0.5 md:py-1",
+        "flex flex-col justify-between cursor-pointer hover:shadow-sm transition-shadow",
         isOver && "ring-2 ring-yellow-400",
         isHighlighted && "ring-2 ring-yellow-300 animate-pulse",
         isShuffling && "animate-shuffle",
@@ -120,14 +122,14 @@ const Card = React.memo(({
       onClick={onClick}
       onDoubleClick={onDoubleClick}
     >
-      <div className={cn("text-[clamp(0.5rem,2vw,1rem)] font-bold leading-none", isRed ? "text-red-500" : "text-black")}>
+      <div className={cn("text-xs sm:text-sm md:text-3xl font-bold leading-none", isRed ? "text-red-500" : "text-black")}>
         {card.rank}
         <span className="ml-px">{suitSymbols[card.suit]}</span>
       </div>
-      <div className={cn("text-[clamp(1rem,4vw,2rem)] leading-none self-center", isRed ? "text-red-500" : "text-black")}>
+      <div className={cn("text-base sm:text-xl md:text-6xl leading-none self-center", isRed ? "text-red-500" : "text-black")}>
         {suitSymbols[card.suit]}
       </div>
-      <div className={cn("text-[clamp(0.5rem,2vw,1rem)] font-bold leading-none rotate-180", isRed ? "text-red-500" : "text-black")}>
+      <div className={cn("text-xs sm:text-sm md:text-3xl font-bold leading-none rotate-180", isRed ? "text-red-500" : "text-black")}>
         {card.rank}
         <span className="ml-px">{suitSymbols[card.suit]}</span>
       </div>

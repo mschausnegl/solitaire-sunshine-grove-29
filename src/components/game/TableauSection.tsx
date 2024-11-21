@@ -31,8 +31,10 @@ const TableauSection: React.FC<TableauSectionProps> = ({
 
   useEffect(() => {
     const newRevealedCards = new Set<string>();
+    
     tableau.forEach((pile, pileIndex) => {
       const previousPile = previousTableau[pileIndex] || [];
+      
       const lastCard = pile[pile.length - 1];
       const previousLastCard = previousPile[previousPile.length - 1];
       
@@ -51,23 +53,33 @@ const TableauSection: React.FC<TableauSectionProps> = ({
     return () => clearTimeout(timer);
   }, [tableau]);
 
+  // Calculate the vertical offset for face-up and face-down cards
+  const getFaceDownOffset = () => window.innerWidth >= 768 ? 24 : 8;
+  const getFaceUpOffset = () => window.innerWidth >= 768 ? 32 : 12;
+
   return (
-    <div className="w-full mx-auto transition-all duration-150">
-      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-[theme(spacing.stack-space)]">
-        {tableau.map((pile, i) => (
-          <div 
-            key={i} 
-            className="relative aspect-[5/7] rounded-sm border-2 border-white/30 bg-felt-green/50 min-h-[80px]"
-            style={{
-              boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)',
-            }}
-          >
-            {pile.map((card, j) => (
+    <div className="grid grid-cols-7 gap-1 w-full">
+      {tableau.map((pile, i) => (
+        <div 
+          key={i} 
+          className="relative aspect-[5/7] rounded-sm border-2 border-white/30 bg-felt-green/50"
+          style={{
+            boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)',
+          }}
+        >
+          {pile.map((card, j) => {
+            // Calculate offset based on whether previous cards are face up or down
+            let offset = 0;
+            for (let k = 0; k < j; k++) {
+              offset += pile[k].faceUp ? getFaceUpOffset() : getFaceDownOffset();
+            }
+
+            return (
               <div
                 key={card.id}
-                className={`absolute left-0 right-0 transition-all duration-150 ease-[cubic-bezier(0.4,0,0.2,1)] ${isNewGame ? 'animate-deal' : ''}`}
+                className={`absolute left-0 transition-all ${isNewGame ? 'animate-deal' : ''}`}
                 style={{ 
-                  top: `${j * Math.min(20, (100 - 20) / Math.max(pile.length - 1, 1))}%`,
+                  top: `${offset}px`,
                   animationDelay: isNewGame ? `${0.1 + (i * 3 + j) * 0.05}s` : undefined,
                   animationFillMode: 'both',
                   zIndex: j + 1
@@ -75,16 +87,17 @@ const TableauSection: React.FC<TableauSectionProps> = ({
               >
                 <Card 
                   card={card}
+                  index={j}
                   onDoubleClick={() => onCardDoubleClick(card)}
                   isHighlighted={highlightedCards.includes(card.id)}
                   isRevealed={revealedCards.has(card.id)}
                   pile={pile}
                 />
               </div>
-            ))}
-          </div>
-        ))}
-      </div>
+            );
+          })}
+        </div>
+      ))}
     </div>
   );
 };

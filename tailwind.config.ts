@@ -12,10 +12,9 @@ const config = {
   theme: {
     container: {
       center: true,
-      padding: {
-        DEFAULT: '0.5rem',
-        sm: '1rem',
-        lg: '2rem',
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
       },
     },
     extend: {
@@ -54,6 +53,11 @@ const config = {
           foreground: "hsl(var(--card-foreground))",
         },
         "felt-green": "#35654d",
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
       },
       keyframes: {
         "accordion-down": {
@@ -101,18 +105,9 @@ const config = {
         "reveal": "reveal 0.3s ease-out",
         "deal": "deal 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)"
       },
-      spacing: {
-        'card-w': 'clamp(40px, calc(100vw / 10), 90px)',
-        'card-h': 'calc(clamp(40px, calc(100vw / 10), 90px) * 1.4)',
-        'stack-space': 'clamp(2px, 0.3vw, 8px)',
-        'card-overlap': 'clamp(15px, calc((100vh - 16rem) / 12), 35px)',
-      },
     },
   },
-  plugins: [
-    require("tailwindcss-animate"),
-    require("@tailwindcss/container-queries")
-  ],
+  plugins: [require("tailwindcss-animate")],
 }
 
 export default config
