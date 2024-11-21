@@ -13,22 +13,39 @@ const Index = () => {
   const [isNewGame, setIsNewGame] = useState(true);
 
   useEffect(() => {
-    // Initialize the game when component mounts
-    newGame();
-    const timer = setTimeout(() => {
-      setIsNewGame(false);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, []); // Empty dependency array means this runs once on mount
+    let mounted = true;
+    
+    const initializeGame = async () => {
+      if (mounted) {
+        setIsNewGame(true);
+        await newGame();
+        
+        // Add a small delay to ensure the game state is ready
+        setTimeout(() => {
+          if (mounted) {
+            setIsNewGame(false);
+          }
+        }, 1000);
+      }
+    };
+
+    initializeGame();
+
+    return () => {
+      mounted = false;
+    };
+  }, [newGame]);
 
   const handleNewGame = () => {
     setIsNewGame(true);
     newGame();
+    setTimeout(() => setIsNewGame(false), 1000);
   };
 
   const handleRestartGame = () => {
     setIsNewGame(true);
     restartGame();
+    setTimeout(() => setIsNewGame(false), 1000);
   };
 
   const sensors = useSensors(
