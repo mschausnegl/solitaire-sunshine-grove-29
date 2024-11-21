@@ -126,22 +126,20 @@ const Index = () => {
 
         <main className="flex-1 p-4">
           <div className="max-w-7xl mx-auto space-y-8">
-            <div className="flex items-start justify-between gap-8">
-              <StockAndWaste
-                stock={gameState.stock}
-                waste={gameState.waste}
-                onDraw={draw}
-                onCardDoubleClick={handleCardDoubleClick}
-                highlightedCards={highlightedCards}
-              />
-              
-              <FoundationPiles
-                foundations={gameState.foundations}
-                highlightedCards={highlightedCards}
-              />
-            </div>
-
-            <div className="mt-8">
+            <div className="flex flex-col items-center gap-8">
+              <div className="w-full flex justify-between">
+                <StockAndWaste
+                  stock={gameState.stock}
+                  waste={gameState.waste}
+                  onDraw={draw}
+                  onCardDoubleClick={handleCardDoubleClick}
+                  highlightedCards={highlightedCards}
+                />
+                <FoundationPiles
+                  foundations={gameState.foundations}
+                  highlightedCards={highlightedCards}
+                />
+              </div>
               <TableauSection
                 tableau={gameState.tableau}
                 onCardDoubleClick={handleCardDoubleClick}
