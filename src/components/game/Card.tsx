@@ -15,7 +15,7 @@ interface CardProps {
   isShuffling?: boolean;
   isRevealed?: boolean;
   style?: React.CSSProperties;
-  pile?: CardType[]; // Add pile prop to know about cards above
+  pile?: CardType[];
 }
 
 const suitSymbols: Record<Suit, string> = {
@@ -38,7 +38,6 @@ const Card = React.memo(({
   style,
   pile = []
 }: CardProps) => {
-  // Find all cards that should move with this one (cards above in the pile)
   const cardIndex = pile.findIndex(c => c.id === card.id);
   const cardsToMove = cardIndex !== -1 ? pile.slice(cardIndex) : [card];
 
@@ -46,7 +45,7 @@ const Card = React.memo(({
     id: card.id,
     data: {
       card,
-      cardsToMove // Pass all cards that should move together
+      cardsToMove
     },
     disabled: !card.faceUp || (pile.length > 0 && cardIndex !== -1 && !pile[cardIndex].faceUp),
   });
@@ -111,7 +110,7 @@ const Card = React.memo(({
       }}
       className={cn(
         baseCardClasses,
-        "bg-white p-1 md:p-4",
+        "bg-white p-0.5 md:p-2",
         "flex flex-col justify-between cursor-pointer hover:shadow-sm transition-shadow",
         isOver && "ring-2 ring-yellow-400",
         isHighlighted && "ring-2 ring-yellow-300 animate-pulse",
