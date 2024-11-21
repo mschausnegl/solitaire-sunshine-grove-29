@@ -38,8 +38,8 @@ const GameLayout = ({
       />
 
       <main className="flex-1 p-[theme(spacing.stack-space)] transition-all duration-150">
-        <div className="@container mx-auto">
-          <div className="w-full">
+        <div className="container mx-auto px-4">
+          <div className="grid gap-[theme(spacing.stack-space)] max-w-full">
             {children}
           </div>
         </div>

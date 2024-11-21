@@ -55,11 +55,6 @@ const config = {
         },
         "felt-green": "#35654d",
       },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
-      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
@@ -107,10 +102,10 @@ const config = {
         "deal": "deal 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)"
       },
       spacing: {
-        'card-w': 'clamp(48px, calc(100vw / 7.5), 100px)',
-        'card-h': 'calc(clamp(48px, calc(100vw / 7.5), 100px) * 1.4)',
-        'stack-space': 'clamp(3px, 1vw, 8px)',
-        'card-overlap': 'clamp(25px, calc((100vh - 12rem) / 7), 40px)',
+        'card-w': 'clamp(48px, calc(100vw / 8), 120px)',
+        'card-h': 'calc(clamp(48px, calc(100vw / 8), 120px) * 1.4)',
+        'stack-space': 'clamp(4px, 0.5vw, 12px)',
+        'card-overlap': 'clamp(20px, calc((100vh - 14rem) / 10), 50px)',
       },
     },
   },
