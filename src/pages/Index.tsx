@@ -4,6 +4,9 @@ import { useSolitaire } from "../hooks/useSolitaire";
 import Card from "../components/game/Card";
 import GameControls from "../components/game/GameControls";
 import { Card as CardType, canMoveToFoundation, canStack } from "../utils/cards";
+import StockAndWaste from "../components/game/StockAndWaste";
+import FoundationPiles from "../components/game/FoundationPiles";
+import TableauSection from "../components/game/TableauSection";
 
 const Index = () => {
   const { gameState, newGame, undo, draw, moveCard, findHint, highlightedCards } = useSolitaire();
@@ -110,8 +113,8 @@ const Index = () => {
       onDragEnd={handleDragEnd}
     >
       <div className="min-h-screen bg-felt-green p-2 sm:p-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-4 overflow-x-auto">
+        <div className="max-w-7xl mx-auto flex flex-col gap-4">
+          <div className="mb-4">
             <GameControls
               onNewGame={newGame}
               onUndo={undo}
@@ -120,79 +123,33 @@ const Index = () => {
             />
           </div>
           
-          <div className="flex flex-col sm:flex-row justify-between mb-4 sm:mb-8 gap-4">
-            {/* Stock and Waste */}
-            <div className="flex gap-2 sm:gap-4">
-              <div
-                className="w-16 h-24 sm:w-24 sm:h-36 rounded-lg border-2 border-white/20 cursor-pointer"
-                onClick={draw}
-              >
-                {gameState.stock.length > 0 && (
-                  <Card 
-                    card={gameState.stock[gameState.stock.length - 1]}
-                    onDoubleClick={() => handleCardDoubleClick(gameState.stock[gameState.stock.length - 1])}
-                    isHighlighted={highlightedCards.includes(gameState.stock[gameState.stock.length - 1].id)}
-                  />
-                )}
-              </div>
-              <div className="w-16 h-24 sm:w-24 sm:h-36 rounded-lg border-2 border-white/20">
-                {gameState.waste.length > 0 && (
-                  <Card 
-                    card={gameState.waste[gameState.waste.length - 1]}
-                    onDoubleClick={() => handleCardDoubleClick(gameState.waste[gameState.waste.length - 1])}
-                    isHighlighted={highlightedCards.includes(gameState.waste[gameState.waste.length - 1].id)}
-                  />
-                )}
-              </div>
-            </div>
-
-            {/* Foundations */}
-            <div className="flex gap-2 sm:gap-4 overflow-x-auto">
-              {gameState.foundations.map((foundation, i) => (
-                <div
-                  key={i}
-                  className="w-16 h-24 sm:w-24 sm:h-36 rounded-lg border-2 border-white/20 flex-shrink-0"
-                >
-                  {foundation.length > 0 && (
-                    <Card 
-                      card={foundation[foundation.length - 1]}
-                      isHighlighted={highlightedCards.includes(foundation[foundation.length - 1].id)}
-                    />
-                  )}
-                </div>
-              ))}
-            </div>
+          <div className="flex flex-col sm:flex-row justify-between gap-4">
+            <StockAndWaste
+              stock={gameState.stock}
+              waste={gameState.waste}
+              onDraw={draw}
+              onCardDoubleClick={handleCardDoubleClick}
+              highlightedCards={highlightedCards}
+            />
+            <FoundationPiles
+              foundations={gameState.foundations}
+              highlightedCards={highlightedCards}
+            />
           </div>
 
-          {/* Tableau */}
-          <div className="flex gap-2 sm:gap-4 overflow-x-auto pb-20">
-            {gameState.tableau.map((pile, i) => (
-              <div key={i} className="relative w-16 sm:w-24 flex-shrink-0">
-                {pile.map((card, j) => (
-                  <div
-                    key={card.id}
-                    className="absolute"
-                    style={{ top: `${j * 20}px` }}
-                  >
-                    <Card 
-                      card={card}
-                      index={j}
-                      onDoubleClick={() => handleCardDoubleClick(card)}
-                      isHighlighted={highlightedCards.includes(card.id)}
-                    />
-                  </div>
-                ))}
-              </div>
-            ))}
+          <div className="flex-grow">
+            <TableauSection
+              tableau={gameState.tableau}
+              onCardDoubleClick={handleCardDoubleClick}
+              highlightedCards={highlightedCards}
+            />
           </div>
 
-          {/* Score */}
           <div className="fixed bottom-4 right-4 bg-white/90 rounded-lg p-2 sm:p-4 shadow-lg">
             <div className="text-base sm:text-lg font-bold">Score: {gameState.score}</div>
             <div className="text-xs sm:text-sm text-gray-600">Moves: {gameState.moves}</div>
           </div>
 
-          {/* Drag Overlay */}
           <DragOverlay>
             {activeCard ? <Card card={activeCard} /> : null}
           </DragOverlay>
