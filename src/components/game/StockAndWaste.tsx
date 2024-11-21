@@ -33,7 +33,7 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
             isHighlighted={highlightedCards.includes(stock[stock.length - 1].id)}
             className="w-[2.8rem] h-[3.9rem] md:w-[7rem] md:h-[9.8rem] animate-deal"
             style={{
-              animationDelay: '0.015s'
+              animationDelay: '0s'
             }}
           />
         )}
