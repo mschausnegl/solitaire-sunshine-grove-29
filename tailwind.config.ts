@@ -83,12 +83,22 @@ const config = {
         },
         "deal": {
           "from": { 
-            transform: "translate(-50vw, -50vh) rotate(-10deg)",
+            transform: "translate(calc(-50vw + 2.8rem), 0) rotate(-10deg)",
             opacity: "0"
           },
           "to": { 
             transform: "translate(0, 0) rotate(0deg)",
             opacity: "1"
+          }
+        },
+        "stock-appear": {
+          "from": { 
+            opacity: "0",
+            transform: "scale(0.9)"
+          },
+          "to": { 
+            opacity: "1",
+            transform: "scale(1)"
           }
         }
       },
@@ -98,7 +108,8 @@ const config = {
         "card-flip": "card-flip 0.3s ease-out",
         "card-slide": "card-slide 0.3s ease-out",
         "shuffle": "shuffle 0.5s ease-in-out",
-        "deal": "deal 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)"
+        "deal": "deal 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
+        "stock-appear": "stock-appear 0.3s ease-out"
       },
     },
   },
