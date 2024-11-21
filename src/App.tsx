@@ -12,7 +12,7 @@ function App() {
   return (
     <ErrorBoundary>
       <div className="min-h-screen bg-felt-green overflow-hidden">
-        <div className="w-full max-w-screen-xl mx-auto px-1 sm:px-2 md:px-3 lg:px-4">
+        <div className="max-w-[1920px] mx-auto">
           <Index />
         </div>
         <Toaster />

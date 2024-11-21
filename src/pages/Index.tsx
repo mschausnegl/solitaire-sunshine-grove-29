@@ -120,7 +120,7 @@ const Index = () => {
     >
       <div className="min-h-screen flex flex-col">
         <header className="bg-felt-green/80 backdrop-blur-sm border-b border-white/10 py-2 sticky top-0 z-50">
-          <div className="container mx-auto px-2">
+          <div className="container mx-auto px-4">
             <GameControls
               onNewGame={newGame}
               onUndo={undo}
@@ -131,31 +131,33 @@ const Index = () => {
           </div>
         </header>
 
-        <main className="flex-1 p-1 sm:p-2 md:p-3 lg:p-4">
-          <div className="w-full max-w-[calc(100vw-0.5rem)] sm:max-w-[calc(100vw-1rem)] md:max-w-[calc(100vw-1.5rem)] lg:max-w-[calc(100vw-2rem)] mx-auto">
-            <div className="w-full flex justify-between gap-1 sm:gap-1.5 md:gap-2 lg:gap-2.5 xl:gap-3 mb-2 sm:mb-3 md:mb-4">
-              <StockAndWaste
-                stock={gameState.stock}
-                waste={gameState.waste}
-                onDraw={draw}
+        <main className="flex-1 p-1 sm:p-2 md:p-4">
+          <div className="container mx-auto px-1 sm:px-2">
+            <div className="w-full max-w-[calc(7*7rem+6*0.5rem)] mx-auto md:mx-0">
+              <div className="w-full flex justify-between mb-2 md:mb-4">
+                <StockAndWaste
+                  stock={gameState.stock}
+                  waste={gameState.waste}
+                  onDraw={draw}
+                  onCardDoubleClick={handleCardDoubleClick}
+                  highlightedCards={highlightedCards}
+                />
+                <FoundationPiles
+                  foundations={gameState.foundations}
+                  highlightedCards={highlightedCards}
+                />
+              </div>
+              <TableauSection
+                tableau={gameState.tableau}
                 onCardDoubleClick={handleCardDoubleClick}
                 highlightedCards={highlightedCards}
               />
-              <FoundationPiles
-                foundations={gameState.foundations}
-                highlightedCards={highlightedCards}
-              />
             </div>
-            <TableauSection
-              tableau={gameState.tableau}
-              onCardDoubleClick={handleCardDoubleClick}
-              highlightedCards={highlightedCards}
-            />
           </div>
         </main>
 
         <footer className="bg-felt-green/80 backdrop-blur-sm border-t border-white/10 py-2 sticky bottom-0 z-50">
-          <div className="container mx-auto px-2 flex justify-between items-center text-white/80 text-xs sm:text-sm">
+          <div className="container mx-auto px-4 flex justify-between items-center text-white/80 text-sm">
             <div>
               Wins: {gameState.wins}
             </div>

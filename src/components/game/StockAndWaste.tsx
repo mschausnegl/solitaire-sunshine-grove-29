@@ -28,16 +28,15 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const stockOffset = isMobile ? 0.125 : 0.25;
-  const maxOffset = isMobile ? 1 : 2;
+  // Calculate the offset based on the number of cards
+  const stockOffset = isMobile ? 0.125 : 0.25; // pixels per card
+  const maxOffset = isMobile ? 1.5 : 3; // maximum total offset in pixels
   const totalOffset = Math.min(stock.length * stockOffset, maxOffset);
 
-  const baseCardClasses = "w-[45px] h-[63px] sm:w-[50px] sm:h-[70px] md:w-[60px] md:h-[84px] lg:w-[70px] lg:h-[98px] xl:w-[80px] xl:h-[112px]";
-
   return (
-    <div className="flex gap-1 sm:gap-1.5 md:gap-2 lg:gap-2.5 xl:gap-3 relative z-50">
+    <div className="flex gap-2 relative z-50">
       <div
-        className={`${baseCardClasses} rounded-sm border-2 border-white/30 bg-felt-green/50 cursor-pointer relative`}
+        className="w-[2.8rem] h-[3.9rem] md:w-[7rem] md:h-[9.8rem] rounded-sm border-2 border-white/30 bg-felt-green/50 cursor-pointer relative"
         style={{
           boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)'
         }}
@@ -59,13 +58,13 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
               card={card}
               onDoubleClick={() => onCardDoubleClick(card)}
               isHighlighted={highlightedCards.includes(card.id)}
-              className={`${baseCardClasses} animate-stock-appear`}
+              className="w-[2.8rem] h-[3.9rem] md:w-[7rem] md:h-[9.8rem] animate-stock-appear"
             />
           </div>
         ))}
       </div>
       <div 
-        className={`${baseCardClasses} rounded-sm border-2 border-white/30 bg-felt-green/50`}
+        className="w-[2.8rem] h-[3.9rem] md:w-[7rem] md:h-[9.8rem] rounded-sm border-2 border-white/30 bg-felt-green/50"
         style={{
           boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)'
         }}
@@ -75,7 +74,7 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
             card={waste[waste.length - 1]}
             onDoubleClick={() => onCardDoubleClick(waste[waste.length - 1])}
             isHighlighted={highlightedCards.includes(waste[waste.length - 1].id)}
-            className={baseCardClasses}
+            className="w-[2.8rem] h-[3.9rem] md:w-[7rem] md:h-[9.8rem]"
           />
         )}
       </div>
