@@ -110,54 +110,52 @@ const Index = () => {
         onHint={findHint}
         onRestartGame={handleRestartGame}
       >
-        <div className="h-full flex flex-col justify-between">
-          <div className="flex justify-between items-start gap-4">
-            <StockAndWaste
-              stock={gameState.stock}
-              waste={gameState.waste}
-              onDraw={draw}
-              onCardDoubleClick={card => {
-                for (const foundation of gameState.foundations) {
-                  if (moveCard(gameState.waste, foundation, card)) {
-                    return;
-                  }
+        <div className="flex-none flex justify-between items-start gap-4">
+          <StockAndWaste
+            stock={gameState.stock}
+            waste={gameState.waste}
+            onDraw={draw}
+            onCardDoubleClick={card => {
+              for (const foundation of gameState.foundations) {
+                if (moveCard(gameState.waste, foundation, card)) {
+                  return;
                 }
-                for (const targetPile of gameState.tableau) {
-                  if (moveCard(gameState.waste, targetPile, card)) {
-                    return;
-                  }
+              }
+              for (const targetPile of gameState.tableau) {
+                if (moveCard(gameState.waste, targetPile, card)) {
+                  return;
                 }
-              }}
-              highlightedCards={highlightedCards}
-            />
-            <FoundationPiles
-              foundations={gameState.foundations}
-              highlightedCards={highlightedCards}
-            />
-          </div>
-          <div className="mt-4 flex-1">
-            <TableauSection
-              tableau={gameState.tableau}
-              onCardDoubleClick={card => {
-                const sourcePile = gameState.tableau.find(pile => pile.includes(card));
-                if (!sourcePile) return;
+              }
+            }}
+            highlightedCards={highlightedCards}
+          />
+          <FoundationPiles
+            foundations={gameState.foundations}
+            highlightedCards={highlightedCards}
+          />
+        </div>
+        <div className="flex-1 min-h-0">
+          <TableauSection
+            tableau={gameState.tableau}
+            onCardDoubleClick={card => {
+              const sourcePile = gameState.tableau.find(pile => pile.includes(card));
+              if (!sourcePile) return;
 
-                for (const foundation of gameState.foundations) {
-                  if (moveCard(sourcePile, foundation, card)) {
-                    return;
-                  }
+              for (const foundation of gameState.foundations) {
+                if (moveCard(sourcePile, foundation, card)) {
+                  return;
                 }
+              }
 
-                for (const targetPile of gameState.tableau) {
-                  if (targetPile !== sourcePile && moveCard(sourcePile, targetPile, card)) {
-                    return;
-                  }
+              for (const targetPile of gameState.tableau) {
+                if (targetPile !== sourcePile && moveCard(sourcePile, targetPile, card)) {
+                  return;
                 }
-              }}
-              highlightedCards={highlightedCards}
-              isNewGame={isNewGame}
-            />
-          </div>
+              }
+            }}
+            highlightedCards={highlightedCards}
+            isNewGame={isNewGame}
+          />
         </div>
       </GameLayout>
     </DndContext>
