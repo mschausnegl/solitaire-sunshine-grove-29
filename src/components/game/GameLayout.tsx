@@ -37,8 +37,8 @@ const GameLayout = ({
         onRestartGame={onRestartGame}
       />
 
-      <main className="flex-1 p-2 sm:p-3 md:p-4 lg:p-6 overflow-hidden">
-        <div className="w-full h-[calc(100vh-8rem)] max-w-[1400px] mx-auto">
+      <main className="flex-1 p-4 overflow-auto">
+        <div className="h-full max-w-[1400px] mx-auto flex flex-col">
           {children}
         </div>
       </main>
