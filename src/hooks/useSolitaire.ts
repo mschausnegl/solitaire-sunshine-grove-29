@@ -6,10 +6,12 @@ import { toast } from "sonner";
 export const useSolitaire = () => {
   const [gameState, setGameState] = useState<GameState>(initializeGame());
   const [history, setHistory] = useState<GameState[]>([]);
+  const [highlightedCards, setHighlightedCards] = useState<string[]>([]);
 
   const newGame = useCallback(() => {
     setGameState(initializeGame());
     setHistory([]);
+    setHighlightedCards([]);
   }, []);
 
   const undo = useCallback(() => {
@@ -20,9 +22,12 @@ export const useSolitaire = () => {
     const previousState = history[history.length - 1];
     setGameState(previousState);
     setHistory(history.slice(0, -1));
+    setHighlightedCards([]);
   }, [history]);
 
   const findHint = useCallback(() => {
+    setHighlightedCards([]); // Clear previous highlights
+
     // Check for moves to foundation first
     for (const foundation of gameState.foundations) {
       // Check waste pile
@@ -30,6 +35,7 @@ export const useSolitaire = () => {
         const wasteCard = gameState.waste[gameState.waste.length - 1];
         const topFoundationCard = foundation.length > 0 ? foundation[foundation.length - 1] : undefined;
         if (canMoveToFoundation(wasteCard, topFoundationCard)) {
+          setHighlightedCards([wasteCard.id]);
           toast.info("Try moving " + wasteCard.rank + " of " + wasteCard.suit + " to the foundation");
           return;
         }
@@ -43,6 +49,7 @@ export const useSolitaire = () => {
         
         const topFoundationCard = foundation.length > 0 ? foundation[foundation.length - 1] : undefined;
         if (canMoveToFoundation(tableauCard, topFoundationCard)) {
+          setHighlightedCards([tableauCard.id]);
           toast.info("Try moving " + tableauCard.rank + " of " + tableauCard.suit + " to the foundation");
           return;
         }
@@ -53,7 +60,6 @@ export const useSolitaire = () => {
     for (const sourcePile of gameState.tableau) {
       if (sourcePile.length === 0) continue;
       
-      // Find the first face-up card in the source pile
       const faceUpIndex = sourcePile.findIndex(card => card.faceUp);
       if (faceUpIndex === -1) continue;
       
@@ -64,12 +70,14 @@ export const useSolitaire = () => {
         
         if (targetPile.length === 0) {
           if (movableCard.rank === 'K') {
+            setHighlightedCards([movableCard.id]);
             toast.info("Try moving " + movableCard.rank + " of " + movableCard.suit + " to an empty column");
             return;
           }
         } else {
           const targetCard = targetPile[targetPile.length - 1];
           if (canStack(movableCard, targetCard)) {
+            setHighlightedCards([movableCard.id, targetCard.id]);
             toast.info("Try moving " + movableCard.rank + " of " + movableCard.suit + " onto " + targetCard.rank + " of " + targetCard.suit);
             return;
           }
@@ -158,6 +166,7 @@ export const useSolitaire = () => {
     undo,
     draw,
     moveCard,
-    findHint: findHint,
+    findHint,
+    highlightedCards,
   };
 };

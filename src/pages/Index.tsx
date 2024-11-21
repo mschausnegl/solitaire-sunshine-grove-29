@@ -6,7 +6,7 @@ import GameControls from "../components/game/GameControls";
 import { Card as CardType } from "../utils/cards";
 
 const Index = () => {
-  const { gameState, newGame, undo, draw, moveCard, findHint } = useSolitaire();
+  const { gameState, newGame, undo, draw, moveCard, findHint, highlightedCards } = useSolitaire();
   const [activeCard, setActiveCard] = React.useState<CardType | null>(null);
 
   const sensors = useSensors(
@@ -101,6 +101,7 @@ const Index = () => {
                   <Card 
                     card={gameState.stock[gameState.stock.length - 1]}
                     onDoubleClick={() => handleCardDoubleClick(gameState.stock[gameState.stock.length - 1])}
+                    isHighlighted={highlightedCards.includes(gameState.stock[gameState.stock.length - 1].id)}
                   />
                 )}
               </div>
@@ -109,6 +110,7 @@ const Index = () => {
                   <Card 
                     card={gameState.waste[gameState.waste.length - 1]}
                     onDoubleClick={() => handleCardDoubleClick(gameState.waste[gameState.waste.length - 1])}
+                    isHighlighted={highlightedCards.includes(gameState.waste[gameState.waste.length - 1].id)}
                   />
                 )}
               </div>
@@ -124,6 +126,7 @@ const Index = () => {
                   {foundation.length > 0 && (
                     <Card 
                       card={foundation[foundation.length - 1]}
+                      isHighlighted={highlightedCards.includes(foundation[foundation.length - 1].id)}
                     />
                   )}
                 </div>
@@ -145,6 +148,7 @@ const Index = () => {
                       card={card}
                       index={j}
                       onDoubleClick={() => handleCardDoubleClick(card)}
+                      isHighlighted={highlightedCards.includes(card.id)}
                     />
                   </div>
                 ))}
