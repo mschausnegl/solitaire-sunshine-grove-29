@@ -45,6 +45,8 @@ const Card: React.FC<CardProps> = ({
     setDropRef(node);
   };
 
+  const baseCardClasses = "w-[2.5rem] h-[3.5rem] rounded-sm border border-gray-300";
+
   if (!card.faceUp) {
     return (
       <div
@@ -57,10 +59,10 @@ const Card: React.FC<CardProps> = ({
           transition: 'transform 0.2s ease'
         }}
         className={cn(
-          "w-[3.5rem] h-[5rem] sm:w-16 sm:h-24 bg-white rounded-lg shadow-md border-2 border-gray-300 cursor-pointer",
+          baseCardClasses,
           "bg-gradient-to-br from-blue-500 to-blue-600",
           isOver && "ring-2 ring-yellow-400",
-          isHighlighted && "ring-4 ring-yellow-300 animate-pulse",
+          isHighlighted && "ring-2 ring-yellow-300 animate-pulse",
           className
         )}
         onClick={onClick}
@@ -82,26 +84,27 @@ const Card: React.FC<CardProps> = ({
         transition: 'transform 0.2s ease'
       }}
       className={cn(
-        "w-[3.5rem] h-[5rem] sm:w-16 sm:h-24 bg-white rounded-lg shadow-md border-2 border-gray-300 p-1",
-        "flex flex-col justify-between cursor-pointer hover:shadow-lg transition-shadow",
+        baseCardClasses,
+        "bg-white p-0.5",
+        "flex flex-col justify-between cursor-pointer hover:shadow-sm transition-shadow",
         isOver && "ring-2 ring-yellow-400",
-        isHighlighted && "ring-4 ring-yellow-300 animate-pulse",
-        isDragging && "shadow-xl",
+        isHighlighted && "ring-2 ring-yellow-300 animate-pulse",
+        isDragging && "shadow-md",
         className
       )}
       onClick={onClick}
       onDoubleClick={onDoubleClick}
     >
-      <div className={cn("text-xs sm:text-base font-bold", isRed ? "text-red-500" : "text-black")}>
+      <div className={cn("text-[10px] font-bold leading-none", isRed ? "text-red-500" : "text-black")}>
         {card.rank}
-        <span className="ml-0.5">{suitSymbols[card.suit]}</span>
+        <span className="ml-px">{suitSymbols[card.suit]}</span>
       </div>
-      <div className={cn("text-base sm:text-2xl self-center", isRed ? "text-red-500" : "text-black")}>
+      <div className={cn("text-base leading-none self-center", isRed ? "text-red-500" : "text-black")}>
         {suitSymbols[card.suit]}
       </div>
-      <div className={cn("text-xs sm:text-base font-bold rotate-180", isRed ? "text-red-500" : "text-black")}>
+      <div className={cn("text-[10px] font-bold leading-none rotate-180", isRed ? "text-red-500" : "text-black")}>
         {card.rank}
-        <span className="ml-0.5">{suitSymbols[card.suit]}</span>
+        <span className="ml-px">{suitSymbols[card.suit]}</span>
       </div>
     </div>
   );
