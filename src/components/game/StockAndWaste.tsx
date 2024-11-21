@@ -18,9 +18,9 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
   highlightedCards
 }) => {
   return (
-    <div className="flex gap-4">
+    <div className="flex gap-2 md:gap-4">
       <div
-        className="w-[5.5rem] h-[7.7rem] rounded-sm border border-white/20 cursor-pointer"
+        className="w-[3.5rem] h-[4.9rem] md:w-[5.5rem] md:h-[7.7rem] rounded-sm border border-white/20 cursor-pointer"
         onClick={onDraw}
       >
         {stock.length > 0 && (
@@ -28,15 +28,17 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
             card={stock[stock.length - 1]}
             onDoubleClick={() => onCardDoubleClick(stock[stock.length - 1])}
             isHighlighted={highlightedCards.includes(stock[stock.length - 1].id)}
+            className="w-[3.5rem] h-[4.9rem] md:w-[5.5rem] md:h-[7.7rem]"
           />
         )}
       </div>
-      <div className="w-[5.5rem] h-[7.7rem] rounded-sm border border-white/20">
+      <div className="w-[3.5rem] h-[4.9rem] md:w-[5.5rem] md:h-[7.7rem] rounded-sm border border-white/20">
         {waste.length > 0 && (
           <Card 
             card={waste[waste.length - 1]}
             onDoubleClick={() => onCardDoubleClick(waste[waste.length - 1])}
             isHighlighted={highlightedCards.includes(waste[waste.length - 1].id)}
+            className="w-[3.5rem] h-[4.9rem] md:w-[5.5rem] md:h-[7.7rem]"
           />
         )}
       </div>
