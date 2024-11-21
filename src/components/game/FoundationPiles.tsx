@@ -16,13 +16,13 @@ const FoundationPiles: React.FC<FoundationPilesProps> = ({
       {foundations.map((foundation, i) => (
         <div
           key={i}
-          className="w-[2.8rem] h-[3.9rem] md:w-[11rem] md:h-[15.4rem] rounded-sm border border-white/20"
+          className="w-[2.8rem] h-[3.9rem] md:w-[7rem] md:h-[9.8rem] rounded-sm border border-white/20"
         >
           {foundation.length > 0 && (
             <Card 
               card={foundation[foundation.length - 1]}
               isHighlighted={highlightedCards.includes(foundation[foundation.length - 1].id)}
-              className="w-[2.8rem] h-[3.9rem] md:w-[11rem] md:h-[15.4rem]"
+              className="w-[2.8rem] h-[3.9rem] md:w-[7rem] md:h-[9.8rem]"
             />
           )}
         </div>
