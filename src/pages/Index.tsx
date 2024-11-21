@@ -123,25 +123,19 @@ const Index = () => {
             />
           </div>
           
-          <div className="flex">
-            {/* Left section with stock and waste */}
-            <div className="w-[8rem] md:w-[12rem]">
-              <StockAndWaste
-                stock={gameState.stock}
-                waste={gameState.waste}
-                onDraw={draw}
-                onCardDoubleClick={handleCardDoubleClick}
-                highlightedCards={highlightedCards}
-              />
-            </div>
+          <div className="flex justify-between">
+            <StockAndWaste
+              stock={gameState.stock}
+              waste={gameState.waste}
+              onDraw={draw}
+              onCardDoubleClick={handleCardDoubleClick}
+              highlightedCards={highlightedCards}
+            />
             
-            {/* Right section with foundations, aligned with last 4 tableau piles */}
-            <div className="w-[23rem] md:w-[35rem] ml-auto">
-              <FoundationPiles
-                foundations={gameState.foundations}
-                highlightedCards={highlightedCards}
-              />
-            </div>
+            <FoundationPiles
+              foundations={gameState.foundations}
+              highlightedCards={highlightedCards}
+            />
           </div>
 
           <div className="mt-0.5 md:mt-4">
