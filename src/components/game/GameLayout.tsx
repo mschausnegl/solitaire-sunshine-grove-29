@@ -37,11 +37,9 @@ const GameLayout = ({
         onRestartGame={onRestartGame}
       />
 
-      <main className="flex-1 p-2 sm:p-3 md:p-4 lg:p-6 overflow-x-hidden">
-        <div className="w-full max-w-[1400px] mx-auto aspect-[16/9] min-h-[500px]">
-          <div className="w-full h-full p-4">
-            {children}
-          </div>
+      <main className="flex-1 p-2 sm:p-3 md:p-4 lg:p-6 overflow-hidden">
+        <div className="w-full h-[calc(100vh-8rem)] max-w-[1400px] mx-auto">
+          {children}
         </div>
       </main>
 
@@ -54,8 +52,7 @@ const GameLayout = ({
       <DragOverlay dropAnimation={null}>
         {activeCard ? (
           <Card 
-            card={activeCard} 
-            className="w-[2.8rem] h-[3.9rem] sm:w-[4rem] sm:h-[5.6rem] md:w-[7rem] md:h-[9.8rem]"
+            card={activeCard}
           />
         ) : null}
       </DragOverlay>

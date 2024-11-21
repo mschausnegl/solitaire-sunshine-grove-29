@@ -53,16 +53,12 @@ const TableauSection: React.FC<TableauSectionProps> = ({
     return () => clearTimeout(timer);
   }, [tableau]);
 
-  // Calculate the vertical offset for face-up and face-down cards
-  const getFaceDownOffset = () => window.innerWidth >= 768 ? 32 : 12; // Increased from 8/3 to 32/12
-  const getFaceUpOffset = () => window.innerWidth >= 768 ? 48 : 16; // Increased from 24/8 to 48/16
-
   return (
-    <div className="grid grid-cols-7 gap-2 w-full">
+    <div className="grid grid-cols-7 gap-2 h-full">
       {tableau.map((pile, i) => (
         <div 
           key={i} 
-          className="relative aspect-[2.5/3.5] rounded-sm border-2 border-white/30 bg-felt-green/50"
+          className="relative h-full rounded-sm border-2 border-white/30 bg-felt-green/50"
           style={{
             boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)',
           }}
