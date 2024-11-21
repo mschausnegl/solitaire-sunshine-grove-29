@@ -19,7 +19,7 @@ const TableauSection: React.FC<TableauSectionProps> = ({
     setIsDealing(true);
     const timer = setTimeout(() => {
       setIsDealing(false);
-    }, 1000); // Reduced from 2000ms to 1000ms
+    }, 1000);
     return () => clearTimeout(timer);
   }, [tableau]);
 
@@ -34,7 +34,7 @@ const TableauSection: React.FC<TableauSectionProps> = ({
           }}
         >
           {pile.map((card, j) => {
-            const animationDelay = `${0.1 + (i * 3 + j) * 0.05}s`; // Reduced initial delay and interval between cards
+            const animationDelay = `${0.1 + (i * 3 + j) * 0.05}s`;
             const shouldShow = !isDealing || (Date.now() > new Date().getTime() + parseFloat(animationDelay) * 1000);
             
             return shouldShow ? (
@@ -42,7 +42,7 @@ const TableauSection: React.FC<TableauSectionProps> = ({
                 key={card.id}
                 className="absolute transition-all animate-deal"
                 style={{ 
-                  top: `${j * (window.innerWidth >= 768 ? 32 : 12)}px`,
+                  top: `${j * (window.innerWidth >= 768 ? 24 : 8)}px`, // Reduced from 32/12 to 24/8
                   animationDelay,
                   animationFillMode: 'both'
                 }}
