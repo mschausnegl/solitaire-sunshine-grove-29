@@ -124,9 +124,9 @@ const Index = () => {
           </div>
           
           {/* Top section with stock/waste and foundations */}
-          <div className="flex justify-between">
-            {/* Stock and waste section - width matches first two tableau columns */}
-            <div className="w-[9.2rem] md:w-[15rem]">
+          <div className="flex">
+            {/* Stock and waste section - exactly matches width of first two tableau columns */}
+            <div className="flex gap-2 md:gap-4">
               <StockAndWaste
                 stock={gameState.stock}
                 waste={gameState.waste}
@@ -136,8 +136,11 @@ const Index = () => {
               />
             </div>
             
-            {/* Foundations section - width matches last four tableau columns */}
-            <div className="w-[18.4rem] md:w-[30rem]">
+            {/* Empty space matching width of two tableau columns + gaps */}
+            <div className="w-[9.2rem] md:w-[15rem]" />
+            
+            {/* Foundations section - exactly matches width of last four tableau columns */}
+            <div>
               <FoundationPiles
                 foundations={gameState.foundations}
                 highlightedCards={highlightedCards}
