@@ -123,7 +123,7 @@ const Index = () => {
             />
           </div>
           
-          <div className="flex items-start gap-2">
+          <div className="flex items-start">
             <div className="flex-none">
               <StockAndWaste
                 stock={gameState.stock}
@@ -134,9 +134,9 @@ const Index = () => {
               />
             </div>
             
-            <div className="flex-grow" />
+            <div className="flex-auto" />
             
-            <div className="flex-none">
+            <div className="flex-none ml-auto">
               <FoundationPiles
                 foundations={gameState.foundations}
                 highlightedCards={highlightedCards}
