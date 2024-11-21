@@ -18,8 +18,8 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
   highlightedCards
 }) => {
   // Calculate the offset based on the number of cards
-  const stockHeight = Math.min(stock.length * 0.3, 10); // Max 10px vertical offset
-  const stockWidth = Math.min(stock.length * 0.2, 8); // Max 8px horizontal offset
+  const stockHeight = Math.min(stock.length * 0.2, 6); // Reduced from 10 to 6
+  const stockWidth = Math.min(stock.length * 0.2, 8);
 
   return (
     <div className="flex gap-2 relative z-50">
