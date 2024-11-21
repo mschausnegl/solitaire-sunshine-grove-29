@@ -28,7 +28,7 @@ const TableauSection: React.FC<TableauSectionProps> = ({
       {tableau.map((pile, i) => (
         <div 
           key={i} 
-          className="relative flex-1 md:flex-initial w-[2.8rem] md:w-[7rem] h-[3.9rem] md:h-[9.8rem] rounded-sm border-2 border-white/30 bg-felt-green/50"
+          className="relative flex-1 md:flex-initial w-[2.8rem] md:w-[11rem] h-[3.9rem] md:h-[15.4rem] rounded-sm border-2 border-white/30 bg-felt-green/50"
           style={{
             boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)',
           }}
@@ -42,7 +42,7 @@ const TableauSection: React.FC<TableauSectionProps> = ({
                 key={card.id}
                 className="absolute transition-all animate-deal"
                 style={{ 
-                  top: `${j * (window.innerWidth >= 768 ? 16 : 6)}px`,
+                  top: `${j * (window.innerWidth >= 768 ? 25 : 6)}px`,
                   animationDelay,
                   animationFillMode: 'both',
                   zIndex: j + 1
@@ -53,7 +53,7 @@ const TableauSection: React.FC<TableauSectionProps> = ({
                   index={j}
                   onDoubleClick={() => onCardDoubleClick(card)}
                   isHighlighted={highlightedCards.includes(card.id)}
-                  className="w-[2.8rem] md:w-[7rem] h-[3.9rem] md:h-[9.8rem]"
+                  className="w-[2.8rem] md:w-[11rem] h-[3.9rem] md:h-[15.4rem]"
                 />
               </div>
             ) : null;
