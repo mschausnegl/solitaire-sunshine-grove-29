@@ -10,42 +10,32 @@ import { Card as CardType } from "../utils/cards";
 const Index = () => {
   const { gameState, newGame, undo, draw, moveCard, findHint, highlightedCards, restartGame } = useSolitaire();
   const [activeCard, setActiveCard] = React.useState<CardType | null>(null);
-  const [isNewGame, setIsNewGame] = useState(true);
+  const [isNewGame, setIsNewGame] = useState(false);
 
   useEffect(() => {
-    let mounted = true;
-    
-    const initializeGame = async () => {
-      if (mounted) {
-        setIsNewGame(true);
-        await newGame();
-        
-        // Add a small delay to ensure the game state is ready
-        setTimeout(() => {
-          if (mounted) {
-            setIsNewGame(false);
-          }
-        }, 1000);
-      }
-    };
-
-    initializeGame();
-
-    return () => {
-      mounted = false;
-    };
-  }, [newGame]);
+    // Initialize the game when component mounts
+    newGame();
+    setIsNewGame(true);
+    const timer = setTimeout(() => {
+      setIsNewGame(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []); // Empty dependency array means this runs once on mount
 
   const handleNewGame = () => {
-    setIsNewGame(true);
     newGame();
-    setTimeout(() => setIsNewGame(false), 1000);
+    setIsNewGame(true);
+    const timer = setTimeout(() => {
+      setIsNewGame(false);
+    }, 1000);
   };
 
   const handleRestartGame = () => {
-    setIsNewGame(true);
     restartGame();
-    setTimeout(() => setIsNewGame(false), 1000);
+    setIsNewGame(true);
+    const timer = setTimeout(() => {
+      setIsNewGame(false);
+    }, 1000);
   };
 
   const sensors = useSensors(
