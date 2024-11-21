@@ -52,35 +52,24 @@ const TableauSection: React.FC<TableauSectionProps> = ({
     return () => clearTimeout(timer);
   }, [tableau]);
 
-  // Calculate offsets based on container width rather than viewport
-  const getCardOffset = (isFaceUp: boolean) => {
-    // Base the offset on the card's own height (maintained by aspect ratio)
-    return isFaceUp ? '20%' : '15%';
-  };
-
   return (
-    <div className="w-full max-w-[1200px] mx-auto px-2">
-      <div className="grid grid-cols-7 gap-[1%]">
-        {tableau.map((pile, i) => (
-          <div 
-            key={i} 
-            className="relative w-full pb-[140%] rounded-sm border-2 border-white/30 bg-felt-green/50"
-            style={{
-              boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)',
-            }}
-          >
-            {pile.map((card, j) => {
-              let offsetPercentage = 0;
-              for (let k = 0; k < j; k++) {
-                offsetPercentage += parseFloat(getCardOffset(pile[k].faceUp));
-              }
-
-              return (
+    <div className="container mx-auto px-2 sm:px-4">
+      <div className="@container">
+        <div className="grid grid-cols-7 gap-2 @sm:gap-3 @md:gap-4">
+          {tableau.map((pile, i) => (
+            <div 
+              key={i} 
+              className="relative aspect-[5/7] rounded-sm border-2 border-white/30 bg-felt-green/50"
+              style={{
+                boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)',
+              }}
+            >
+              {pile.map((card, j) => (
                 <div
                   key={card.id}
-                  className={`absolute left-0 right-0 w-full transition-all ${isNewGame ? 'animate-deal' : ''}`}
+                  className={`absolute left-0 right-0 transition-all ${isNewGame ? 'animate-deal' : ''}`}
                   style={{ 
-                    top: `${offsetPercentage}%`,
+                    top: `${j * (card.faceUp ? 25 : 15)}%`,
                     animationDelay: isNewGame ? `${0.1 + (i * 3 + j) * 0.05}s` : undefined,
                     animationFillMode: 'both',
                     zIndex: j + 1
@@ -94,10 +83,10 @@ const TableauSection: React.FC<TableauSectionProps> = ({
                     pile={pile}
                   />
                 </div>
-              );
-            })}
-          </div>
-        ))}
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
