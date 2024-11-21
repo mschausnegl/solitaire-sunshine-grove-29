@@ -14,7 +14,7 @@ const TableauSection: React.FC<TableauSectionProps> = ({
   highlightedCards 
 }) => {
   return (
-    <div className="grid grid-cols-7 gap-0.5 md:gap-4">
+    <div className="grid grid-cols-7 gap-0.5 md:gap-2">
       {tableau.map((pile, i) => (
         <div key={i} className="relative min-h-[8rem]">
           {pile.map((card, j) => (

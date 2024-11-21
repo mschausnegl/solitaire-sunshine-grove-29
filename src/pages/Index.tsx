@@ -113,7 +113,7 @@ const Index = () => {
       onDragEnd={handleDragEnd}
     >
       <div className="min-h-screen bg-felt-green p-1 md:p-4">
-        <div className="max-w-[1000px] mx-auto space-y-1 md:space-y-8">
+        <div className="max-w-[1000px] mx-auto space-y-1 md:space-y-4">
           <div className="flex-none">
             <GameControls
               onNewGame={newGame}
@@ -123,7 +123,7 @@ const Index = () => {
             />
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-7 gap-0.5 md:gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-7 gap-0.5 md:gap-2">
             <div className="col-span-1 md:col-span-3">
               <StockAndWaste
                 stock={gameState.stock}
