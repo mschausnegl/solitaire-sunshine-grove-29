@@ -16,6 +16,7 @@ const TableauSection: React.FC<TableauSectionProps> = ({
   isNewGame = false
 }) => {
   const [isDealing, setIsDealing] = useState(false);
+  const [revealedCards, setRevealedCards] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     if (isNewGame) {
@@ -26,6 +27,27 @@ const TableauSection: React.FC<TableauSectionProps> = ({
       return () => clearTimeout(timer);
     }
   }, [isNewGame]);
+
+  // Track which cards are newly revealed
+  useEffect(() => {
+    const newRevealedCards = new Set<string>();
+    
+    tableau.forEach(pile => {
+      const lastCard = pile[pile.length - 1];
+      if (lastCard?.faceUp) {
+        newRevealedCards.add(lastCard.id);
+      }
+    });
+
+    setRevealedCards(newRevealedCards);
+
+    // Clear the revealed status after animation
+    const timer = setTimeout(() => {
+      setRevealedCards(new Set());
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [tableau]);
 
   return (
     <div className="flex gap-0.5 md:gap-2 w-full">
@@ -53,6 +75,7 @@ const TableauSection: React.FC<TableauSectionProps> = ({
                 index={j}
                 onDoubleClick={() => onCardDoubleClick(card)}
                 isHighlighted={highlightedCards.includes(card.id)}
+                isRevealed={revealedCards.has(card.id)}
                 className="w-[2.8rem] md:w-[7rem] h-[3.9rem] md:h-[9.8rem]"
               />
             </div>

@@ -81,25 +81,9 @@ const config = {
           "25%": { transform: "translateX(5px) rotate(5deg)" },
           "75%": { transform: "translateX(-5px) rotate(-5deg)" },
         },
-        "stock-appear": {
-          "0%": { 
-            opacity: "0",
-            transform: "scale(0.8)"
-          },
-          "100%": { 
-            opacity: "1",
-            transform: "scale(1)"
-          }
-        },
-        "deal": {
-          "0%": { 
-            transform: "translate(-50vw, -30vh) scale(0.5)",
-            opacity: "0"
-          },
-          "100%": { 
-            transform: "translate(0, 0) scale(1)",
-            opacity: "1"
-          }
+        "reveal": {
+          "0%": { transform: "rotateY(90deg)", opacity: "0" },
+          "100%": { transform: "rotateY(0)", opacity: "1" }
         }
       },
       animation: {
@@ -108,8 +92,7 @@ const config = {
         "card-flip": "card-flip 0.3s ease-out",
         "card-slide": "card-slide 0.3s ease-out",
         "shuffle": "shuffle 0.5s ease-in-out",
-        "stock-appear": "stock-appear 0.5s ease-out",
-        "deal": "deal 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)"
+        "reveal": "reveal 0.3s ease-out"
       },
     },
   },

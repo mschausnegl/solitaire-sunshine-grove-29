@@ -13,6 +13,7 @@ interface CardProps {
   index?: number;
   isHighlighted?: boolean;
   isShuffling?: boolean;
+  isRevealed?: boolean;
   style?: React.CSSProperties;
 }
 
@@ -32,6 +33,7 @@ const Card = React.memo(({
   index = 0,
   isHighlighted = false,
   isShuffling = false,
+  isRevealed = false,
   style
 }: CardProps) => {
   const { attributes, listeners, setNodeRef: setDragRef, isDragging } = useDraggable({
@@ -105,6 +107,7 @@ const Card = React.memo(({
         isOver && "ring-2 ring-yellow-400",
         isHighlighted && "ring-2 ring-yellow-300 animate-pulse",
         isShuffling && "animate-shuffle",
+        isRevealed && "animate-reveal",
         className
       )}
       onClick={onClick}
