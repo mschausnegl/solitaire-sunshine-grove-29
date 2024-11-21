@@ -132,8 +132,8 @@ const Index = () => {
         </header>
 
         <main className="flex-1 p-1 sm:p-2 md:p-4">
-          <div className="container mx-0 px-2 sm:px-4 flex flex-col items-start">
-            <div className="w-full max-w-[min(calc(7*7rem+6*0.5rem),100vw-2rem)] flex justify-between mb-2 md:mb-4">
+          <div className="container mx-0 px-1 sm:px-2 flex flex-col items-start">
+            <div className="w-full max-w-[min(calc(7*7rem+6*0.5rem),100vw-0.5rem)] flex justify-between mb-2 md:mb-4">
               <StockAndWaste
                 stock={gameState.stock}
                 waste={gameState.waste}
