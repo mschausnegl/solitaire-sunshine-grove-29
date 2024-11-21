@@ -132,25 +132,27 @@ const Index = () => {
         </header>
 
         <main className="flex-1 p-1 sm:p-2 md:p-4">
-          <div className="mx-auto px-1 sm:px-2 flex flex-col items-center md:items-start max-w-[calc(7*7rem+6*0.5rem)]">
-            <div className="w-full flex justify-between mb-2 md:mb-4">
-              <StockAndWaste
-                stock={gameState.stock}
-                waste={gameState.waste}
-                onDraw={draw}
+          <div className="container mx-auto px-1 sm:px-2 flex flex-col items-center md:items-start">
+            <div className="w-full max-w-[calc(7*7rem+6*0.5rem)]">
+              <div className="w-full flex justify-between mb-2 md:mb-4">
+                <StockAndWaste
+                  stock={gameState.stock}
+                  waste={gameState.waste}
+                  onDraw={draw}
+                  onCardDoubleClick={handleCardDoubleClick}
+                  highlightedCards={highlightedCards}
+                />
+                <FoundationPiles
+                  foundations={gameState.foundations}
+                  highlightedCards={highlightedCards}
+                />
+              </div>
+              <TableauSection
+                tableau={gameState.tableau}
                 onCardDoubleClick={handleCardDoubleClick}
                 highlightedCards={highlightedCards}
               />
-              <FoundationPiles
-                foundations={gameState.foundations}
-                highlightedCards={highlightedCards}
-              />
             </div>
-            <TableauSection
-              tableau={gameState.tableau}
-              onCardDoubleClick={handleCardDoubleClick}
-              highlightedCards={highlightedCards}
-            />
           </div>
         </main>
 
