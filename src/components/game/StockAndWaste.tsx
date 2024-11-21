@@ -18,7 +18,7 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
   highlightedCards
 }) => {
   return (
-    <div className="flex gap-0.5">
+    <div className="flex gap-2">
       <div
         className="w-[2.8rem] h-[3.9rem] md:w-[5.5rem] md:h-[7.7rem] rounded-sm border border-white/20 cursor-pointer"
         onClick={onDraw}
