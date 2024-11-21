@@ -13,7 +13,9 @@ const Index = () => {
   const [isNewGame, setIsNewGame] = useState(true);
 
   useEffect(() => {
-    // Reset isNewGame after initial render
+    // Set initial animation
+    setIsNewGame(true);
+    // Reset isNewGame after animation
     const timer = setTimeout(() => {
       setIsNewGame(false);
     }, 1000);
