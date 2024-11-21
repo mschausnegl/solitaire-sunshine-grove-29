@@ -53,57 +53,63 @@ const TableauSection: React.FC<TableauSectionProps> = ({
     return () => clearTimeout(timer);
   }, [tableau]);
 
-  // Calculate the vertical offset for face-up and face-down cards based on viewport width
+  // Calculate vertical offsets based on screen size
   const getFaceDownOffset = () => {
-    const baseOffset = Math.min(window.innerWidth * 0.012, 24);
-    return Math.max(baseOffset, 8); // Ensure minimum spacing
+    if (window.innerWidth >= 1024) return 24; // lg
+    if (window.innerWidth >= 768) return 20;  // md
+    if (window.innerWidth >= 640) return 16;  // sm
+    return 12; // xs
   };
 
   const getFaceUpOffset = () => {
-    const baseOffset = Math.min(window.innerWidth * 0.016, 32);
-    return Math.max(baseOffset, 12); // Ensure minimum spacing
+    if (window.innerWidth >= 1024) return 32; // lg
+    if (window.innerWidth >= 768) return 28;  // md
+    if (window.innerWidth >= 640) return 24;  // sm
+    return 16; // xs
   };
 
   return (
-    <div className="grid grid-cols-7 gap-x-[2%] sm:gap-x-[1%] w-full max-w-[1200px] mx-auto px-1">
-      {tableau.map((pile, i) => (
-        <div 
-          key={i} 
-          className="relative aspect-[5/7] rounded-sm border-2 border-white/30 bg-felt-green/50 min-w-0 max-w-full"
-          style={{
-            boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)',
-          }}
-        >
-          {pile.map((card, j) => {
-            let offset = 0;
-            for (let k = 0; k < j; k++) {
-              offset += pile[k].faceUp ? getFaceUpOffset() : getFaceDownOffset();
-            }
+    <div className="w-full max-w-[1200px] mx-auto px-2">
+      <div className="grid grid-cols-7 gap-x-2 md:gap-x-3 lg:gap-x-4">
+        {tableau.map((pile, i) => (
+          <div 
+            key={i} 
+            className="relative aspect-[5/7] rounded-sm border-2 border-white/30 bg-felt-green/50"
+            style={{
+              boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)',
+            }}
+          >
+            {pile.map((card, j) => {
+              let offset = 0;
+              for (let k = 0; k < j; k++) {
+                offset += pile[k].faceUp ? getFaceUpOffset() : getFaceDownOffset();
+              }
 
-            return (
-              <div
-                key={card.id}
-                className={`absolute left-1/2 -translate-x-1/2 transition-all ${isNewGame ? 'animate-deal' : ''}`}
-                style={{ 
-                  top: `${offset}px`,
-                  animationDelay: isNewGame ? `${0.1 + (i * 3 + j) * 0.05}s` : undefined,
-                  animationFillMode: 'both',
-                  zIndex: j + 1,
-                  width: '100%'
-                }}
-              >
-                <Card 
-                  card={card}
-                  onDoubleClick={() => onCardDoubleClick(card)}
-                  isHighlighted={highlightedCards.includes(card.id)}
-                  isRevealed={revealedCards.has(card.id)}
-                  pile={pile}
-                />
-              </div>
-            );
-          })}
-        </div>
-      ))}
+              return (
+                <div
+                  key={card.id}
+                  className={`absolute left-1/2 -translate-x-1/2 transition-all ${isNewGame ? 'animate-deal' : ''}`}
+                  style={{ 
+                    top: `${offset}px`,
+                    animationDelay: isNewGame ? `${0.1 + (i * 3 + j) * 0.05}s` : undefined,
+                    animationFillMode: 'both',
+                    zIndex: j + 1,
+                    width: '100%'
+                  }}
+                >
+                  <Card 
+                    card={card}
+                    onDoubleClick={() => onCardDoubleClick(card)}
+                    isHighlighted={highlightedCards.includes(card.id)}
+                    isRevealed={revealedCards.has(card.id)}
+                    pile={pile}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
