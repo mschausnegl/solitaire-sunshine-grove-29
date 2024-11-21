@@ -123,7 +123,7 @@ const Index = () => {
             />
           </div>
           
-          <div className="flex items-start justify-between">
+          <div className="flex items-start gap-2">
             <div className="flex-none">
               <StockAndWaste
                 stock={gameState.stock}
@@ -134,7 +134,9 @@ const Index = () => {
               />
             </div>
             
-            <div className="flex-none" style={{ width: 'calc((3.5rem * 4 + 0.5rem * 3) * var(--tw-scale-x, 1))' }}>
+            <div className="flex-grow" />
+            
+            <div className="flex-none">
               <FoundationPiles
                 foundations={gameState.foundations}
                 highlightedCards={highlightedCards}

@@ -14,7 +14,7 @@ const TableauSection: React.FC<TableauSectionProps> = ({
   highlightedCards 
 }) => {
   return (
-    <div className="flex gap-2 md:gap-4">
+    <div className="flex gap-2">
       {tableau.map((pile, i) => (
         <div key={i} className="relative min-h-[8rem] w-[3.5rem] md:w-[5.5rem]">
           {pile.map((card, j) => (
