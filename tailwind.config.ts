@@ -93,11 +93,11 @@ const config = {
         },
         "deal": {
           "0%": { 
-            transform: "translate(calc(-100% - 0.5rem), calc(-100vh + 3.9rem))",
+            transform: "translate(0, 0) scale(0.5)",
             opacity: "0"
           },
           "100%": { 
-            transform: "translate(0, 0)",
+            transform: "translate(0, 0) scale(1)",
             opacity: "1"
           }
         }
