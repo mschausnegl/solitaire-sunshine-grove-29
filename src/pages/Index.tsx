@@ -112,8 +112,8 @@ const Index = () => {
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
-      <div className="min-h-screen bg-felt-green p-2 md:p-4">
-        <div className="max-w-[1000px] mx-auto space-y-2 md:space-y-8">
+      <div className="min-h-screen bg-felt-green p-1 md:p-4">
+        <div className="max-w-[1000px] mx-auto space-y-1 md:space-y-8">
           <div className="flex-none">
             <GameControls
               onNewGame={newGame}
@@ -123,7 +123,7 @@ const Index = () => {
             />
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-7 gap-1 md:gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-7 gap-0.5 md:gap-4">
             <div className="col-span-1 md:col-span-3">
               <StockAndWaste
                 stock={gameState.stock}
@@ -141,7 +141,7 @@ const Index = () => {
             </div>
           </div>
 
-          <div className="mt-1 md:mt-4">
+          <div className="mt-0.5 md:mt-4">
             <TableauSection
               tableau={gameState.tableau}
               onCardDoubleClick={handleCardDoubleClick}
