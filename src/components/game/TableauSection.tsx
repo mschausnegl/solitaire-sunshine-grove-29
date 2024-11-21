@@ -27,7 +27,11 @@ const TableauSection: React.FC<TableauSectionProps> = ({
             <div
               key={card.id}
               className="absolute transition-all"
-              style={{ top: `${j * (window.innerWidth >= 768 ? 32 : 12)}px` }}
+              style={{ 
+                top: `${j * (window.innerWidth >= 768 ? 32 : 12)}px`,
+                animation: `deal 0.5s ease-out forwards ${(i * 7 + j) * 0.05}s`,
+                opacity: 0
+              }}
             >
               <Card 
                 card={card}

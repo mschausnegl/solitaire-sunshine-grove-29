@@ -1,12 +1,12 @@
-import type { Config } from "tailwindcss";
+import { type Config } from "tailwindcss"
 
-export default {
+const config = {
   darkMode: ["class"],
   content: [
-    "./pages/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
-    "./app/**/*.{ts,tsx}",
-    "./src/**/*.{ts,tsx}",
+    './pages/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './app/**/*.{ts,tsx}',
+    './src/**/*.{ts,tsx}',
   ],
   prefix: "",
   theme: {
@@ -52,14 +52,25 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        "felt-green": "#0A5C2C",
-        "card-shadow": "rgba(0, 0, 0, 0.2)",
-        "gold": "#FFD700",
+        "felt-green": "#35654d",
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
       },
       keyframes: {
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
         "card-flip": {
-          "0%": { transform: "rotateY(0deg)" },
-          "100%": { transform: "rotateY(180deg)" },
+          "0%": { transform: "rotateY(180deg)", opacity: "0" },
+          "100%": { transform: "rotateY(0)", opacity: "1" },
         },
         "card-slide": {
           "0%": { transform: "translateY(-20px)", opacity: "0" },
@@ -69,19 +80,29 @@ export default {
           "0%, 100%": { transform: "translateX(0) rotate(0deg)" },
           "25%": { transform: "translateX(5px) rotate(5deg)" },
           "75%": { transform: "translateX(-5px) rotate(-5deg)" },
+        },
+        "deal": {
+          "0%": { 
+            transform: "translate(calc(-50vw + 50%), calc(-50vh + 50%))",
+            opacity: "0"
+          },
+          "100%": { 
+            transform: "translate(0, 0)",
+            opacity: "1"
+          }
         }
       },
       animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
         "card-flip": "card-flip 0.3s ease-out",
         "card-slide": "card-slide 0.3s ease-out",
         "shuffle": "shuffle 0.5s ease-in-out",
-      },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        "deal": "deal 0.5s ease-out forwards"
       },
     },
   },
   plugins: [require("tailwindcss-animate")],
-} satisfies Config;
+} satisfies Config
+
+export default config
