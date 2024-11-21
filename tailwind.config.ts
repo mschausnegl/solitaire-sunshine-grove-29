@@ -83,11 +83,11 @@ const config = {
         },
         "deal": {
           "from": { 
-            transform: "translate(-50vw, -50vh)",
+            transform: "translate(-50vw, -50vh) rotate(-10deg)",
             opacity: "0"
           },
           "to": { 
-            transform: "translate(0, 0)",
+            transform: "translate(0, 0) rotate(0deg)",
             opacity: "1"
           }
         }
