@@ -28,10 +28,9 @@ const TableauSection: React.FC<TableauSectionProps> = ({
       {tableau.map((pile, i) => (
         <div 
           key={i} 
-          className="relative min-h-[12rem] md:min-h-[24rem] w-[2.8rem] md:w-[7rem] rounded-sm border-2 border-white/30 bg-felt-green/50"
+          className="relative w-[2.8rem] h-[3.9rem] md:w-[7rem] md:h-[9.8rem] rounded-sm border-2 border-white/30 bg-felt-green/50"
           style={{
             boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)',
-            zIndex: 0
           }}
         >
           {pile.map((card, j) => {
