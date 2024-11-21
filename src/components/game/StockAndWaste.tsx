@@ -18,9 +18,9 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
   highlightedCards
 }) => {
   return (
-    <div className="flex gap-1">
+    <div className="flex gap-4">
       <div
-        className="w-[4rem] h-[5.6rem] rounded-sm border border-white/20 cursor-pointer"
+        className="w-[5.5rem] h-[7.7rem] rounded-sm border border-white/20 cursor-pointer"
         onClick={onDraw}
       >
         {stock.length > 0 && (
@@ -31,7 +31,7 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
           />
         )}
       </div>
-      <div className="w-[4rem] h-[5.6rem] rounded-sm border border-white/20">
+      <div className="w-[5.5rem] h-[7.7rem] rounded-sm border border-white/20">
         {waste.length > 0 && (
           <Card 
             card={waste[waste.length - 1]}
