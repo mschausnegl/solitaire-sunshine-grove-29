@@ -29,7 +29,7 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
   }, []);
 
   // Calculate the offset based on the number of cards
-  const stockHeight = Math.min(stock.length * (isMobile ? 0.01 : 0.025), isMobile ? 0.3 : 0.5);
+  const stockHeight = Math.min(stock.length * (isMobile ? 0.03 : 0.025), isMobile ? 0.9 : 0.5);
   const stockWidth = Math.min(stock.length * (isMobile ? 0.05 : 0.15), isMobile ? 2 : 6);
 
   return (
