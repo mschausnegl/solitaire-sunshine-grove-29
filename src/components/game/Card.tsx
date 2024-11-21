@@ -45,7 +45,7 @@ const Card: React.FC<CardProps> = ({
     setDropRef(node);
   };
 
-  const baseCardClasses = "w-[2.5rem] h-[3.5rem] rounded-sm border border-gray-300";
+  const baseCardClasses = "w-[4rem] h-[5.6rem] rounded-sm border border-gray-300";
 
   if (!card.faceUp) {
     return (
@@ -85,7 +85,7 @@ const Card: React.FC<CardProps> = ({
       }}
       className={cn(
         baseCardClasses,
-        "bg-white p-0.5",
+        "bg-white p-1",
         "flex flex-col justify-between cursor-pointer hover:shadow-sm transition-shadow",
         isOver && "ring-2 ring-yellow-400",
         isHighlighted && "ring-2 ring-yellow-300 animate-pulse",
@@ -95,14 +95,14 @@ const Card: React.FC<CardProps> = ({
       onClick={onClick}
       onDoubleClick={onDoubleClick}
     >
-      <div className={cn("text-[10px] font-bold leading-none", isRed ? "text-red-500" : "text-black")}>
+      <div className={cn("text-sm font-bold leading-none", isRed ? "text-red-500" : "text-black")}>
         {card.rank}
         <span className="ml-px">{suitSymbols[card.suit]}</span>
       </div>
-      <div className={cn("text-base leading-none self-center", isRed ? "text-red-500" : "text-black")}>
+      <div className={cn("text-2xl leading-none self-center", isRed ? "text-red-500" : "text-black")}>
         {suitSymbols[card.suit]}
       </div>
-      <div className={cn("text-[10px] font-bold leading-none rotate-180", isRed ? "text-red-500" : "text-black")}>
+      <div className={cn("text-sm font-bold leading-none rotate-180", isRed ? "text-red-500" : "text-black")}>
         {card.rank}
         <span className="ml-px">{suitSymbols[card.suit]}</span>
       </div>
