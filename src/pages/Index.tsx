@@ -1,4 +1,3 @@
-<lov-code>
 import React from "react";
 import { DndContext, DragEndEvent, DragOverlay, useSensor, useSensors, PointerSensor } from '@dnd-kit/core';
 import { useSolitaire } from "../hooks/useSolitaire";
@@ -98,4 +97,65 @@ const Index = () => {
         }
       } else {
         const targetCard = targetPile[targetPile.length - 1];
-        if (targetCard.faceUp && canStack(card,
+        if (targetCard.faceUp && canStack(card, targetCard)) {
+          if (moveCard(sourcePile, targetPile, card)) {
+            return;
+          }
+        }
+      }
+    }
+  };
+
+  return (
+    <DndContext 
+      sensors={sensors}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+    >
+      <div className="min-h-screen bg-felt-green p-1 md:p-4">
+        <div className="max-w-[1000px] mx-auto space-y-1 md:space-y-4">
+          <div className="flex-none">
+            <GameControls
+              onNewGame={newGame}
+              onUndo={undo}
+              onHint={findHint}
+              onAutoPlay={() => {}}
+            />
+          </div>
+          
+          <div className="flex justify-between gap-0.5 md:gap-2">
+            <StockAndWaste
+              stock={gameState.stock}
+              waste={gameState.waste}
+              onDraw={draw}
+              onCardDoubleClick={handleCardDoubleClick}
+              highlightedCards={highlightedCards}
+            />
+            <FoundationPiles
+              foundations={gameState.foundations}
+              highlightedCards={highlightedCards}
+            />
+          </div>
+
+          <div className="mt-0.5 md:mt-4">
+            <TableauSection
+              tableau={gameState.tableau}
+              onCardDoubleClick={handleCardDoubleClick}
+              highlightedCards={highlightedCards}
+            />
+          </div>
+
+          <div className="fixed bottom-2 left-2 bg-white/90 rounded px-2 py-1 text-xs">
+            Wins: {gameState.wins} Time: {gameState.time} Moves: {gameState.moves}
+          </div>
+        </div>
+
+        <DragOverlay>
+          {activeCard ? <Card card={activeCard} /> : null}
+        </DragOverlay>
+      </div>
+    </DndContext>
+  );
+};
+
+export default Index;
