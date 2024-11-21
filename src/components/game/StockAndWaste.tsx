@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Card from './Card';
 import { Card as CardType } from '../../utils/cards';
 
@@ -17,8 +17,19 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
   onCardDoubleClick,
   highlightedCards
 }) => {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   // Calculate the offset based on the number of cards
-  const stockHeight = Math.min(stock.length * (window.innerWidth < 768 ? 0.015 : 0.025), 0.5);
+  const stockHeight = Math.min(stock.length * (isMobile ? 0.015 : 0.025), 0.5);
   const stockWidth = Math.min(stock.length * 0.15, 6);
 
   return (
