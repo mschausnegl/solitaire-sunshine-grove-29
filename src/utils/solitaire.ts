@@ -7,6 +7,8 @@ export interface GameState {
   tableau: Card[][];
   score: number;
   moves: number;
+  wins: number;
+  time: number;
 }
 
 export const initializeGame = (): GameState => {
@@ -33,6 +35,8 @@ export const initializeGame = (): GameState => {
     tableau,
     score: 0,
     moves: 0,
+    wins: 0,
+    time: 0,
   };
 };
 
