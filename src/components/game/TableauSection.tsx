@@ -20,8 +20,8 @@ const TableauSection: React.FC<TableauSectionProps> = ({
           {pile.map((card, j) => (
             <div
               key={card.id}
-              className="absolute"
-              style={{ top: `${j * 24}px`, ['@media (min-width: 768px)']: { top: `${j * 32}px` } }}
+              className="absolute transition-all"
+              style={{ top: `${j * (window.innerWidth >= 768 ? 32 : 24)}px` }}
             >
               <Card 
                 card={card}
