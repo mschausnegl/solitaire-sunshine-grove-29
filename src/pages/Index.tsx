@@ -13,11 +13,13 @@ const Index = () => {
   const [isNewGame, setIsNewGame] = useState(true);
 
   useEffect(() => {
+    // Initialize the game when component mounts
+    newGame();
     const timer = setTimeout(() => {
       setIsNewGame(false);
     }, 1000);
     return () => clearTimeout(timer);
-  }, []);
+  }, []); // Empty dependency array means this runs once on mount
 
   const handleNewGame = () => {
     setIsNewGame(true);
