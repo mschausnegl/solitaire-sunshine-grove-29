@@ -110,7 +110,7 @@ const Card = React.memo(({
       }}
       className={cn(
         baseCardClasses,
-        "bg-white p-0.5 md:p-2",
+        "bg-white px-0.5 md:px-2 py-0 md:py-1",
         "flex flex-col justify-between cursor-pointer hover:shadow-sm transition-shadow",
         isOver && "ring-2 ring-yellow-400",
         isHighlighted && "ring-2 ring-yellow-300 animate-pulse",
