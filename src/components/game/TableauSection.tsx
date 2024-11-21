@@ -21,7 +21,7 @@ const TableauSection: React.FC<TableauSectionProps> = ({
             <div
               key={card.id}
               className="absolute transition-all"
-              style={{ top: `${j * (window.innerWidth >= 768 ? 32 : 24)}px` }}
+              style={{ top: `${j * 20}px` }}
             >
               <Card 
                 card={card}
