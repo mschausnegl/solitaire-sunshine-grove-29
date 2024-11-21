@@ -60,11 +60,13 @@ const Card = React.memo(({
         style={{
           zIndex: index,
           transform: isDragging ? 'scale(1.05)' : undefined,
-          transition: 'transform 0.2s ease'
+          transition: 'transform 0.2s ease',
+          backgroundImage: 'url(/lovable-uploads/5b92a5bc-abd7-42ae-a1d3-98e1c51b1ed3.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
         }}
         className={cn(
           baseCardClasses,
-          "bg-gradient-to-br from-blue-500 to-blue-600",
           isOver && "ring-2 ring-yellow-400",
           isHighlighted && "ring-2 ring-yellow-300 animate-pulse",
           className
