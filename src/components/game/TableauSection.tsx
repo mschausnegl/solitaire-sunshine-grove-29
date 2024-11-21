@@ -54,15 +54,15 @@ const TableauSection: React.FC<TableauSectionProps> = ({
   }, [tableau]);
 
   // Calculate the vertical offset for face-up and face-down cards
-  const getFaceDownOffset = () => Math.max(window.innerWidth * 0.012, 8);
-  const getFaceUpOffset = () => Math.max(window.innerWidth * 0.016, 12);
+  const getFaceDownOffset = () => Math.min(window.innerWidth * 0.012, 24);
+  const getFaceUpOffset = () => Math.min(window.innerWidth * 0.016, 32);
 
   return (
-    <div className="grid grid-cols-7 gap-[1%] w-full">
+    <div className="grid grid-cols-7 gap-1 w-full max-w-full mx-auto">
       {tableau.map((pile, i) => (
         <div 
           key={i} 
-          className="relative aspect-[5/7] rounded-sm border-2 border-white/30 bg-felt-green/50"
+          className="relative aspect-[5/7] rounded-sm border-2 border-white/30 bg-felt-green/50 min-w-0"
           style={{
             boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)',
           }}
@@ -77,12 +77,13 @@ const TableauSection: React.FC<TableauSectionProps> = ({
             return (
               <div
                 key={card.id}
-                className={`absolute left-0 right-0 transition-all ${isNewGame ? 'animate-deal' : ''}`}
+                className={`absolute left-1/2 -translate-x-1/2 transition-all ${isNewGame ? 'animate-deal' : ''}`}
                 style={{ 
                   top: `${offset}px`,
                   animationDelay: isNewGame ? `${0.1 + (i * 3 + j) * 0.05}s` : undefined,
                   animationFillMode: 'both',
-                  zIndex: j + 1
+                  zIndex: j + 1,
+                  width: '100%'
                 }}
               >
                 <Card 
