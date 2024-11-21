@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { GameState } from "../utils/solitaire";
 import { toast } from "sonner";
 
