@@ -59,6 +59,15 @@ const config = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      keyframes: {
+        "card-move": {
+          "0%": { transform: "translate(-50%, -50%) scale(1)" },
+          "100%": { transform: "translate(-50%, -50%) scale(1)" }
+        }
+      },
+      animation: {
+        "card-move": "card-move 0.3s ease-in-out"
+      }
     },
   },
   plugins: [require("tailwindcss-animate")],

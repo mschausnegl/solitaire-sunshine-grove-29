@@ -14,6 +14,8 @@ interface CardProps {
   isHighlighted?: boolean;
   style?: React.CSSProperties;
   pile?: CardType[];
+  isAnimating?: boolean;
+  animateToPosition?: { x: number; y: number };
 }
 
 const suitSymbols: Record<Suit, string> = {
@@ -33,6 +35,8 @@ const Card = React.memo(({
   isHighlighted = false,
   style,
   pile = [],
+  isAnimating = false,
+  animateToPosition,
 }: CardProps) => {
   const cardIndex = pile.findIndex(c => c.id === card.id);
   const cardsToMove = cardIndex !== -1 ? pile.slice(cardIndex) : [card];
@@ -60,6 +64,15 @@ const Card = React.memo(({
 
   const startTime = performance.now();
   
+  const animationStyle = isAnimating && animateToPosition ? {
+    position: 'fixed' as const,
+    left: animateToPosition.x,
+    top: animateToPosition.y,
+    transform: 'translate(-50%, -50%)',
+    transition: 'all 0.3s ease',
+    zIndex: 9999,
+  } : {};
+  
   if (!card.faceUp) {
     measureCardOperation('Render Face Down Card', startTime);
     return (
@@ -74,7 +87,8 @@ const Card = React.memo(({
           backgroundSize: '100% 100%',
           backgroundRepeat: 'no-repeat',
           backgroundColor: '#fff',
-          ...style
+          ...style,
+          ...animationStyle
         }}
         className={cn(
           baseCardClasses,
@@ -100,7 +114,8 @@ const Card = React.memo(({
       style={{
         zIndex: index,
         opacity: isDragging ? '0' : '1',
-        ...style
+        ...style,
+        ...animationStyle
       }}
       className={cn(
         baseCardClasses,
