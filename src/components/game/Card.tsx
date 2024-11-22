@@ -97,7 +97,6 @@ const Card = React.memo(({
           className
         )}
         onClick={onClick}
-        onDoubleClick={onDoubleClick}
       />
     );
   }
@@ -130,7 +129,6 @@ const Card = React.memo(({
         className
       )}
       onClick={onClick}
-      onDoubleClick={onDoubleClick}
     >
       <div className={cn("text-xs sm:text-sm md:text-3xl font-bold leading-none", isRed ? "text-red-500" : "text-black")}>
         {card.rank}

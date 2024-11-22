@@ -19,6 +19,7 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
 }) => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [flippingCardId, setFlippingCardId] = useState<string | null>(null);
+  const [isDealing, setIsDealing] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -36,15 +37,20 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
       setTimeout(() => {
         setFlippingCardId(null);
         onDraw();
-      }, 300); // Match this with the animation duration
+      }, 300);
     } else {
       onDraw();
     }
   };
 
-  // Calculate the offset based on the number of cards
-  const stockOffset = isMobile ? 0.125 : 0.25; // pixels per card
-  const maxOffset = isMobile ? 1.5 : 3; // maximum total offset in pixels
+  const handleCardClick = (card: CardType) => {
+    setIsDealing(true);
+    onCardDoubleClick(card);
+    setTimeout(() => setIsDealing(false), 500);
+  };
+
+  const stockOffset = isMobile ? 0.125 : 0.25;
+  const maxOffset = isMobile ? 1.5 : 3;
   const totalOffset = Math.min(stock.length * stockOffset, maxOffset);
 
   return (
@@ -87,8 +93,9 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
         {waste.length > 0 && (
           <Card 
             card={waste[waste.length - 1]}
-            onDoubleClick={() => onCardDoubleClick(waste[waste.length - 1])}
+            onClick={() => handleCardClick(waste[waste.length - 1])}
             isHighlighted={highlightedCards.includes(waste[waste.length - 1].id)}
+            isDealing={isDealing}
             className="w-[2.8rem] h-[3.9rem] sm:w-[4rem] sm:h-[5.6rem] md:w-[7rem] md:h-[9.8rem]"
           />
         )}

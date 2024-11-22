@@ -53,7 +53,6 @@ const TableauSection: React.FC<TableauSectionProps> = ({
     return () => clearTimeout(timer);
   }, [tableau]);
 
-  // Calculate the vertical offset for face-up and face-down cards
   const getFaceDownOffset = () => window.innerWidth >= 768 ? 24 : 8;
   const getFaceUpOffset = () => window.innerWidth >= 768 ? 32 : 12;
 
@@ -68,7 +67,6 @@ const TableauSection: React.FC<TableauSectionProps> = ({
           }}
         >
           {pile.map((card, j) => {
-            // Calculate offset based on whether previous cards are face up or down
             let offset = 0;
             for (let k = 0; k < j; k++) {
               offset += pile[k].faceUp ? getFaceUpOffset() : getFaceDownOffset();
@@ -77,7 +75,7 @@ const TableauSection: React.FC<TableauSectionProps> = ({
             return (
               <div
                 key={card.id}
-                className={`absolute left-0 transition-all ${isNewGame ? 'animate-deal' : ''}`}
+                className="absolute left-0 transition-all"
                 style={{ 
                   top: `${offset}px`,
                   animationDelay: isNewGame ? `${0.1 + (i * 3 + j) * 0.05}s` : undefined,
@@ -88,9 +86,10 @@ const TableauSection: React.FC<TableauSectionProps> = ({
                 <Card 
                   card={card}
                   index={j}
-                  onDoubleClick={() => onCardDoubleClick(card)}
+                  onClick={() => onCardDoubleClick(card)}
                   isHighlighted={highlightedCards.includes(card.id)}
                   isRevealed={revealedCards.has(card.id)}
+                  isDealing={isDealing}
                   pile={pile}
                 />
               </div>
