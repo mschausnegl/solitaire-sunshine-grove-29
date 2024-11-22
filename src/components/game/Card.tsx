@@ -76,8 +76,9 @@ const Card = React.memo(({
     animationStyle = {
       '--move-x': `${moveX}px`,
       '--move-y': `${moveY}px`,
-      position: 'relative',
+      position: 'absolute',
       zIndex: 50,
+      transition: 'transform 0.3s ease-out',
     } as React.CSSProperties;
   }
   

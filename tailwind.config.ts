@@ -61,13 +61,12 @@ const config = {
       },
       keyframes: {
         "card-move": {
-          "0%": { transform: "translate(0, 0) scale(1)" },
-          "50%": { transform: "translate(var(--move-x), var(--move-y)) scale(1.1)" },
-          "100%": { transform: "translate(var(--move-x), var(--move-y)) scale(1)" }
+          "0%": { transform: "translate(0, 0)" },
+          "100%": { transform: "translate(var(--move-x), var(--move-y))" }
         }
       },
       animation: {
-        "card-move": "card-move 0.5s ease-in-out forwards"
+        "card-move": "card-move 0.3s ease-out forwards"
       }
     },
   },
