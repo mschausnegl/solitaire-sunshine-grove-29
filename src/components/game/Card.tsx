@@ -78,7 +78,6 @@ const Card = React.memo(({
       '--move-y': `${moveY}px`,
       position: 'absolute',
       zIndex: 50,
-      transition: 'transform 0.3s ease-out',
     } as React.CSSProperties;
   }
   
