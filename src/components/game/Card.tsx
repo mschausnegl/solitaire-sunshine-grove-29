@@ -65,13 +65,9 @@ const Card = React.memo(({
   const startTime = performance.now();
   
   const animationStyle = isAnimating && animateToPosition ? {
-    position: 'fixed' as const,
-    left: animateToPosition.x,
-    top: animateToPosition.y,
-    transform: 'translate(-50%, -50%)',
-    transition: 'all 0.3s ease-in-out',
-    zIndex: 9999,
-  } : {};
+    '--move-x': `${animateToPosition.x}px`,
+    '--move-y': `${animateToPosition.y}px`,
+  } as React.CSSProperties : {};
   
   if (!card.faceUp) {
     measureCardOperation('Render Face Down Card', startTime);
