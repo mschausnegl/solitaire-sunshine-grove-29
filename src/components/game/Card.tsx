@@ -40,6 +40,7 @@ const Card = React.memo(({
 }: CardProps) => {
   const cardIndex = pile.findIndex(c => c.id === card.id);
   const cardsToMove = cardIndex !== -1 ? pile.slice(cardIndex) : [card];
+  const [startPos, setStartPos] = React.useState<{ x: number, y: number } | null>(null);
 
   const { attributes, listeners, setNodeRef: setDragRef, isDragging } = useDraggable({
     id: card.id,
@@ -55,19 +56,30 @@ const Card = React.memo(({
     data: card,
   });
 
-  const ref = (node: HTMLDivElement | null) => {
+  const ref = React.useCallback((node: HTMLDivElement | null) => {
+    if (node && !startPos) {
+      const rect = node.getBoundingClientRect();
+      setStartPos({ x: rect.left, y: rect.top });
+    }
     setDragRef(node);
     setDropRef(node);
-  };
+  }, [setDragRef, setDropRef, startPos]);
 
   const baseCardClasses = "w-[2.8rem] h-[3.9rem] sm:w-[4rem] sm:h-[5.6rem] md:w-[7rem] md:h-[9.8rem] rounded-sm border border-gray-300";
 
   const startTime = performance.now();
   
-  const animationStyle = isAnimating && animateToPosition ? {
-    '--move-x': `${animateToPosition.x}px`,
-    '--move-y': `${animateToPosition.y}px`,
-  } as React.CSSProperties : {};
+  let animationStyle: React.CSSProperties = {};
+  if (isAnimating && animateToPosition && startPos) {
+    const moveX = animateToPosition.x - startPos.x;
+    const moveY = animateToPosition.y - startPos.y;
+    animationStyle = {
+      '--move-x': `${moveX}px`,
+      '--move-y': `${moveY}px`,
+      position: 'relative',
+      zIndex: 50,
+    } as React.CSSProperties;
+  }
   
   if (!card.faceUp) {
     measureCardOperation('Render Face Down Card', startTime);
