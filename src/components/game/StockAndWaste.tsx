@@ -1,98 +1,85 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Card from './Card';
+import EmptyPileSpace from './EmptyPileSpace';
 import { Card as CardType } from '../../utils/cards';
+import { cn } from '../../lib/utils';
 
 interface StockAndWasteProps {
   stock: CardType[];
   waste: CardType[];
-  onDraw: () => void;
-  onCardDoubleClick: (card: CardType) => void;
   highlightedCards: string[];
+  onDraw: () => void;
 }
 
-const StockAndWaste: React.FC<StockAndWasteProps> = ({
-  stock,
-  waste,
-  onDraw,
-  onCardDoubleClick,
-  highlightedCards
-}) => {
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const handleDraw = () => {
-    onDraw();
-  };
-
-  const handleCardClick = (card: CardType) => {
-    onCardDoubleClick(card);
-  };
-
-  const stockOffset = isMobile ? 0.125 : 0.25;
-  const maxOffset = isMobile ? 1.5 : 3;
-  const totalOffset = Math.min(stock.length * stockOffset, maxOffset);
+const StockAndWaste: React.FC<StockAndWasteProps> = ({ stock, waste, highlightedCards, onDraw }) => {
+  const topCard = waste.length > 0 ? waste[waste.length - 1] : null;
 
   return (
-    <div className="flex gap-1 sm:gap-1.5 md:gap-2 relative z-50">
-      <div
-        className="w-[2.8rem] h-[3.9rem] sm:w-[4rem] sm:h-[5.6rem] md:w-[7rem] md:h-[9.8rem] rounded-sm border-2 border-white/30 bg-felt-green/50 cursor-pointer relative"
-        style={{
-          boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)'
-        }}
-        onClick={handleDraw}
-      >
-        {stock.map((card, index) => (
-          <div
-            key={card.id}
-            className="absolute"
-            style={{
-              bottom: `${index * stockOffset}px`,
-              right: `${index * stockOffset}px`,
-              transform: `translate3d(0, 0, ${index}px)`,
-              boxShadow: '1px 1px 2px rgba(0,0,0,0.2)'
-            }}
-          >
-            <Card 
-              card={card}
-              onDoubleClick={() => onCardDoubleClick(card)}
-              isHighlighted={highlightedCards.includes(card.id)}
-              className="w-[2.8rem] h-[3.9rem] sm:w-[4rem] sm:h-[5.6rem] md:w-[7rem] md:h-[9.8rem]"
-            />
-          </div>
-        ))}
-      </div>
+    <div className="grid grid-cols-2 gap-2">
+      {/* Stock pile */}
       <div 
-        className="w-[2.8rem] h-[3.9rem] sm:w-[4rem] sm:h-[5.6rem] md:w-[7rem] md:h-[9.8rem] rounded-sm border-2 border-white/30 bg-felt-green/50 relative"
-        style={{
-          boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)'
-        }}
+        onClick={onDraw} 
+        data-pile-type="stock"
+        className="aspect-[5/7] w-full"
       >
-        {waste.length > 1 && (
-          <div className="absolute inset-0">
-            <Card 
-              card={waste[waste.length - 2]}
-              isHighlighted={highlightedCards.includes(waste[waste.length - 2].id)}
-              className="w-[2.8rem] h-[3.9rem] sm:w-[4rem] sm:h-[5.6rem] md:w-[7rem] md:h-[9.8rem]"
-            />
+        {stock.length > 0 ? (
+          <Card 
+            card={stock[stock.length - 1]}
+            pileIndex={0} 
+            pileType="stock"
+            pile={stock}
+            isHighlighted={highlightedCards.includes('stock')}
+          />
+        ) : (
+          <div 
+            className={cn(
+              "aspect-[5/7] w-full",
+              "rounded-sm",
+              "border-2 border-white/20",
+              "flex items-center justify-center cursor-pointer hover:border-white/40",
+              "transition-colors"
+            )}
+          >
+            <div className="text-white/50 text-2xl">↻</div>
           </div>
         )}
-        {waste.length > 0 && (
-          <div className="absolute inset-0">
-            <Card 
-              card={waste[waste.length - 1]}
-              onClick={() => handleCardClick(waste[waste.length - 1])}
-              isHighlighted={highlightedCards.includes(waste[waste.length - 1].id)}
-              className="w-[2.8rem] h-[3.9rem] sm:w-[4rem] sm:h-[5.6rem] md:w-[7rem] md:h-[9.8rem]"
-            />
-          </div>
+      </div>
+
+      {/* Waste pile */}
+      <div 
+        data-pile-type="waste"
+        data-pile-index={0}
+        className="aspect-[5/7] w-full relative"
+      >
+        {waste.length === 0 ? (
+          <EmptyPileSpace index={1} pileType="waste" />
+        ) : (
+          <>
+            {/* Only show the second-to-last card if waste has more than 1 card */}
+            {waste.length > 1 && waste[waste.length - 2] && (
+              <div className="absolute inset-0">
+                <Card 
+                  card={waste[waste.length - 2]}
+                  isHighlighted={highlightedCards.includes(waste[waste.length - 2].id)}
+                  className="w-full h-full"
+                  pileType="waste"
+                  pileIndex={waste.length - 2}
+                  pile={waste}
+                />
+              </div>
+            )}
+            {/* Show the top card */}
+            <div className="absolute inset-0" style={{ zIndex: waste.length > 1 ? 1 : 0 }}>
+              <Card 
+                card={waste[waste.length - 1]}
+                isHighlighted={highlightedCards.includes(waste[waste.length - 1].id)}
+                pileType="waste"
+                pileIndex={waste.length - 1}
+                pile={waste}
+                className="w-full h-full"
+              />
+            </div>
+          </>
         )}
       </div>
     </div>
