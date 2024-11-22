@@ -61,8 +61,9 @@ const config = {
       },
       keyframes: {
         "card-move": {
-          "0%": { transform: "translate(-50%, -50%) scale(1)" },
-          "100%": { transform: "translate(-50%, -50%) scale(1)" }
+          "0%": { transform: "translate(-50%, -50%) scale(1)", opacity: "1" },
+          "50%": { transform: "translate(-50%, -50%) scale(1.1)", opacity: "1" },
+          "100%": { transform: "translate(-50%, -50%) scale(1)", opacity: "1" }
         }
       },
       animation: {

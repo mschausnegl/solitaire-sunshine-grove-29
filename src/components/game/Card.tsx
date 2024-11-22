@@ -69,7 +69,7 @@ const Card = React.memo(({
     left: animateToPosition.x,
     top: animateToPosition.y,
     transform: 'translate(-50%, -50%)',
-    transition: 'all 0.3s ease',
+    transition: 'all 0.3s ease-in-out',
     zIndex: 9999,
   } : {};
   
@@ -94,6 +94,7 @@ const Card = React.memo(({
           baseCardClasses,
           isOver && "ring-2 ring-yellow-400",
           isHighlighted && "ring-2 ring-yellow-300",
+          isAnimating && "animate-card-move",
           className
         )}
         onClick={onClick}
@@ -123,6 +124,7 @@ const Card = React.memo(({
         "flex flex-col justify-between cursor-pointer hover:shadow-sm",
         isOver && "ring-2 ring-yellow-400",
         isHighlighted && "ring-2 ring-yellow-300",
+        isAnimating && "animate-card-move",
         className
       )}
       onClick={onClick}
