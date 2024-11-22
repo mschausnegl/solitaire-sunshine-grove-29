@@ -75,6 +75,13 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
           boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)'
         }}
       >
+        {waste.length > 1 && (
+          <Card 
+            card={waste[waste.length - 2]}
+            isHighlighted={highlightedCards.includes(waste[waste.length - 2].id)}
+            className="w-[2.8rem] h-[3.9rem] sm:w-[4rem] sm:h-[5.6rem] md:w-[7rem] md:h-[9.8rem]"
+          />
+        )}
         {waste.length > 0 && (
           <Card 
             card={waste[waste.length - 1]}
