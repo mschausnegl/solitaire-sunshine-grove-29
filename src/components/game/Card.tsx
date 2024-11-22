@@ -77,8 +77,11 @@ const Card = React.memo(({
       '--move-x': `${moveX}px`,
       '--move-y': `${moveY}px`,
       position: 'absolute',
+      left: `${startPos.x}px`,
+      top: `${startPos.y}px`,
       zIndex: 50,
       willChange: 'transform',
+      transform: 'translate(0, 0)',
     } as React.CSSProperties;
   }
   
