@@ -66,7 +66,7 @@ const config = {
         }
       },
       animation: {
-        "card-move": "card-move 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards"
+        "card-move": "card-move 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards"
       }
     },
   },

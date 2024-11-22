@@ -78,6 +78,7 @@ const Card = React.memo(({
       '--move-y': `${moveY}px`,
       position: 'absolute',
       zIndex: 50,
+      willChange: 'transform',
     } as React.CSSProperties;
   }
   
