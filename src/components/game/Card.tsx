@@ -7,17 +7,12 @@ import { measureCardOperation } from "@/utils/performance";
 interface CardProps {
   card: CardType;
   onClick?: () => void;
-  onDoubleClick?: () => void;
   onDrop?: (draggedCard: CardType) => void;
   className?: string;
   index?: number;
   isHighlighted?: boolean;
-  isShuffling?: boolean;
-  isRevealed?: boolean;
   style?: React.CSSProperties;
   pile?: CardType[];
-  isFlipping?: boolean;
-  isDealing?: boolean;
 }
 
 const suitSymbols: Record<Suit, string> = {
@@ -30,17 +25,12 @@ const suitSymbols: Record<Suit, string> = {
 const Card = React.memo(({ 
   card, 
   onClick, 
-  onDoubleClick, 
   onDrop, 
   className, 
   index = 0,
   isHighlighted = false,
-  isShuffling = false,
-  isRevealed = false,
   style,
   pile = [],
-  isFlipping = false,
-  isDealing = false
 }: CardProps) => {
   const cardIndex = pile.findIndex(c => c.id === card.id);
   const cardsToMove = cardIndex !== -1 ? pile.slice(cardIndex) : [card];
@@ -83,17 +73,12 @@ const Card = React.memo(({
           backgroundSize: '100% 100%',
           backgroundRepeat: 'no-repeat',
           backgroundColor: '#fff',
-          perspective: '1000px',
-          transformStyle: 'preserve-3d',
           ...style
         }}
         className={cn(
           baseCardClasses,
           isOver && "ring-2 ring-yellow-400",
-          isHighlighted && "ring-2 ring-yellow-300 animate-pulse",
-          isShuffling && "animate-shuffle",
-          isFlipping && "animate-card-flip",
-          isDealing && "animate-deal",
+          isHighlighted && "ring-2 ring-yellow-300",
           className
         )}
         onClick={onClick}
@@ -121,11 +106,7 @@ const Card = React.memo(({
         "bg-white px-0.5 sm:px-1 md:px-2 py-0 sm:py-0.5 md:py-1",
         "flex flex-col justify-between cursor-pointer hover:shadow-sm transition-shadow",
         isOver && "ring-2 ring-yellow-400",
-        isHighlighted && "ring-2 ring-yellow-300 animate-pulse",
-        isShuffling && "animate-shuffle",
-        isRevealed && "animate-reveal",
-        isFlipping && "animate-card-flip",
-        isDealing && "animate-deal",
+        isHighlighted && "ring-2 ring-yellow-300",
         className
       )}
       onClick={onClick}
