@@ -7,6 +7,7 @@ import { measureCardOperation } from "@/utils/performance";
 interface CardProps {
   card: CardType;
   onClick?: () => void;
+  onDoubleClick?: () => void;
   onDrop?: (draggedCard: CardType) => void;
   className?: string;
   index?: number;
@@ -25,6 +26,7 @@ const suitSymbols: Record<Suit, string> = {
 const Card = React.memo(({ 
   card, 
   onClick, 
+  onDoubleClick,
   onDrop, 
   className, 
   index = 0,
@@ -68,7 +70,6 @@ const Card = React.memo(({
         style={{
           zIndex: index,
           opacity: isDragging ? '0' : '1',
-          transition: 'opacity 0.2s ease',
           backgroundImage: 'url(/lovable-uploads/5b92a5bc-abd7-42ae-a1d3-98e1c51b1ed3.png)',
           backgroundSize: '100% 100%',
           backgroundRepeat: 'no-repeat',
@@ -82,6 +83,7 @@ const Card = React.memo(({
           className
         )}
         onClick={onClick}
+        onDoubleClick={onDoubleClick}
       />
     );
   }
@@ -98,18 +100,18 @@ const Card = React.memo(({
       style={{
         zIndex: index,
         opacity: isDragging ? '0' : '1',
-        transition: 'opacity 0.2s ease',
         ...style
       }}
       className={cn(
         baseCardClasses,
         "bg-white px-0.5 sm:px-1 md:px-2 py-0 sm:py-0.5 md:py-1",
-        "flex flex-col justify-between cursor-pointer hover:shadow-sm transition-shadow",
+        "flex flex-col justify-between cursor-pointer hover:shadow-sm",
         isOver && "ring-2 ring-yellow-400",
         isHighlighted && "ring-2 ring-yellow-300",
         className
       )}
       onClick={onClick}
+      onDoubleClick={onDoubleClick}
     >
       <div className={cn("text-xs sm:text-sm md:text-3xl font-bold leading-none", isRed ? "text-red-500" : "text-black")}>
         {card.rank}
