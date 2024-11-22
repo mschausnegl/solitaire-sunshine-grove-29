@@ -70,25 +70,29 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
         ))}
       </div>
       <div 
-        className="w-[2.8rem] h-[3.9rem] sm:w-[4rem] sm:h-[5.6rem] md:w-[7rem] md:h-[9.8rem] rounded-sm border-2 border-white/30 bg-felt-green/50"
+        className="w-[2.8rem] h-[3.9rem] sm:w-[4rem] sm:h-[5.6rem] md:w-[7rem] md:h-[9.8rem] rounded-sm border-2 border-white/30 bg-felt-green/50 relative"
         style={{
           boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)'
         }}
       >
         {waste.length > 1 && (
-          <Card 
-            card={waste[waste.length - 2]}
-            isHighlighted={highlightedCards.includes(waste[waste.length - 2].id)}
-            className="w-[2.8rem] h-[3.9rem] sm:w-[4rem] sm:h-[5.6rem] md:w-[7rem] md:h-[9.8rem]"
-          />
+          <div className="absolute inset-0">
+            <Card 
+              card={waste[waste.length - 2]}
+              isHighlighted={highlightedCards.includes(waste[waste.length - 2].id)}
+              className="w-[2.8rem] h-[3.9rem] sm:w-[4rem] sm:h-[5.6rem] md:w-[7rem] md:h-[9.8rem]"
+            />
+          </div>
         )}
         {waste.length > 0 && (
-          <Card 
-            card={waste[waste.length - 1]}
-            onClick={() => handleCardClick(waste[waste.length - 1])}
-            isHighlighted={highlightedCards.includes(waste[waste.length - 1].id)}
-            className="w-[2.8rem] h-[3.9rem] sm:w-[4rem] sm:h-[5.6rem] md:w-[7rem] md:h-[9.8rem]"
-          />
+          <div className="absolute inset-0">
+            <Card 
+              card={waste[waste.length - 1]}
+              onClick={() => handleCardClick(waste[waste.length - 1])}
+              isHighlighted={highlightedCards.includes(waste[waste.length - 1].id)}
+              className="w-[2.8rem] h-[3.9rem] sm:w-[4rem] sm:h-[5.6rem] md:w-[7rem] md:h-[9.8rem]"
+            />
+          </div>
         )}
       </div>
     </div>
