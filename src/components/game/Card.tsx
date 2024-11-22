@@ -2,7 +2,6 @@ import React from "react";
 import { Card as CardType, Suit } from "../../utils/cards";
 import { cn } from "@/lib/utils";
 import { useDraggable, useDroppable } from "@dnd-kit/core";
-import { measureCardOperation } from "@/utils/performance";
 
 interface CardProps {
   card: CardType;
@@ -40,7 +39,7 @@ const Card = React.memo(({
 }: CardProps) => {
   const cardIndex = pile.findIndex(c => c.id === card.id);
   const cardsToMove = cardIndex !== -1 ? pile.slice(cardIndex) : [card];
-  const [startPos, setStartPos] = React.useState<{ x: number, y: number } | null>(null);
+  const cardRef = React.useRef<HTMLDivElement>(null);
 
   const { attributes, listeners, setNodeRef: setDragRef, isDragging } = useDraggable({
     id: card.id,
@@ -57,37 +56,30 @@ const Card = React.memo(({
   });
 
   const ref = React.useCallback((node: HTMLDivElement | null) => {
-    if (node && !startPos) {
-      const rect = node.getBoundingClientRect();
-      setStartPos({ x: rect.left, y: rect.top });
+    if (node) {
+      cardRef.current = node;
     }
     setDragRef(node);
     setDropRef(node);
-  }, [setDragRef, setDropRef, startPos]);
+  }, [setDragRef, setDropRef]);
+
+  React.useEffect(() => {
+    if (isAnimating && animateToPosition && cardRef.current) {
+      const rect = cardRef.current.getBoundingClientRect();
+      const moveX = animateToPosition.x - rect.left;
+      const moveY = animateToPosition.y - rect.top;
+      
+      cardRef.current.style.setProperty('--move-x', `${moveX}px`);
+      cardRef.current.style.setProperty('--move-y', `${moveY}px`);
+      cardRef.current.style.animation = 'none';
+      cardRef.current.offsetHeight; // Force reflow
+      cardRef.current.style.animation = 'card-move 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards';
+    }
+  }, [isAnimating, animateToPosition]);
 
   const baseCardClasses = "w-[2.8rem] h-[3.9rem] sm:w-[4rem] sm:h-[5.6rem] md:w-[7rem] md:h-[9.8rem] rounded-sm border border-gray-300";
-
-  const startTime = performance.now();
-  
-  let animationStyle: React.CSSProperties = {};
-  if (isAnimating && animateToPosition && startPos) {
-    const moveX = animateToPosition.x - startPos.x;
-    const moveY = animateToPosition.y - startPos.y;
-    animationStyle = {
-      '--move-x': `${moveX}px`,
-      '--move-y': `${moveY}px`,
-      position: 'absolute',
-      left: `${startPos.x}px`,
-      top: `${startPos.y}px`,
-      zIndex: 50,
-      willChange: 'transform',
-      transform: 'translate(0, 0)',
-      transition: 'transform 300ms cubic-bezier(0.4, 0, 0.2, 1)',
-    } as React.CSSProperties;
-  }
   
   if (!card.faceUp) {
-    measureCardOperation('Render Face Down Card', startTime);
     return (
       <div
         ref={ref}
@@ -100,8 +92,8 @@ const Card = React.memo(({
           backgroundSize: '100% 100%',
           backgroundRepeat: 'no-repeat',
           backgroundColor: '#fff',
+          position: isAnimating ? 'fixed' : 'relative',
           ...style,
-          ...animationStyle
         }}
         className={cn(
           baseCardClasses,
@@ -118,8 +110,6 @@ const Card = React.memo(({
 
   const isRed = card.suit === "hearts" || card.suit === "diamonds";
   
-  measureCardOperation('Render Face Up Card', startTime);
-  
   return (
     <div
       ref={ref}
@@ -128,8 +118,8 @@ const Card = React.memo(({
       style={{
         zIndex: index,
         opacity: isDragging ? '0' : '1',
+        position: isAnimating ? 'fixed' : 'relative',
         ...style,
-        ...animationStyle
       }}
       className={cn(
         baseCardClasses,
