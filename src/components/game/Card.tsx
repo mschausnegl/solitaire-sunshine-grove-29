@@ -1,29 +1,27 @@
-import React, { memo, useMemo, forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { cn } from "../../lib/utils";
 import { Card as CardType } from '../../utils/cards';
 import { useDraggable, useDroppable } from '@dnd-kit/core';
-import { useGameStore } from '../../store/gameStore';
 
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   card: CardType;
   isHighlighted?: boolean;
   pile?: CardType[];
   className?: string;
+  pileType?: string;
+  pileIndex?: number;
 }
 
-const Card = React.forwardRef<HTMLDivElement, CardProps>(({ 
+const Card = forwardRef<HTMLDivElement, CardProps>(({ 
   card, 
   isHighlighted = false,
   pile = [],
+  pileType = 'tableau',
+  pileIndex,
   className,
   ...props 
 }, forwardedRef) => {
-  const store = useGameStore();
-  
-  // Determine pile type and index from the pile array
-  const pileType = pile === store.stock ? 'stock' : 
-                  pile === store.waste ? 'waste' : 'tableau';
-  const pileIndex = pile.findIndex(c => c.id === card.id);
+  const actualPileIndex = pileIndex ?? pile.findIndex(c => c.id === card.id);
 
   const {
     attributes,
@@ -35,17 +33,17 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(({
     data: {
       card,
       pile,
-      pileIndex,
+      pileIndex: actualPileIndex,
       pileType
     },
-    disabled: !card.faceUp || pileType === 'stock' || (pileType === 'waste' && pileIndex !== pile.length - 1)
+    disabled: !card.faceUp || pileType === 'stock' || (pileType === 'waste' && actualPileIndex !== pile.length - 1)
   });
 
   const { isOver, setNodeRef: setDroppableRef } = useDroppable({
-    id: `${pileType}_${pileIndex}`,
+    id: `${pileType}_${actualPileIndex}`,
     data: {
       card,
-      pileIndex,
+      pileIndex: actualPileIndex,
       pileType
     }
   });
@@ -57,9 +55,8 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(({
 
   const handleClick = () => {
     if (pileType === 'stock') {
-      store.draw();
-    } else if (card.faceUp) {
-      store.tryAutoMoveCard(card, pileIndex, pileType);
+      // Handle stock click in parent
+      props.onClick?.();
     }
   };
 
@@ -118,7 +115,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(({
       data-card-id={card.id}
       data-face-up={card.faceUp}
       data-pile-type={pileType}
-      data-pile-index={pileIndex}
+      data-pile-index={actualPileIndex}
       {...props}
     >
       {isHighlighted && (

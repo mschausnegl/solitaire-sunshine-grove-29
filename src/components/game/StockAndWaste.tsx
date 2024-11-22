@@ -24,6 +24,8 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({ stock, waste, highlighted
           <Card 
             card={stock[stock.length - 1]}
             pile={stock}
+            pileType="stock"
+            pileIndex={stock.length - 1}
             isHighlighted={highlightedCards.includes('stock')}
           />
         ) : (
@@ -51,23 +53,25 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({ stock, waste, highlighted
           <EmptyPileSpace index={1} pileType="waste" />
         ) : (
           <>
-            {/* Only show the second-to-last card if waste has more than 1 card */}
-            {waste.length > 1 && waste[waste.length - 2] && (
+            {waste.length > 1 && (
               <div className="absolute inset-0">
                 <Card 
                   card={waste[waste.length - 2]}
                   isHighlighted={highlightedCards.includes(waste[waste.length - 2].id)}
-                  className="w-full h-full"
                   pile={waste}
+                  pileType="waste"
+                  pileIndex={waste.length - 2}
+                  className="w-full h-full"
                 />
               </div>
             )}
-            {/* Show the top card */}
             <div className="absolute inset-0" style={{ zIndex: waste.length > 1 ? 1 : 0 }}>
               <Card 
                 card={waste[waste.length - 1]}
                 isHighlighted={highlightedCards.includes(waste[waste.length - 1].id)}
                 pile={waste}
+                pileType="waste"
+                pileIndex={waste.length - 1}
                 className="w-full h-full"
               />
             </div>
