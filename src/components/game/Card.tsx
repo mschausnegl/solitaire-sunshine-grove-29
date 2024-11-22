@@ -1,149 +1,138 @@
-import React from "react";
-import { Card as CardType, Suit } from "../../utils/cards";
-import { cn } from "@/lib/utils";
-import { useDraggable, useDroppable } from "@dnd-kit/core";
+import React, { memo, useMemo, forwardRef } from 'react';
+import { cn } from "../../lib/utils";
+import { Card as CardType } from '../../utils/cards';
+import { useDraggable, useDroppable } from '@dnd-kit/core';
+import { useGameStore } from '../../store/gameStore';
 
-interface CardProps {
+interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   card: CardType;
-  onClick?: () => void;
-  onDoubleClick?: () => void;
-  onDrop?: (draggedCard: CardType) => void;
-  className?: string;
-  index?: number;
   isHighlighted?: boolean;
-  style?: React.CSSProperties;
   pile?: CardType[];
-  isAnimating?: boolean;
-  animateToPosition?: { x: number; y: number };
+  className?: string;
 }
 
-const suitSymbols: Record<Suit, string> = {
-  hearts: "♥",
-  diamonds: "♦",
-  clubs: "♣",
-  spades: "♠",
-};
-
-const Card = React.memo(({ 
+const Card = React.forwardRef<HTMLDivElement, CardProps>(({ 
   card, 
-  onClick, 
-  onDoubleClick,
-  onDrop, 
-  className, 
-  index = 0,
   isHighlighted = false,
-  style,
   pile = [],
-  isAnimating = false,
-  animateToPosition,
-}: CardProps) => {
-  const cardIndex = pile.findIndex(c => c.id === card.id);
-  const cardsToMove = cardIndex !== -1 ? pile.slice(cardIndex) : [card];
-  const cardRef = React.useRef<HTMLDivElement>(null);
+  className,
+  ...props 
+}, forwardedRef) => {
+  const store = useGameStore();
+  
+  // Determine pile type and index from the pile array
+  const pileType = pile === store.stock ? 'stock' : 
+                  pile === store.waste ? 'waste' : 'tableau';
+  const pileIndex = pile.findIndex(c => c.id === card.id);
 
-  const { attributes, listeners, setNodeRef: setDragRef, isDragging } = useDraggable({
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    isDragging,
+  } = useDraggable({
     id: card.id,
     data: {
       card,
-      cardsToMove
+      pile,
+      pileIndex,
+      pileType
     },
-    disabled: !card.faceUp || (pile.length > 0 && cardIndex !== -1 && !pile[cardIndex].faceUp),
+    disabled: !card.faceUp || pileType === 'stock' || (pileType === 'waste' && pileIndex !== pile.length - 1)
   });
 
-  const { setNodeRef: setDropRef, isOver } = useDroppable({
-    id: `droppable-${card.id}`,
-    data: card,
+  const { isOver, setNodeRef: setDroppableRef } = useDroppable({
+    id: `${pileType}_${pileIndex}`,
+    data: {
+      card,
+      pileIndex,
+      pileType
+    }
   });
 
-  const ref = React.useCallback((node: HTMLDivElement | null) => {
-    if (node) {
-      cardRef.current = node;
+  // Hide original card when dragging
+  const style = isDragging ? {
+    opacity: 0,
+  } : undefined;
+
+  const handleClick = () => {
+    if (pileType === 'stock') {
+      store.draw();
+    } else if (card.faceUp) {
+      store.tryAutoMoveCard(card, pileIndex, pileType);
     }
-    setDragRef(node);
-    setDropRef(node);
-  }, [setDragRef, setDropRef]);
+  };
 
-  React.useEffect(() => {
-    if (isAnimating && animateToPosition && cardRef.current) {
-      const rect = cardRef.current.getBoundingClientRect();
-      const moveX = animateToPosition.x - rect.left;
-      const moveY = animateToPosition.y - rect.top;
-      
-      cardRef.current.style.setProperty('--move-x', `${moveX}px`);
-      cardRef.current.style.setProperty('--move-y', `${moveY}px`);
-      cardRef.current.style.animation = 'none';
-      cardRef.current.offsetHeight; // Force reflow
-      cardRef.current.style.animation = 'card-move 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards';
+  // Combine the refs
+  const ref = React.useMemo(() => {
+    return (node: HTMLDivElement) => {
+      setNodeRef(node);
+      setDroppableRef(node);
+      if (typeof forwardedRef === 'function') {
+        forwardedRef(node);
+      } else if (forwardedRef) {
+        forwardedRef.current = node;
+      }
+    };
+  }, [setNodeRef, setDroppableRef, forwardedRef]);
+
+  // Convert rank to number for image filename
+  const getRankNumber = (rank: string): string => {
+    switch (rank) {
+      case 'A': return '1';
+      case 'J': return '11';
+      case 'Q': return '12';
+      case 'K': return '13';
+      default: return rank;
     }
-  }, [isAnimating, animateToPosition]);
+  };
 
-  const baseCardClasses = "w-[2.8rem] h-[3.9rem] sm:w-[4rem] sm:h-[5.6rem] md:w-[7rem] md:h-[9.8rem] rounded-sm border border-gray-300";
-  
-  if (!card.faceUp) {
-    return (
-      <div
-        ref={ref}
-        {...attributes}
-        {...listeners}
-        style={{
-          zIndex: index,
-          opacity: isDragging ? '0' : '1',
-          backgroundImage: 'url(/lovable-uploads/5b92a5bc-abd7-42ae-a1d3-98e1c51b1ed3.png)',
-          backgroundSize: '100% 100%',
-          backgroundRepeat: 'no-repeat',
-          backgroundColor: '#fff',
-          position: isAnimating ? 'fixed' : 'relative',
-          ...style,
-        }}
-        className={cn(
-          baseCardClasses,
-          isOver && "ring-2 ring-yellow-400",
-          isHighlighted && "ring-2 ring-yellow-300",
-          isAnimating && "animate-card-move",
-          className
-        )}
-        onClick={onClick}
-        onDoubleClick={onDoubleClick}
-      />
-    );
-  }
+  // Convert suit to single letter for image filename
+  const getSuitLetter = (suit: string): string => {
+    switch (suit) {
+      case 'hearts': return 'h';
+      case 'diamonds': return 'd';
+      case 'clubs': return 'c';
+      case 'spades': return 's';
+      default: return suit;
+    }
+  };
 
-  const isRed = card.suit === "hearts" || card.suit === "diamonds";
-  
   return (
     <div
       ref={ref}
+      style={style}
       {...attributes}
       {...listeners}
-      style={{
-        zIndex: index,
-        opacity: isDragging ? '0' : '1',
-        position: isAnimating ? 'fixed' : 'relative',
-        ...style,
-      }}
+      onClick={handleClick}
       className={cn(
-        baseCardClasses,
-        "bg-white px-0.5 sm:px-1 md:px-2 py-0 sm:py-0.5 md:py-1",
-        "flex flex-col justify-between cursor-pointer hover:shadow-sm",
-        isOver && "ring-2 ring-yellow-400",
-        isHighlighted && "ring-2 ring-yellow-300",
-        isAnimating && "animate-card-move",
+        "rounded-sm",
+        "aspect-[5/7] w-full",
+        "transition-transform duration-200",
+        "select-none touch-none",
+        card.faceUp && !isDragging && "cursor-grab active:cursor-grabbing",
+        isDragging && "cursor-grabbing",
+        isOver && "ring-2 ring-green-500",
         className
       )}
-      onClick={onClick}
-      onDoubleClick={onDoubleClick}
+      data-card-id={card.id}
+      data-face-up={card.faceUp}
+      data-pile-type={pileType}
+      data-pile-index={pileIndex}
+      {...props}
     >
-      <div className={cn("text-xs sm:text-sm md:text-3xl font-bold leading-none", isRed ? "text-red-500" : "text-black")}>
-        {card.rank}
-        <span className="ml-px">{suitSymbols[card.suit]}</span>
-      </div>
-      <div className={cn("text-base sm:text-xl md:text-6xl leading-none self-center", isRed ? "text-red-500" : "text-black")}>
-        {suitSymbols[card.suit]}
-      </div>
-      <div className={cn("text-xs sm:text-sm md:text-3xl font-bold leading-none rotate-180", isRed ? "text-red-500" : "text-black")}>
-        {card.rank}
-        <span className="ml-px">{suitSymbols[card.suit]}</span>
-      </div>
+      {isHighlighted && (
+        <div className="absolute inset-0 rounded-sm ring-2 ring-yellow-400 dark:ring-yellow-500 pointer-events-none z-10" />
+      )}
+      <img
+        src={card.faceUp ? `/cards/${getRankNumber(card.rank)}_${getSuitLetter(card.suit)}.webp` : '/cards/back.webp'}
+        alt={card.faceUp ? `${card.rank} of ${card.suit}` : 'Card back'}
+        className={cn(
+          "w-full h-full object-contain rounded-sm",
+          card.faceUp && "shadow-sm"
+        )}
+        draggable={false}
+      />
     </div>
   );
 });

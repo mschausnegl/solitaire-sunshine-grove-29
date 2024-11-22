@@ -12,8 +12,6 @@ interface StockAndWasteProps {
 }
 
 const StockAndWaste: React.FC<StockAndWasteProps> = ({ stock, waste, highlightedCards, onDraw }) => {
-  const topCard = waste.length > 0 ? waste[waste.length - 1] : null;
-
   return (
     <div className="grid grid-cols-2 gap-2">
       {/* Stock pile */}
@@ -25,8 +23,6 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({ stock, waste, highlighted
         {stock.length > 0 ? (
           <Card 
             card={stock[stock.length - 1]}
-            pileIndex={0} 
-            pileType="stock"
             pile={stock}
             isHighlighted={highlightedCards.includes('stock')}
           />
@@ -62,8 +58,6 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({ stock, waste, highlighted
                   card={waste[waste.length - 2]}
                   isHighlighted={highlightedCards.includes(waste[waste.length - 2].id)}
                   className="w-full h-full"
-                  pileType="waste"
-                  pileIndex={waste.length - 2}
                   pile={waste}
                 />
               </div>
@@ -73,8 +67,6 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({ stock, waste, highlighted
               <Card 
                 card={waste[waste.length - 1]}
                 isHighlighted={highlightedCards.includes(waste[waste.length - 1].id)}
-                pileType="waste"
-                pileIndex={waste.length - 1}
                 pile={waste}
                 className="w-full h-full"
               />
