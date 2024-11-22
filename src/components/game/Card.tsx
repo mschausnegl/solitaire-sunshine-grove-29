@@ -2,6 +2,7 @@ import React, { forwardRef } from 'react';
 import { cn } from "../../lib/utils";
 import { Card as CardType } from '../../utils/cards';
 import { useDraggable, useDroppable } from '@dnd-kit/core';
+import { useGameStore } from '../../store/gameStore';
 
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   card: CardType;
@@ -21,6 +22,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(({
   className,
   ...props 
 }, forwardedRef) => {
+  const store = useGameStore();
   const actualPileIndex = pileIndex ?? pile.findIndex(c => c.id === card.id);
 
   const {
@@ -55,8 +57,9 @@ const Card = forwardRef<HTMLDivElement, CardProps>(({
 
   const handleClick = () => {
     if (pileType === 'stock') {
-      // Handle stock click in parent
-      props.onClick?.();
+      store.draw();
+    } else if (card.faceUp) {
+      store.tryAutoMoveCard(card, actualPileIndex, pileType as any);
     }
   };
 

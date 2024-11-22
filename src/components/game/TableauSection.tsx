@@ -44,10 +44,11 @@ const TableauSection: React.FC<TableauSectionProps> = ({
               >
                 <Card 
                   card={card}
-                  index={j}
+                  pileIndex={j}
                   onClick={() => onCardDoubleClick(card)}
                   isHighlighted={highlightedCards.includes(card.id)}
                   pile={pile}
+                  pileType="tableau"
                 />
               </div>
             );
