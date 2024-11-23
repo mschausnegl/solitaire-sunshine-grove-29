@@ -136,7 +136,7 @@ const Index = () => {
             onDraw={draw}
             onCardDoubleClick={async (card) => {
               for (const foundation of gameState.foundations) {
-                const foundationElement = document.querySelector(`[data-foundation="${gameState.foundations.indexOf(foundation)}"]`);
+                const foundationElement = document.querySelector(`[data-foundation="${gameState.foundations.indexOf(foundation)}"]`) as HTMLElement;
                 if (foundationElement && moveCard(gameState.waste, foundation, card)) {
                   await handleAutoMove(card, foundationElement);
                   return;
@@ -144,7 +144,7 @@ const Index = () => {
               }
 
               for (const targetPile of gameState.tableau) {
-                const tableauElement = document.querySelector(`[data-tableau="${gameState.tableau.indexOf(targetPile)}"]`);
+                const tableauElement = document.querySelector(`[data-tableau="${gameState.tableau.indexOf(targetPile)}"]`) as HTMLElement;
                 if (tableauElement && moveCard(gameState.waste, targetPile, card)) {
                   await handleAutoMove(card, tableauElement);
                   return;
@@ -166,7 +166,7 @@ const Index = () => {
             if (!sourcePile) return;
 
             for (const foundation of gameState.foundations) {
-              const foundationElement = document.querySelector(`[data-foundation="${gameState.foundations.indexOf(foundation)}"]`);
+              const foundationElement = document.querySelector(`[data-foundation="${gameState.foundations.indexOf(foundation)}"]`) as HTMLElement;
               if (foundationElement && moveCard(sourcePile, foundation, card)) {
                 await handleAutoMove(card, foundationElement);
                 return;
@@ -174,7 +174,7 @@ const Index = () => {
             }
 
             for (const targetPile of gameState.tableau) {
-              const tableauElement = document.querySelector(`[data-tableau="${gameState.tableau.indexOf(targetPile)}"]`);
+              const tableauElement = document.querySelector(`[data-tableau="${gameState.tableau.indexOf(targetPile)}"]`) as HTMLElement;
               if (tableauElement && targetPile !== sourcePile && moveCard(sourcePile, targetPile, card)) {
                 await handleAutoMove(card, tableauElement);
                 return;
