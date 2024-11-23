@@ -8,6 +8,10 @@ interface StockAndWasteProps {
   onDraw: () => void;
   onCardDoubleClick: (card: CardType) => void;
   highlightedCards: string[];
+  animatingCard?: {
+    card: CardType;
+    targetPosition: { x: number; y: number };
+  } | null;
 }
 
 const StockAndWaste: React.FC<StockAndWasteProps> = ({
@@ -15,7 +19,8 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
   waste,
   onDraw,
   onCardDoubleClick,
-  highlightedCards
+  highlightedCards,
+  animatingCard
 }) => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
@@ -91,6 +96,8 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({
               onClick={() => handleCardClick(waste[waste.length - 1])}
               isHighlighted={highlightedCards.includes(waste[waste.length - 1].id)}
               className="w-[2.8rem] h-[3.9rem] sm:w-[4rem] sm:h-[5.6rem] md:w-[7rem] md:h-[9.8rem]"
+              isAnimating={animatingCard?.card.id === waste[waste.length - 1].id}
+              animateToPosition={animatingCard?.card.id === waste[waste.length - 1].id ? animatingCard.targetPosition : undefined}
             />
           </div>
         )}

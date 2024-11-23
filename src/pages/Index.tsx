@@ -11,6 +11,10 @@ const Index = () => {
   const { gameState, newGame, undo, draw, moveCard, findHint, highlightedCards, restartGame } = useSolitaire();
   const [activeCard, setActiveCard] = React.useState<CardType | null>(null);
   const [isNewGame, setIsNewGame] = useState(false);
+  const [animatingCard, setAnimatingCard] = useState<{
+    card: CardType;
+    targetPosition: { x: number; y: number };
+  } | null>(null);
 
   useEffect(() => {
     newGame();
@@ -35,6 +39,18 @@ const Index = () => {
     const timer = setTimeout(() => {
       setIsNewGame(false);
     }, 1000);
+  };
+
+  const handleAutoMove = async (card: CardType, targetElement: HTMLElement) => {
+    const rect = targetElement.getBoundingClientRect();
+    setAnimatingCard({
+      card,
+      targetPosition: { x: rect.left, y: rect.top }
+    });
+
+    // Wait for animation to complete before updating game state
+    await new Promise(resolve => setTimeout(resolve, 300));
+    setAnimatingCard(null);
   };
 
   const sensors = useSensors(
@@ -118,21 +134,25 @@ const Index = () => {
             stock={gameState.stock}
             waste={gameState.waste}
             onDraw={draw}
-            onCardDoubleClick={card => {
+            onCardDoubleClick={async (card) => {
               for (const foundation of gameState.foundations) {
-                const topCard = foundation.length > 0 ? foundation[foundation.length - 1] : undefined;
-                if (moveCard(gameState.waste, foundation, card)) {
+                const foundationElement = document.querySelector(`[data-foundation="${gameState.foundations.indexOf(foundation)}"]`);
+                if (foundationElement && moveCard(gameState.waste, foundation, card)) {
+                  await handleAutoMove(card, foundationElement);
                   return;
                 }
               }
 
               for (const targetPile of gameState.tableau) {
-                if (moveCard(gameState.waste, targetPile, card)) {
+                const tableauElement = document.querySelector(`[data-tableau="${gameState.tableau.indexOf(targetPile)}"]`);
+                if (tableauElement && moveCard(gameState.waste, targetPile, card)) {
+                  await handleAutoMove(card, tableauElement);
                   return;
                 }
               }
             }}
             highlightedCards={highlightedCards}
+            animatingCard={animatingCard}
           />
           <FoundationPiles
             foundations={gameState.foundations}
@@ -141,24 +161,29 @@ const Index = () => {
         </div>
         <TableauSection
           tableau={gameState.tableau}
-          onCardDoubleClick={card => {
+          onCardDoubleClick={async (card) => {
             const sourcePile = gameState.tableau.find(pile => pile.includes(card));
             if (!sourcePile) return;
 
             for (const foundation of gameState.foundations) {
-              if (moveCard(sourcePile, foundation, card)) {
+              const foundationElement = document.querySelector(`[data-foundation="${gameState.foundations.indexOf(foundation)}"]`);
+              if (foundationElement && moveCard(sourcePile, foundation, card)) {
+                await handleAutoMove(card, foundationElement);
                 return;
               }
             }
 
             for (const targetPile of gameState.tableau) {
-              if (targetPile !== sourcePile && moveCard(sourcePile, targetPile, card)) {
+              const tableauElement = document.querySelector(`[data-tableau="${gameState.tableau.indexOf(targetPile)}"]`);
+              if (tableauElement && targetPile !== sourcePile && moveCard(sourcePile, targetPile, card)) {
+                await handleAutoMove(card, tableauElement);
                 return;
               }
             }
           }}
           highlightedCards={highlightedCards}
           isNewGame={isNewGame}
+          animatingCard={animatingCard}
         />
       </GameLayout>
     </DndContext>

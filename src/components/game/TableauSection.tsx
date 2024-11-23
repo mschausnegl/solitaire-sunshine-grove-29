@@ -7,12 +7,18 @@ interface TableauSectionProps {
   onCardDoubleClick: (card: CardType) => void;
   highlightedCards: string[];
   isNewGame?: boolean;
+  animatingCard?: {
+    card: CardType;
+    targetPosition: { x: number; y: number };
+  } | null;
 }
 
 const TableauSection: React.FC<TableauSectionProps> = ({ 
   tableau, 
   onCardDoubleClick, 
   highlightedCards,
+  isNewGame,
+  animatingCard
 }) => {
   const getFaceDownOffset = () => window.innerWidth >= 768 ? 24 : 8;
   const getFaceUpOffset = () => window.innerWidth >= 768 ? 32 : 12;
@@ -21,7 +27,8 @@ const TableauSection: React.FC<TableauSectionProps> = ({
     <div className="grid grid-cols-7 gap-1 w-full">
       {tableau.map((pile, i) => (
         <div 
-          key={i} 
+          key={i}
+          data-tableau={i}
           className="relative aspect-[5/7] rounded-sm border-2 border-white/30 bg-felt-green/50"
           style={{
             boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)',
@@ -32,6 +39,8 @@ const TableauSection: React.FC<TableauSectionProps> = ({
             for (let k = 0; k < j; k++) {
               offset += pile[k].faceUp ? getFaceUpOffset() : getFaceDownOffset();
             }
+
+            const isAnimating = animatingCard?.card.id === card.id;
 
             return (
               <div
@@ -48,6 +57,8 @@ const TableauSection: React.FC<TableauSectionProps> = ({
                   onClick={() => onCardDoubleClick(card)}
                   isHighlighted={highlightedCards.includes(card.id)}
                   pile={pile}
+                  isAnimating={isAnimating}
+                  animateToPosition={isAnimating ? animatingCard?.targetPosition : undefined}
                 />
               </div>
             );
