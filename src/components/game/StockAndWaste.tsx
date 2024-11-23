@@ -9,9 +9,16 @@ interface StockAndWasteProps {
   waste: CardType[];
   highlightedCards: string[];
   onDraw: () => void;
+  onCardDoubleClick?: (card: CardType) => void;
 }
 
-const StockAndWaste: React.FC<StockAndWasteProps> = ({ stock, waste, highlightedCards, onDraw }) => {
+const StockAndWaste: React.FC<StockAndWasteProps> = ({ 
+  stock, 
+  waste, 
+  highlightedCards, 
+  onDraw,
+  onCardDoubleClick 
+}) => {
   return (
     <div className="grid grid-cols-2 gap-2">
       {/* Stock pile */}
@@ -62,6 +69,7 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({ stock, waste, highlighted
                   pileType="waste"
                   pileIndex={waste.length - 2}
                   className="w-full h-full"
+                  onClick={() => onCardDoubleClick?.(waste[waste.length - 2])}
                 />
               </div>
             )}
@@ -73,6 +81,7 @@ const StockAndWaste: React.FC<StockAndWasteProps> = ({ stock, waste, highlighted
                 pileType="waste"
                 pileIndex={waste.length - 1}
                 className="w-full h-full"
+                onClick={() => onCardDoubleClick?.(waste[waste.length - 1])}
               />
             </div>
           </>
