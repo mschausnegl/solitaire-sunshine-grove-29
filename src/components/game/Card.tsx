@@ -93,6 +93,8 @@ const Card = React.memo(({
           backgroundRepeat: 'no-repeat',
           backgroundColor: '#fff',
           position: isAnimating ? 'fixed' : 'relative',
+          left: isAnimating ? style?.left : undefined,
+          top: isAnimating ? style?.top : undefined,
           ...style,
         }}
         className={cn(
@@ -119,6 +121,8 @@ const Card = React.memo(({
         zIndex: index,
         opacity: isDragging ? '0' : '1',
         position: isAnimating ? 'fixed' : 'relative',
+        left: isAnimating ? style?.left : undefined,
+        top: isAnimating ? style?.top : undefined,
         ...style,
       }}
       className={cn(
